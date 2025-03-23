@@ -12,6 +12,7 @@ const App = {
   },
 
   init() {
+    App.$.recipeOutput.innerHTML = "";
     App.addEventListeners();
   },
 
