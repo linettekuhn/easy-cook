@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EasyCook - Recipes</title>
+  </head>
+  <body>
+    <main>
+      <a href="./index.html">Return Home</a>
+      <p><strong>find</strong> recipes</p>
+      <div class="recipe-lookup">
+        <form action="" class="recipe" id="website">
+          <label for="recipe-website">extract recipes from website:</label>
+          <input type="text" id="recipe-website" data-id="recipe-website" />
+          <button type="button" data-id="website-submit-btn">
+            submit website
+          </button>
+        </form>
+        <form action="" class="recipe" id="query">
+          <label for="recipe-query">or search for one:</label>
+          <input type="text" id="recipe-query" data-id="recipe-query" />
+          <button type="button" data-id="filters-btn">filters</button>
+          <button type="button" data-id="query-submit-btn">submit query</button>
+        </form>
+      </div>
+      <div class="recipe-output" id="recipe-output"></div>
+      <script src="../js/recipe.js"></script>
+    </main>
+  </body>
+</html>
