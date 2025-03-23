@@ -1,205 +1,104 @@
-const apiKey = "64f7ad6e179c4868af1f32e6511301d4";
-const App = {
-  $: {
-    websiteSubmitBtn: document.querySelector('[data-id="website-submit-btn"]'),
-    recipeWebsiteInput: document.querySelector('[data-id="recipe-website"]'),
-    querySubmitBtn: document.querySelector('[data-id="query-submit-btn"]'),
-    recipeQueryInput: document.querySelector('[data-id="recipe-query"]'),
-    recipeQueryQuantity: document.querySelector(
-      "[data-id=recipe-query-quantity]"
-    ),
-    recipeOutput: document.querySelector(".recipe-output"),
-  },
+import View from "./view.js";
+import Store from "./store.js";
 
-  init() {
-    App.$.recipeOutput.innerHTML = "";
-    App.addEventListeners();
-  },
+function init() {
+  const view = new View();
+  const store = new Store();
 
-  addEventListeners() {
-    App.$.websiteSubmitBtn.addEventListener("click", async (event) => {
-      const recipeURL = App.$.recipeWebsiteInput.value;
+  view.bindWebsiteInputEvent(async (event) => {
+    console.log(event);
+    const recipeURL = view.$.recipeWebsiteInput.value;
 
-      if (!recipeURL) {
-        alert("Please enter a recipe URL");
-        return;
-      }
-
-      const recipeData = await App.fetchWebsiteRecipe(recipeURL);
-
-      if (recipeData) {
-        const recipeCard = await App.createRecipeCard(recipeData);
-        App.$.recipeOutput.appendChild(recipeCard);
-      }
-    });
-
-    App.$.querySubmitBtn.addEventListener("click", async (event) => {
-      const query = App.$.recipeQueryInput.value;
-      const quantity = App.$.recipeQueryQuantity.value;
-
-      if (!query) {
-        alert("Please enter a recipe query");
-        return;
-      }
-
-      const response = await App.fetchQueryRecipes(query, quantity);
-
-      let foundRecipes = response.results;
-
-      for (let i = 0; i < foundRecipes.length; i++) {
-        const id = foundRecipes[i].id;
-        const recipeCard = await App.createRecipeCard(null, id);
-        App.$.recipeOutput.appendChild(recipeCard);
-      }
-    });
-  },
-
-  async createRecipeCard(recipe, id = -1) {
-    if (id !== -1) {
-      recipe = await App.fetchRecipeInfo(id);
+    if (!recipeURL) {
+      alert("Please enter a recipe URL");
+      return;
     }
 
-    // create main card div and give class
-    const card = document.createElement("div");
-    card.classList.add("recipe-card");
+    const recipeData = await store.fetchWebsiteRecipe(recipeURL);
 
-    // create title with recipe data and append to card
-    const title = document.createElement("h3");
-    title.classList.add("recipe-title");
-    title.textContent = recipe.title;
-    card.appendChild(title);
+    if (recipeData) {
+      view.showOutput(view.$.recipeOutput);
+      const recipeCard = view.createRecipeCard(recipeData);
+      store.addToFound(recipeCard);
 
-    // create image with recipe data and append to card
-    const image = document.createElement("img");
-    image.classList.add("recipe-image");
-    image.src = recipe.image;
-    image.alt = recipe.title;
-    card.appendChild(image);
+      view.$.recipeOutput.appendChild(
+        view.createRecipeOutputHeader(
+          store.foundRecipes.length,
+          "found recipes"
+        )
+      );
+      view.$.recipeOutput.appendChild(recipeCard);
+    }
+  });
 
-    // create ingredient list with recipe data and append to card
-    const ingredientsTitle = document.createElement("h4");
-    ingredientsTitle.classList.add("recipe-ingredients-title");
-    ingredientsTitle.textContent = "Ingredients:";
-    card.appendChild(ingredientsTitle);
-    const ingredients = document.createElement("ul");
-    ingredients.classList.add("recipe-ingredient-list");
+  view.bindQueryInputEvent(async (event) => {
+    console.log(event);
 
-    // create each ingredient list item and append to list
-    let ingredientsArr = recipe.extendedIngredients;
-    ingredientsArr.forEach((ingredient) => {
-      const listItem = document.createElement("li");
-      let quantity;
-      // todo measure trigger
-      if (true) {
-        quantity = ingredient.measures.metric;
-      } else {
-        quantity = ingredient.measures.us;
+    const query = view.$.recipeQueryInput.value;
+    const quantity = view.$.recipeQueryQuantity.value;
+
+    if (!query) {
+      alert("Please enter a recipe query");
+      return;
+    }
+
+    const response = await store.fetchQueryRecipes(query, quantity);
+    store.foundRecipes = response.results;
+
+    view.showOutput(view.$.recipeOutput);
+    view.$.recipeOutput.appendChild(
+      view.createRecipeOutputHeader(store.foundRecipes.length, "found recipes")
+    );
+
+    for (let i = 0; i < store.foundRecipes.length; i++) {
+      const id = store.foundRecipes[i].id;
+      const recipe = await store.fetchRecipeInfo(id);
+      const recipeCard = await view.createRecipeCard(recipe, id);
+      view.$.recipeOutput.appendChild(recipeCard);
+    }
+  });
+
+  view.bindSaveRecipeEvent(async (event) => {
+    // if save button is clicked on a recipe card
+    if (event.target.matches("[data-id='save-recipe-btn']")) {
+      const btn = event.target;
+      const recipeCard = btn.closest(".recipe-card");
+
+      if (recipeCard) {
+        const recipeId = recipeCard.getAttribute("data-id-recipe");
+
+        // check if recipe is already saved
+        store.savedRecipes.forEach((savedCard) => {
+          if (savedCard.getAttribute("data-id-recipe") === recipeId) {
+            alert("Recipe already saved");
+            return;
+          }
+        });
+
+        const clonedCard = view.createSavedRecipe(recipeCard);
+        console.log(clonedCard);
+
+        store.addToSaved(clonedCard);
+
+        const recipeCount = store.savedRecipes.length;
+
+        if (recipeCount - 1 == 0) {
+          view.$.recipeOutput.appendChild(
+            view.createRecipeOutputHeader(recipeCount, "saved recipes")
+          );
+        } else {
+          view.updateRecipeCounter(recipeCount);
+        }
+
+        view.showOutput(view.$.savedRecipesOutput);
+
+        console.log(recipeCount);
+
+        // add cloned card to saved recipes div
+        view.$.savedRecipesOutput.appendChild(clonedCard);
       }
-      const measure = ingredient.amount;
-      listItem.textContent = `${quantity.amount} ${quantity.unitShort} ${ingredient.nameClean}`;
-      ingredients.appendChild(listItem);
-    });
-
-    card.appendChild(ingredients);
-
-    // create directions list with recipe data and append to card
-    const directionsTitle = document.createElement("h4");
-    directionsTitle.classList.add("recipe-directions-title");
-    directionsTitle.textContent = "Directions:";
-    card.appendChild(directionsTitle);
-    const directions = document.createElement("ol");
-    directions.classList.add("recipe-directions-list");
-
-    // create each ingredient list item and append to list
-    let directionsArr = recipe.analyzedInstructions;
-    directionsArr.forEach((instructionSet) => {
-      instructionSet.steps.forEach((step) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = step.step;
-        directions.appendChild(listItem);
-      });
-    });
-
-    card.appendChild(directions);
-
-    return card;
-  },
-
-  async fetchWebsiteRecipe(recipeURL) {
-    try {
-      // convert string to url
-      const encondedURL = encodeURIComponent(recipeURL);
-
-      // construct url for api request
-      let apiRequest = `https://api.spoonacular.com/recipes/extract?url=${encondedURL}&apiKey=${apiKey}`;
-
-      // fetch api request and wait for response
-      const response = await fetch(apiRequest, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      // parse json data returned by api
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching recipe:", error);
-      App.$.recipeOutput.innerHTML = "Error fetching recipe. Please try again.";
     }
-  },
+  });
+}
 
-  async fetchRecipeInfo(id) {
-    try {
-      // api request
-      let apiRequest = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
-
-      // fetch api request and wait for response
-      const response = await fetch(apiRequest, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      // parse json data returned by api
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching recipe:", error);
-      App.$.recipeOutput.innerHTML = "Error fetching recipe. Please try again.";
-    }
-  },
-
-  async fetchQueryRecipes(query, quantity) {
-    try {
-      // encode query for url
-      const encondedQuery = encodeURIComponent(query);
-
-      // construct url for api request
-      let apiRequest = `https://api.spoonacular.com/recipes/complexSearch?query=${encondedQuery}&number=${quantity}&apiKey=${apiKey}`;
-
-      // fetch api request and wait for response
-      const response = await fetch(apiRequest, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      // parse json data returned by api
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
-      App.$.recipeOutput.innerHTML =
-        "Error fetching recipes. Please try again.";
-    }
-  },
-};
-
-window.addEventListener("load", App.init);
+window.addEventListener("load", init);
