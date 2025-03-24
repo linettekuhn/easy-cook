@@ -2,7 +2,6 @@ export default class View {
   $ = {};
 
   constructor() {
-    this.$.selectedDateDisplay = this.#qs(".selected-date");
     this.$.sundayBtn = this.#qs('[data-id="sunday-btn"]');
     this.$.mondayBtn = this.#qs('[data-id="monday-btn"]');
     this.$.tuesdayBtn = this.#qs('[data-id="tuesday-btn"]');
@@ -11,6 +10,7 @@ export default class View {
     this.$.fridayBtn = this.#qs('[data-id="friday-btn"]');
     this.$.saturdayBtn = this.#qs('[data-id="saturday-btn"]');
     this.$.days = this.#qs(".days");
+    this.$.dayOutput = this.#qs(".day-output");
   }
 
   #qs(selector) {
@@ -30,13 +30,116 @@ export default class View {
     }
   }
 
-  setSelectedDay(day) {
-    const display = this.$.selectedDateDisplay;
-    display.textContent = `${day.toDateString()}`;
+  setSelectedDay(dayHTML) {
+    const output = this.$.dayOutput;
+    output.innerHTML = dayHTML;
+    this.showElement(output);
   }
-  createDay() {}
 
-  createRecipeCard(recipe, id = -1) {
+  showElement(element) {
+    if (element.classList.contains("hidden")) {
+      element.classList.remove("hidden");
+    }
+  }
+  hideElement(element) {
+    if (!element.classList.contains("hidden")) {
+      element.classList.add("hidden");
+    }
+  }
+  createDayOutput(day) {
+    const output = this.#createElementWithClass("div", ".day-output");
+    output.appendChild(this.createDayHeader(day));
+
+    const summary = this.createDaySummary();
+    output.appendChild(summary);
+    return output;
+  }
+
+  createDaySummary() {
+    const summary = this.#createElementWithClass("div", "day-summary");
+
+    // breakfast
+    const breakfast = this.#createElementWithClass("div", "breakfast");
+
+    breakfast.appendChild(this.createMealHeader("Breakfast", 0));
+
+    const breakfastRecipes = this.#createElementWithClass(
+      "div",
+      "recipe-container"
+    );
+
+    breakfast.appendChild(breakfastRecipes);
+    summary.appendChild(breakfast);
+
+    // lunch
+    const lunch = this.#createElementWithClass("div", "lunch");
+
+    lunch.appendChild(this.createMealHeader("Lunch", 0));
+
+    const lunchRecipes = this.#createElementWithClass(
+      "div",
+      "recipe-container"
+    );
+
+    lunch.appendChild(lunchRecipes);
+    summary.appendChild(lunch);
+
+    // dinner
+    const dinner = this.#createElementWithClass("div", "dinner");
+
+    dinner.appendChild(this.createMealHeader("Dinner", 0));
+
+    const dinnerRecipes = this.#createElementWithClass(
+      "div",
+      "recipe-container"
+    );
+
+    dinner.appendChild(dinnerRecipes);
+    summary.appendChild(dinner);
+
+    return summary;
+  }
+
+  createMealHeader(mealType) {
+    const header = document.createElement("div");
+    header.classList.add(`${mealType.toLowerCase()}-header`);
+
+    const mealTitle = document.createElement("h2");
+    mealTitle.classList.add("bold", "italic");
+    mealTitle.textContent = mealType;
+    header.appendChild(mealTitle);
+
+    const calorieText = document.createElement("p");
+    const calorieCount = document.createElement("span");
+    calorieCount.classList.add(`${mealType.toLowerCase()}-calories`);
+    calorieCount.textContent = 0;
+    calorieText.appendChild(calorieCount);
+    calorieText.appendChild(document.createTextNode(" calories"));
+    header.appendChild(calorieText);
+
+    const addButton = document.createElement("button");
+    addButton.classList.add("button");
+    addButton.setAttribute("data-id", `add-${mealType.toLowerCase()}-btn`);
+    addButton.textContent = "+";
+    header.appendChild(addButton);
+
+    return header;
+  }
+  createDayHeader(date, totalCalories) {
+    const header = this.#createElementWithClass("div", "day-header");
+
+    const dateElement = this.#createElementWithClass("h2", "selected-date");
+    dateElement.textContent = date;
+    header.appendChild(dateElement);
+
+    const totalCaloriesElement = document.createElement("h3");
+    totalCaloriesElement.innerHTML = `total calories: <span class="total-calories">${totalCalories}</span> calories`;
+    header.appendChild(totalCaloriesElement);
+
+    return header;
+  }
+
+  createRecipePreview(recipe, id = -1) {
     const card = this.#createElementWithClass("div", "recipe-card");
     card.setAttribute("data-id-recipe", id);
 
@@ -53,8 +156,8 @@ export default class View {
       "h4",
       "recipe-calorie-count"
     );
-    calorieCount.textContent = `${recipe.} calories`;
-    card.appendChild(ingredientsTitle);
+    calorieCount.textContent = `${recipe.nutrition.calories} calories`;
+    card.appendChild(calorieCount);
 
     const saveRecipeBtn = this.#createElementWithClass("button", "button");
     saveRecipeBtn.textContent = "Save to Favorites";
@@ -63,6 +166,8 @@ export default class View {
 
     return card;
   }
+
+  showSelectedDaySummary() {}
 
   #createElementWithClass(tag, className) {
     const element = document.createElement(tag);

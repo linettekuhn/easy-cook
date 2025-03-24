@@ -40,7 +40,7 @@ export default class Store {
 
       // request data from api
       const data = await this.requestGetData(apiRequest);
-
+      console.log(data);
       return data;
     } catch (error) {
       console.error("Error fetching recipe:", error);

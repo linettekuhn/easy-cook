@@ -78,6 +78,7 @@ function init() {
     for (let i = 0; i < store.foundRecipes.length; i++) {
       const id = store.foundRecipes[i].id;
       const recipe = await store.fetchRecipeInfo(id);
+      console.log(recipe);
       const recipeCard = await view.createRecipeCard(recipe, id);
       view.$.recipeOutput.appendChild(recipeCard);
     }
