@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <a href="./index.html">Return Home</a>
+      <a href="../../index.html">Return Home</a>
       <h1><span class="bold">find</span> recipes</h1>
       <div class="recipe-lookup">
         <form action="" class="recipe" id="website">
@@ -41,7 +41,7 @@
             placeholder="10"
             required
           />
-          <button class="button" type="button" data-id="filters-btn">
+          <button class="button" type="button" data-id="query-filters-btn">
             filters
           </button>
           <button class="button" type="button" data-id="query-submit-btn">
@@ -51,7 +51,63 @@
       </div>
       <div class="recipe-output hidden" id="recipe-output"></div>
       <div class="saved-recipes hidden" id="saved-recipes"></div>
-      <script src="../js/recipe.js" type="module"></script>
+      <div class="filters-modal hidden">
+        <div class="filters-content">
+          <h3><span class="bold">filter</span> your search</h3>
+          <form id="filters-form">
+            <label
+              ><input type="checkbox" name="quick" value="maxReadyTime=30" />
+              quick & easy (≤ 30 min)</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="high_protein"
+                value="minProtein=20"
+              />
+              high protein (≥ 20g)</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="vegetarian"
+                value="diet=vegetarian"
+              />
+              vegetarian</label
+            >
+            <label
+              ><input type="checkbox" name="vegan" value="diet=vegan" />
+              vegan</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="no-dairy"
+                value="intolerances=dairy"
+              />
+              no dairy</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="no-gluten"
+                value="intolerances=gluten"
+              />
+              no gluten</label
+            >
+            <button class="button" type="button" data-id="apply-filters-btn">
+              apply filters
+            </button>
+            <button class="button" type="button" data-id="cancel-filters-btn">
+              cancel
+            </button>
+            <button class="button" type="button" data-id="clear-filters-btn">
+              clear filters
+            </button>
+          </form>
+        </div>
+      </div>
+      <script src="../js/recipes/recipe.js" type="module"></script>
     </main>
   </body>
 </html>

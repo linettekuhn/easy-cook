@@ -5,6 +5,10 @@ function init() {
   const view = new View();
   const store = new Store();
 
+  view.bindFiltersCancelEvent();
+
+  view.bindQueryFilterEvent();
+
   view.bindWebsiteInputEvent(async (event) => {
     console.log(event);
     const recipeURL = view.$.recipeWebsiteInput.value;
@@ -17,7 +21,7 @@ function init() {
     const recipeData = await store.fetchWebsiteRecipe(recipeURL);
 
     if (recipeData) {
-      view.showOutput(view.$.recipeOutput);
+      view.showElement(view.$.recipeOutput);
       const recipeCard = view.createRecipeCard(recipeData);
       store.addToFound(recipeCard);
 
@@ -36,16 +40,17 @@ function init() {
 
     const query = view.$.recipeQueryInput.value;
     const quantity = view.$.recipeQueryQuantity.value;
+    const filters = store.filters;
 
     if (!query) {
       alert("Please enter a recipe query");
       return;
     }
 
-    const response = await store.fetchQueryRecipes(query, quantity);
+    const response = await store.fetchQueryRecipes(query, quantity, filters);
     store.foundRecipes = response.results;
 
-    view.showOutput(view.$.recipeOutput);
+    view.showElement(view.$.recipeOutput);
     view.$.recipeOutput.appendChild(
       view.createRecipeOutputHeader(store.foundRecipes.length, "found recipes")
     );
@@ -90,7 +95,7 @@ function init() {
           view.updateRecipeCounter(recipeCount);
         }
 
-        view.showOutput(view.$.savedRecipesOutput);
+        view.showElement(view.$.savedRecipesOutput);
 
         console.log(recipeCount);
 
@@ -98,6 +103,37 @@ function init() {
         view.$.savedRecipesOutput.appendChild(clonedCard);
       }
     }
+  });
+
+  view.bindFiltersApplyEvent((event) => {
+    console.log(event);
+
+    const filters = view.$.filtersForm.querySelectorAll("input");
+
+    let activeFilters = [];
+
+    filters.forEach((filter) => {
+      if (filter.checked) {
+        activeFilters.push(filter.value);
+      }
+    });
+
+    console.log(activeFilters);
+    store.filters = activeFilters;
+
+    view.hideElement(view.$.filtersModal);
+  });
+
+  view.bindFiltersClearEvent((event) => {
+    console.log(event);
+
+    const filters = view.$.filtersForm.querySelectorAll("input");
+
+    filters.forEach((filter) => {
+      filter.checked = false;
+    });
+
+    store.filters = [];
   });
 }
 

@@ -3,6 +3,8 @@ export default class Store {
 
   #saved = { recipes: [] };
   #found = { recipes: [] };
+  // TODO fill up with label values in filters-form
+  #savedFilters = { filters: [] };
 
   constructor() {
     this.$.apiKey = "8edf14d31d184cc8b150c289c049b124";
@@ -45,13 +47,23 @@ export default class Store {
     }
   }
 
-  async fetchQueryRecipes(query, quantity) {
+  async fetchQueryRecipes(query, quantity, filters) {
     try {
       // encode query for url
       const encondedQuery = encodeURIComponent(query);
 
       // construct url for api request
       let apiRequest = `https://api.spoonacular.com/recipes/complexSearch?query=${encondedQuery}&number=${quantity}&apiKey=${this.#getKey()}`;
+
+      // add filters to request if there are filters
+      let filtersQuery = "";
+      filters.forEach((filter) => {
+        filtersQuery += `&${filter.value}`;
+      });
+
+      if (filtersQuery) {
+        apiRequest += filtersQuery;
+      }
 
       // request data from api
       const data = await this.requestGetData(apiRequest);
@@ -63,6 +75,9 @@ export default class Store {
   }
 
   // Helper functions
+  get filters() {
+    return this.#savedFilters.filters;
+  }
 
   get savedRecipes() {
     return this.#saved.recipes;
@@ -78,6 +93,10 @@ export default class Store {
 
   set foundRecipes(recipes) {
     this.#found.recipes = recipes;
+  }
+
+  set filters(filters) {
+    this.#savedFilters.filters = filters;
   }
 
   addToSaved(recipeCard) {

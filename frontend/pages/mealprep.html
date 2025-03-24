@@ -3,9 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/mealprep.css" />
     <title>EasyCook - Meal Prep</title>
   </head>
   <body>
-    <main></main>
+    <main>
+      <a href="../../index.html">Return Home</a>
+      <h1><span class="bold">plan</span> your week</h1>
+      <div class="current-week">
+        <h4>Sunday 23 2025 ----- Saturday 28 2025</h4>
+      </div>
+      <div class="plan-day">
+        <div class="days">
+          <button class="day" data-id="sunday-btn">SUN 23</button>
+          <button class="day" data-id="monday-btn">MON 24</button>
+          <button class="day" data-id="tuesday-btn">TUE 25</button>
+          <button class="day" data-id="wednesday-btn">WED 26</button>
+          <button class="day" data-id="thursday-btn">THU 27</button>
+          <button class="day" data-id="friday-btn">FRI 28</button>
+          <button class="day" data-id="saturday-btn">SAT 29</button>
+        </div>
+        <div class="selected-day">
+          <div class="day-header">
+            <h2>Sunday 23 2025</h2>
+            <h3>
+              total calories: <span class="total-calories">1995</span> calories
+            </h3>
+          </div>
+          <div class="breakfast">
+            <h2 class="bold italic">Breakfast</h2>
+            <p><span class="breakfast-calories">596</span> calories</p>
+            <div class="recipe-container"></div>
+          </div>
+          <div class="lunch">
+            <h2 class="bold italic">Breakfast</h2>
+            <p><span class="lunch-calories">596</span> calories</p>
+            <div class="recipe-container"></div>
+          </div>
+          <div class="dinner">
+            <h2 class="bold italic">Breakfast</h2>
+            <p><span class="dinner-calories">596</span> calories</p>
+            <div class="recipe-container"></div>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

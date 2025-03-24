@@ -4,14 +4,20 @@ export default class View {
   constructor() {
     this.$.websiteSubmitBtn = this.#qs('[data-id="website-submit-btn"]');
     this.$.recipeWebsiteInput = this.#qs('[data-id="recipe-website"]');
+    this.$.queryFiltersBtn = this.#qs('[data-id="query-filters-btn"]');
     this.$.querySubmitBtn = this.#qs('[data-id="query-submit-btn"]');
     this.$.recipeQueryInput = this.#qs('[data-id="recipe-query"]');
     this.$.recipeQueryQuantity = this.#qs("[data-id=recipe-query-quantity]");
+    this.$.filtersApplyBtn = this.#qs('[data-id="apply-filters-btn"]');
+    this.$.filtersCancelBtn = this.#qs('[data-id="cancel-filters-btn"]');
+    this.$.filtersClearBtn = this.#qs('[data-id="clear-filters-btn"]');
     this.$.recipeOutput = this.#qs(".recipe-output");
     this.$.savedRecipesOutput = this.#qs(".saved-recipes");
+    this.$.filtersModal = this.#qs(".filters-modal");
+    this.$.filtersForm = this.#qs("#filters-form");
   }
 
-  // Bind Events
+  // Bind Events Methods
   bindWebsiteInputEvent(eventHandler) {
     this.$.websiteSubmitBtn.addEventListener("click", eventHandler);
   }
@@ -23,7 +29,27 @@ export default class View {
   bindSaveRecipeEvent(eventHandler) {
     this.$.recipeOutput.addEventListener("click", eventHandler);
   }
+
+  bindFiltersApplyEvent(eventHandler) {
+    this.$.filtersApplyBtn.addEventListener("click", eventHandler);
+  }
+
+  bindFiltersClearEvent(eventHandler) {
+    this.$.filtersClearBtn.addEventListener("click", eventHandler);
+  }
+
   // UI Only Events
+  bindQueryFilterEvent() {
+    this.$.queryFiltersBtn.addEventListener("click", () => {
+      this.showElement(this.$.filtersModal);
+    });
+  }
+
+  bindFiltersCancelEvent() {
+    this.$.filtersCancelBtn.addEventListener("click", () => {
+      this.hideElement(this.$.filtersModal);
+    });
+  }
 
   // Helper Mehtods
   #qs(selector) {
@@ -58,9 +84,14 @@ export default class View {
     let recipeCountDisplay = document.querySelector(".recipes-header p");
     recipeCountDisplay.textContent = `${recipeCount} recipe(s)`;
   }
-  showOutput(element) {
+  showElement(element) {
     if (element.classList.contains("hidden")) {
       element.classList.remove("hidden");
+    }
+  }
+  hideElement(element) {
+    if (!element.classList.contains("hidden")) {
+      element.classList.add("hidden");
     }
   }
 
