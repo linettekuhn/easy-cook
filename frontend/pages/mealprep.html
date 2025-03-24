@@ -15,17 +15,17 @@
       </div>
       <div class="plan-day">
         <div class="days">
-          <button class="day" data-id="sunday-btn">SUN 23</button>
-          <button class="day" data-id="monday-btn">MON 24</button>
-          <button class="day" data-id="tuesday-btn">TUE 25</button>
-          <button class="day" data-id="wednesday-btn">WED 26</button>
-          <button class="day" data-id="thursday-btn">THU 27</button>
-          <button class="day" data-id="friday-btn">FRI 28</button>
-          <button class="day" data-id="saturday-btn">SAT 29</button>
+          <button data-id="sunday-btn">SUN <span class="day"></span></button>
+          <button data-id="monday-btn">MON <span class="day"></span></button>
+          <button data-id="tuesday-btn">TUE <span class="day"></span></button>
+          <button data-id="wednesday-btn">WED <span class="day"></span></button>
+          <button data-id="thursday-btn">THU <span class="day"></span></button>
+          <button data-id="friday-btn">FRI <span class="day"></span></button>
+          <button data-id="saturday-btn">SAT <span class="day"></span></button>
         </div>
-        <div class="selected-day">
+        <div class="day-summary">
           <div class="day-header">
-            <h2>Sunday 23 2025</h2>
+            <h2 class="selected-date">Sunday 23 2025</h2>
             <h3>
               total calories: <span class="total-calories">1995</span> calories
             </h3>
@@ -47,6 +47,7 @@
           </div>
         </div>
       </div>
+      <script type="module" src="../js/mealprep/mealprep.js"></script>
     </main>
   </body>
 </html>

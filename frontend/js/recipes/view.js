@@ -30,6 +30,10 @@ export default class View {
     this.$.recipeOutput.addEventListener("click", eventHandler);
   }
 
+  bindRemoveRecipeEvent(eventHandler) {
+    this.$.recipeOutput.addEventListener("click", eventHandler);
+  }
+
   bindFiltersApplyEvent(eventHandler) {
     this.$.filtersApplyBtn.addEventListener("click", eventHandler);
   }
@@ -64,6 +68,11 @@ export default class View {
     const element = document.createElement(tag);
     element.classList.add(className);
     return element;
+  }
+
+  clearRecipeOutput() {
+    this.$.recipeOutput.innerHTML = "";
+    console.log("Recipe output cleared");
   }
 
   createRecipeOutputHeader(recipeCount, title) {
@@ -132,11 +141,7 @@ export default class View {
       const listItem = document.createElement("li");
       let quantity;
       // TODO measure trigger
-      if (true) {
-        quantity = ingredient.measures.metric;
-      } else {
-        quantity = ingredient.measures.us;
-      }
+      quantity = ingredient.measures.us;
       listItem.textContent = `${quantity.amount} ${quantity.unitShort} ${ingredient.nameClean}`;
       ingredients.appendChild(listItem);
     });

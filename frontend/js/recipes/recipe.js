@@ -5,6 +5,12 @@ function init() {
   const view = new View();
   const store = new Store();
 
+  localStorage.removeItem("savedRecipes");
+
+  view.$.savedRecipesOutput.appendChild(
+    view.createRecipeOutputHeader(0, "saved recipes")
+  );
+
   view.bindFiltersCancelEvent();
 
   view.bindQueryFilterEvent();
@@ -38,6 +44,8 @@ function init() {
   view.bindQueryInputEvent(async (event) => {
     console.log(event);
 
+    store.foundRecipes = [];
+    view.clearRecipeOutput();
     const query = view.$.recipeQueryInput.value;
     const quantity = view.$.recipeQueryQuantity.value;
     const filters = store.filters;
@@ -68,17 +76,20 @@ function init() {
     if (event.target.matches("[data-id='save-recipe-btn']")) {
       const btn = event.target;
       const recipeCard = btn.closest(".recipe-card");
+      console.log(recipeCard);
 
       if (recipeCard) {
-        const recipeId = recipeCard.getAttribute("data-id-recipe");
-
-        // check if recipe is already saved
-        store.savedRecipes.forEach((savedCard) => {
-          if (savedCard.getAttribute("data-id-recipe") === recipeId) {
-            alert("Recipe already saved");
-            return;
-          }
-        });
+        // const recipeId = recipeCard.getAttribute("data-id-recipe");
+        console.log(store.savedRecipes);
+        // // check if recipe is already saved
+        // if (store.savedRecipes.length > 1) {
+        //   store.savedRecipes.forEach((savedCard) => {
+        //     if (savedCard.getAttribute("data-id-recipe") === recipeId) {
+        //       alert("Recipe already saved");
+        //       return;
+        //     }
+        //   });
+        // }
 
         const clonedCard = view.createSavedRecipe(recipeCard);
         console.log(clonedCard);
@@ -87,13 +98,7 @@ function init() {
 
         const recipeCount = store.savedRecipes.length;
 
-        if (recipeCount - 1 == 0) {
-          view.$.recipeOutput.appendChild(
-            view.createRecipeOutputHeader(recipeCount, "saved recipes")
-          );
-        } else {
-          view.updateRecipeCounter(recipeCount);
-        }
+        view.updateRecipeCounter(recipeCount);
 
         view.showElement(view.$.savedRecipesOutput);
 
@@ -101,6 +106,32 @@ function init() {
 
         // add cloned card to saved recipes div
         view.$.savedRecipesOutput.appendChild(clonedCard);
+        store.saveSavedRecipes();
+      }
+    }
+  });
+
+  view.bindRemoveRecipeEvent(async (event) => {
+    // if remove button is clicked on a recipe card
+    if (event.target.matches("[data-id='remove-recipe-btn']")) {
+      const btn = event.target;
+      const recipeCard = btn.closest(".recipe-card");
+      console.log(recipeCard);
+
+      if (recipeCard) {
+        console.log(store.savedRecipes);
+
+        store.removeFromSaved(recipeCard);
+
+        const recipeCount = store.savedRecipes.length;
+
+        view.updateRecipeCounter(recipeCount);
+
+        console.log(recipeCount);
+
+        store.saveSavedRecipes();
+
+        // remove card div from container
       }
     }
   });

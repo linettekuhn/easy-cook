@@ -3,11 +3,11 @@ export default class Store {
 
   #saved = { recipes: [] };
   #found = { recipes: [] };
-  // TODO fill up with label values in filters-form
   #savedFilters = { filters: [] };
 
   constructor() {
     this.$.apiKey = "8edf14d31d184cc8b150c289c049b124";
+    this.loadSavedRecipes();
   }
 
   #getKey() {
@@ -76,15 +76,24 @@ export default class Store {
 
   // Helper functions
   get filters() {
-    return this.#savedFilters.filters;
+    if (this.#savedFilters.filters) {
+      return this.#savedFilters.filters;
+    }
+    return [];
   }
 
   get savedRecipes() {
-    return this.#saved.recipes;
+    if (this.#saved.recipes) {
+      return this.#saved.recipes;
+    }
+    return [];
   }
 
   get foundRecipes() {
-    return this.#found.recipes;
+    if (this.#found.recipes) {
+      return this.#found.recipes;
+    }
+    return [];
   }
 
   set savedRecipes(recipes) {
@@ -101,8 +110,22 @@ export default class Store {
 
   addToSaved(recipeCard) {
     this.#saved.recipes.push(recipeCard);
+    this.saveSavedRecipes();
   }
 
+  removeFromSaved(recipeCard) {
+    //TODO remove from local storage
+  }
+
+  loadSavedRecipes() {
+    const savedRecipes = localStorage.getItem("savedRecipes");
+    if (savedRecipes) {
+      this.#saved.recipes = JSON.parse(savedRecipes);
+    }
+  }
+  saveSavedRecipes() {
+    localStorage.setItem("savedRecipes", JSON.stringify(this.#saved.recipes));
+  }
   addToFound(recipeCard) {
     this.#found.recipes.push(recipeCard);
   }
