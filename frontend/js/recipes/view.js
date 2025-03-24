@@ -31,7 +31,7 @@ export default class View {
   }
 
   bindRemoveRecipeEvent(eventHandler) {
-    this.$.recipeOutput.addEventListener("click", eventHandler);
+    this.$.savedRecipesOutput.addEventListener("click", eventHandler);
   }
 
   bindFiltersApplyEvent(eventHandler) {

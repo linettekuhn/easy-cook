@@ -40,3 +40,31 @@ main {
   height: 100%;
   gap: 20px;
 }
+
+.day {
+  display: block;
+  font-size: 2em;
+}
+
+.days .button {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+}
+
+.day-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.breakfast-header,
+.lunch-header,
+.dinner-header {
+  width: 250px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -15,13 +15,27 @@
       </div>
       <div class="plan-day">
         <div class="days">
-          <button data-id="sunday-btn">SUN <span class="day"></span></button>
-          <button data-id="monday-btn">MON <span class="day"></span></button>
-          <button data-id="tuesday-btn">TUE <span class="day"></span></button>
-          <button data-id="wednesday-btn">WED <span class="day"></span></button>
-          <button data-id="thursday-btn">THU <span class="day"></span></button>
-          <button data-id="friday-btn">FRI <span class="day"></span></button>
-          <button data-id="saturday-btn">SAT <span class="day"></span></button>
+          <button class="button bold" data-id="sunday-btn">
+            SUN <span class="day"></span>
+          </button>
+          <button class="button bold" data-id="monday-btn">
+            MON <span class="day"></span>
+          </button>
+          <button class="button bold" data-id="tuesday-btn">
+            TUE <span class="day"></span>
+          </button>
+          <button class="button bold" data-id="wednesday-btn">
+            WED <span class="day"></span>
+          </button>
+          <button class="button bold" data-id="thursday-btn">
+            THU <span class="day"></span>
+          </button>
+          <button class="button bold" data-id="friday-btn">
+            FRI <span class="day"></span>
+          </button>
+          <button class="button bold" data-id="saturday-btn">
+            SAT <span class="day"></span>
+          </button>
         </div>
         <div class="day-summary">
           <div class="day-header">
@@ -31,18 +45,27 @@
             </h3>
           </div>
           <div class="breakfast">
-            <h2 class="bold italic">Breakfast</h2>
-            <p><span class="breakfast-calories">596</span> calories</p>
+            <div class="breakfast-header">
+              <h2 class="bold italic">Breakfast</h2>
+              <p><span class="breakfast-calories">596</span> calories</p>
+              <button class="button" data-id="add-breakfast-btn">+</button>
+            </div>
             <div class="recipe-container"></div>
           </div>
           <div class="lunch">
-            <h2 class="bold italic">Breakfast</h2>
-            <p><span class="lunch-calories">596</span> calories</p>
+            <div class="lunch-header">
+              <h2 class="bold italic">Breakfast</h2>
+              <p><span class="lunch-calories">596</span> calories</p>
+              <button class="button" data-id="add-lunch-btn">+</button>
+            </div>
             <div class="recipe-container"></div>
           </div>
           <div class="dinner">
-            <h2 class="bold italic">Breakfast</h2>
-            <p><span class="dinner-calories">596</span> calories</p>
+            <div class="dinner-header">
+              <h2 class="bold italic">Breakfast</h2>
+              <p><span class="dinner-calories">596</span> calories</p>
+              <button class="button" data-id="add-dinner-btn">+</button>
+            </div>
             <div class="recipe-container"></div>
           </div>
         </div>

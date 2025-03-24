@@ -108,13 +108,27 @@ export default class Store {
     this.#savedFilters.filters = filters;
   }
 
+  clearSaved() {
+    this.#saved.recipes.length = 0;
+    this.#saveToLocalStorage();
+  }
   addToSaved(recipeCard) {
-    this.#saved.recipes.push(recipeCard);
-    this.saveSavedRecipes();
+    let recipeNode = recipeCard.outerHTML;
+    console.log(recipeNode);
+    if (!this.#saved.recipes.includes(recipeNode)) {
+      this.#saved.recipes.push(recipeNode);
+    }
+    this.#saveToLocalStorage();
   }
 
   removeFromSaved(recipeCard) {
-    //TODO remove from local storage
+    let recipeNode = recipeCard.outerHTML;
+    let index = this.#saved.recipes.indexOf(recipeNode);
+
+    if (index !== -1) {
+      this.#saved.recipes.splice(index, 1);
+      this.#saveToLocalStorage();
+    }
   }
 
   loadSavedRecipes() {
@@ -123,11 +137,13 @@ export default class Store {
       this.#saved.recipes = JSON.parse(savedRecipes);
     }
   }
-  saveSavedRecipes() {
-    localStorage.setItem("savedRecipes", JSON.stringify(this.#saved.recipes));
-  }
+
   addToFound(recipeCard) {
     this.#found.recipes.push(recipeCard);
+  }
+
+  #saveToLocalStorage() {
+    localStorage.setItem("savedRecipes", JSON.stringify(this.#saved.recipes));
   }
 
   async requestGetData(apiRequest) {

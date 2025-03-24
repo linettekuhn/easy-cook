@@ -5,15 +5,27 @@ function init() {
   const view = new View();
   const store = new Store();
 
-  localStorage.removeItem("savedRecipes");
+  // load saved recipes
+  store.loadSavedRecipes();
 
   view.$.savedRecipesOutput.appendChild(
-    view.createRecipeOutputHeader(0, "saved recipes")
+    view.createRecipeOutputHeader(store.savedRecipes.length, "saved recipes")
   );
 
+  store.savedRecipes.forEach((recipe) => {
+    if (recipe) {
+      const tempNode = document.createElement("div");
+      tempNode.innerHTML = recipe;
+      view.$.savedRecipesOutput.appendChild(tempNode.firstElementChild);
+    }
+  });
+
+  // call ui events
   view.bindFiltersCancelEvent();
 
   view.bindQueryFilterEvent();
+
+  // event handlers
 
   view.bindWebsiteInputEvent(async (event) => {
     console.log(event);
@@ -81,16 +93,7 @@ function init() {
       if (recipeCard) {
         // const recipeId = recipeCard.getAttribute("data-id-recipe");
         console.log(store.savedRecipes);
-        // // check if recipe is already saved
-        // if (store.savedRecipes.length > 1) {
-        //   store.savedRecipes.forEach((savedCard) => {
-        //     if (savedCard.getAttribute("data-id-recipe") === recipeId) {
-        //       alert("Recipe already saved");
-        //       return;
-        //     }
-        //   });
-        // }
-
+        // TODO check if recipe is already saved
         const clonedCard = view.createSavedRecipe(recipeCard);
         console.log(clonedCard);
 
@@ -98,6 +101,7 @@ function init() {
 
         const recipeCount = store.savedRecipes.length;
 
+        console.log(recipeCount);
         view.updateRecipeCounter(recipeCount);
 
         view.showElement(view.$.savedRecipesOutput);
@@ -106,7 +110,6 @@ function init() {
 
         // add cloned card to saved recipes div
         view.$.savedRecipesOutput.appendChild(clonedCard);
-        store.saveSavedRecipes();
       }
     }
   });
@@ -119,7 +122,7 @@ function init() {
       console.log(recipeCard);
 
       if (recipeCard) {
-        console.log(store.savedRecipes);
+        console.log(recipeCard);
 
         store.removeFromSaved(recipeCard);
 
@@ -129,9 +132,7 @@ function init() {
 
         console.log(recipeCount);
 
-        store.saveSavedRecipes();
-
-        // remove card div from container
+        recipeCard.remove();
       }
     }
   });

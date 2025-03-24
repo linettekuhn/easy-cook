@@ -34,11 +34,41 @@ export default class View {
     const display = this.$.selectedDateDisplay;
     display.textContent = `${day.toDateString()}`;
   }
-  //   #createElementWithClass(tag, className) {
-  //     const element = document.createElement(tag);
-  //     element.classList.add(className);
-  //     return element;
-  //   }
+  createDay() {}
+
+  createRecipeCard(recipe, id = -1) {
+    const card = this.#createElementWithClass("div", "recipe-card");
+    card.setAttribute("data-id-recipe", id);
+
+    const title = this.#createElementWithClass("h3", "recipe-title");
+    title.textContent = recipe.title;
+    card.appendChild(title);
+
+    const image = this.#createElementWithClass("img", "recipe-image");
+    image.src = recipe.image;
+    image.alt = recipe.title;
+    card.appendChild(image);
+
+    const calorieCount = this.#createElementWithClass(
+      "h4",
+      "recipe-calorie-count"
+    );
+    calorieCount.textContent = `${recipe.} calories`;
+    card.appendChild(ingredientsTitle);
+
+    const saveRecipeBtn = this.#createElementWithClass("button", "button");
+    saveRecipeBtn.textContent = "Save to Favorites";
+    saveRecipeBtn.setAttribute("data-id", "save-recipe-btn");
+    card.appendChild(saveRecipeBtn);
+
+    return card;
+  }
+
+  #createElementWithClass(tag, className) {
+    const element = document.createElement(tag);
+    element.classList.add(className);
+    return element;
+  }
 
   bindSundayEvent(eventHandler) {
     this.$.sundayBtn.addEventListener("click", eventHandler);
