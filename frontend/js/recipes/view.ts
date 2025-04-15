@@ -1,5 +1,7 @@
+import { Ingredient, Instruction, InstructionSet, Recipe } from "../types";
+
 export default class View {
-  $ = {};
+  $: Record<string, Element> = {};
 
   constructor() {
     this.$.websiteSubmitBtn = this.#qs('[data-id="website-submit-btn"]');
@@ -18,53 +20,54 @@ export default class View {
   }
 
   // Bind Events Methods
-  bindWebsiteInputEvent(eventHandler) {
+  bindWebsiteInputEvent(eventHandler: EventListener) {
     this.$.websiteSubmitBtn.addEventListener("click", eventHandler);
   }
 
-  bindQueryInputEvent(eventHandler) {
+  bindQueryInputEvent(eventHandler: EventListener) {
     this.$.querySubmitBtn.addEventListener("click", eventHandler);
   }
 
-  bindSaveRecipeEvent(eventHandler) {
+  bindSaveRecipeEvent(eventHandler: EventListener) {
     this.$.recipeOutput.addEventListener("click", eventHandler);
   }
 
-  bindRemoveRecipeEvent(eventHandler) {
+  bindRemoveRecipeEvent(eventHandler: EventListener) {
     this.$.savedRecipesOutput.addEventListener("click", eventHandler);
   }
 
-  bindFiltersApplyEvent(eventHandler) {
+  bindFiltersApplyEvent(eventHandler: EventListener) {
     this.$.filtersApplyBtn.addEventListener("click", eventHandler);
   }
 
-  bindFiltersClearEvent(eventHandler) {
+  bindQueryFilterEvent(eventHandler: EventListener) {
+    this.$.queryFiltersBtn.addEventListener("click", eventHandler);
+  }
+
+  bindFiltersClearEvent(eventHandler: EventListener) {
     this.$.filtersClearBtn.addEventListener("click", eventHandler);
   }
 
   // UI Only Events
-  bindQueryFilterEvent() {
-    this.$.queryFiltersBtn.addEventListener("click", () => {
-      this.showElement(this.$.filtersModal);
-    });
-  }
 
   bindFiltersCancelEvent() {
     this.$.filtersCancelBtn.addEventListener("click", () => {
-      this.hideElement(this.$.filtersModal);
+      this.hideElement(this.$.filtersModal as HTMLElement);
     });
   }
 
   // Helper Mehtods
-  #qs(selector) {
-    const element = document.querySelector(selector);
+  #qs(selector: string, parent?: Element): Element {
+    const element = parent
+      ? parent.querySelector(selector)
+      : document.querySelector(selector);
     if (!element) {
       throw new Error("Could not find element");
     }
     return element;
   }
 
-  #createElementWithClass(tag, className) {
+  #createElementWithClass(tag: string, className: string): HTMLElement {
     const element = document.createElement(tag);
     element.classList.add(className);
     return element;
@@ -75,7 +78,7 @@ export default class View {
     console.log("Recipe output cleared");
   }
 
-  createRecipeOutputHeader(recipeCount, title) {
+  createRecipeOutputHeader(recipeCount: number, title: string): HTMLElement {
     const header = this.#createElementWithClass("div", "recipes-header");
 
     const headerTitle = this.#createElementWithClass("h2", "bold");
@@ -89,40 +92,48 @@ export default class View {
     return header;
   }
 
-  updateRecipeCounter(recipeCount) {
-    let recipeCountDisplay = document.querySelector(".recipes-header p");
+  updateRecipeCounter(recipeCount: number) {
+    let recipeCountDisplay = this.#qs(".recipes-header p");
     recipeCountDisplay.textContent = `${recipeCount} recipe(s)`;
   }
-  showElement(element) {
+  showElement(element: Element) {
     if (element.classList.contains("hidden")) {
       element.classList.remove("hidden");
     }
   }
-  hideElement(element) {
+  hideElement(element: Element) {
     if (!element.classList.contains("hidden")) {
       element.classList.add("hidden");
     }
   }
 
-  createSavedRecipe(recipeCard) {
-    const cloneCard = recipeCard.cloneNode(true);
-    let cardBtn = cloneCard.querySelector("[data-id=save-recipe-btn]");
+  createSavedRecipe(recipeCard: HTMLElement): HTMLElement {
+    const cloneCard = recipeCard.cloneNode(true) as HTMLElement;
+    let cardBtn = this.#qs("[data-id=save-recipe-btn]", cloneCard);
     cardBtn.setAttribute("data-id", "remove-recipe-btn");
     cardBtn.textContent = "Remove from Favorites";
     return cloneCard;
   }
 
-  createRecipeCard(recipe, id = -1) {
+  createRecipeCard(
+    recipeData: any,
+    id: number,
+    sourceURL: string = ""
+  ): Recipe {
     const card = this.#createElementWithClass("div", "recipe-card");
-    card.setAttribute("data-id-recipe", id);
+    card.setAttribute("data-recipe-id", id.toString());
+    card.setAttribute("data-source-url", sourceURL);
 
     const title = this.#createElementWithClass("h3", "recipe-title");
-    title.textContent = recipe.title;
+    title.textContent = recipeData.title;
     card.appendChild(title);
 
-    const image = this.#createElementWithClass("img", "recipe-image");
-    image.src = recipe.image;
-    image.alt = recipe.title;
+    const image = this.#createElementWithClass(
+      "img",
+      "recipe-image"
+    ) as HTMLImageElement;
+    image.src = recipeData.image;
+    image.alt = recipeData.title;
     card.appendChild(image);
 
     const ingredientsTitle = this.#createElementWithClass(
@@ -132,20 +143,31 @@ export default class View {
     ingredientsTitle.textContent = "Ingredients:";
     card.appendChild(ingredientsTitle);
 
-    const ingredients = this.#createElementWithClass(
+    const ingredients: Ingredient[] = [];
+    const ingredientList = this.#createElementWithClass(
       "ul",
       "recipe-ingredient-list"
     );
-    let ingredientsArr = recipe.extendedIngredients;
+
+    let ingredientsArr: any[] = recipeData.extendedIngredients;
     ingredientsArr.forEach((ingredient) => {
       const listItem = document.createElement("li");
       let quantity;
       // TODO measure trigger
       quantity = ingredient.measures.us;
       listItem.textContent = `${quantity.amount} ${quantity.unitShort} ${ingredient.nameClean}`;
-      ingredients.appendChild(listItem);
+      ingredientList.appendChild(listItem);
+
+      ingredients.push({
+        id: ingredient.id,
+        name: ingredient.name,
+        img_src: ingredient.image,
+        img_alt: ingredient.name,
+        amount: quantity.amount,
+        unit: quantity.unitShort,
+      });
     });
-    card.appendChild(ingredients);
+    card.appendChild(ingredientList);
 
     const directionsTitle = this.#createElementWithClass(
       "h4",
@@ -154,25 +176,41 @@ export default class View {
     directionsTitle.textContent = "Directions:";
     card.appendChild(directionsTitle);
 
-    const directions = this.#createElementWithClass(
+    const directionsList = this.#createElementWithClass(
       "ol",
       "recipe-directions-list"
     );
-    let directionsArr = recipe.analyzedInstructions;
-    directionsArr.forEach((instructionSet) => {
-      instructionSet.steps.forEach((step) => {
+    const directionSet: InstructionSet[] = [];
+
+    recipeData.analyzedInstructions.forEach((set: InstructionSet) => {
+      const directions: InstructionSet = { name: set.name, steps: [] };
+      let directionCount = 0;
+      set.steps.forEach((steps: Instruction) => {
         const listItem = document.createElement("li");
-        listItem.textContent = step.step;
-        directions.appendChild(listItem);
+        listItem.textContent = steps.step;
+        directionsList.appendChild(listItem);
+        directions.steps.push({
+          number: steps.number,
+          step: steps.step,
+        });
       });
     });
-    card.appendChild(directions);
+    card.appendChild(directionsList);
 
     const saveRecipeBtn = this.#createElementWithClass("button", "button");
     saveRecipeBtn.textContent = "Save to Favorites";
     saveRecipeBtn.setAttribute("data-id", "save-recipe-btn");
     card.appendChild(saveRecipeBtn);
 
-    return card;
+    return {
+      id: id,
+      card: card,
+      title: recipeData.title,
+      img_src: recipeData.image,
+      img_alt: recipeData.title,
+      ingredients: ingredients,
+      directions: directionSet,
+      sourceURL: sourceURL,
+    };
   }
 }
