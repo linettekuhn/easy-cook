@@ -41,3 +41,17 @@ export type SavedRecipes = {
 export type SavedFilters = {
   filters: Filter[];
 };
+
+export type Day = {
+  date: Date;
+  calories: number;
+  html: HTMLElement;
+  breakfastRecipes: Recipe[];
+  lunchRecipes: Recipe[];
+  dinnerRecipes: Recipe[];
+};
+
+export type Week = {
+  selectedDay: Day;
+  days: Day[];
+};

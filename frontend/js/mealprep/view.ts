@@ -1,5 +1,7 @@
+import { Day, Recipe } from "../types";
+
 export default class View {
-  $ = {};
+  $: Record<string, Element> = {};
 
   constructor() {
     this.$.sundayBtn = this.#qs('[data-id="sunday-btn"]');
@@ -13,49 +15,52 @@ export default class View {
     this.$.dayOutput = this.#qs(".day-output");
   }
 
-  #qs(selector) {
-    const element = document.querySelector(selector);
+  #qs(selector: string, parent?: Element): Element {
+    const element = parent
+      ? parent.querySelector(selector)
+      : document.querySelector(selector);
     if (!element) {
       throw new Error("Could not find element");
     }
     return element;
   }
 
-  updateDays(sunday) {
+  updateDays(week: Day[]) {
     const dayButtonDisplays = this.$.days.querySelectorAll(".day");
-    const sundayDate = sunday.getDate();
     for (let i = 0; i < dayButtonDisplays.length; i++) {
       const element = dayButtonDisplays[i];
-      element.textContent = sundayDate + i;
+      element.textContent = week[i].date.getDate().toString();
     }
   }
 
-  setSelectedDay(dayHTML) {
+  setSelectedDay(dayHTML: HTMLElement) {
     const output = this.$.dayOutput;
-    output.innerHTML = dayHTML;
+    console.log(output);
+    this.$.dayOutput.innerHTML = "";
+    output.appendChild(dayHTML);
     this.showElement(output);
   }
 
-  showElement(element) {
+  showElement(element: Element) {
     if (element.classList.contains("hidden")) {
       element.classList.remove("hidden");
     }
   }
-  hideElement(element) {
+  hideElement(element: Element) {
     if (!element.classList.contains("hidden")) {
       element.classList.add("hidden");
     }
   }
-  createDayOutput(day) {
+  createDayOutput(day: Day): HTMLElement {
     const output = this.#createElementWithClass("div", ".day-output");
-    output.appendChild(this.createDayHeader(day));
+    output.appendChild(this.createDayHeader(day.date, day.calories));
 
     const summary = this.createDaySummary();
     output.appendChild(summary);
     return output;
   }
 
-  createDaySummary() {
+  createDaySummary(): HTMLElement {
     const summary = this.#createElementWithClass("div", "day-summary");
 
     // breakfast
@@ -100,7 +105,7 @@ export default class View {
     return summary;
   }
 
-  createMealHeader(mealType) {
+  createMealHeader(mealType: string, calories: number): HTMLElement {
     const header = document.createElement("div");
     header.classList.add(`${mealType.toLowerCase()}-header`);
 
@@ -112,7 +117,7 @@ export default class View {
     const calorieText = document.createElement("p");
     const calorieCount = document.createElement("span");
     calorieCount.classList.add(`${mealType.toLowerCase()}-calories`);
-    calorieCount.textContent = 0;
+    calorieCount.textContent = calories.toString();
     calorieText.appendChild(calorieCount);
     calorieText.appendChild(document.createTextNode(" calories"));
     header.appendChild(calorieText);
@@ -125,11 +130,11 @@ export default class View {
 
     return header;
   }
-  createDayHeader(date, totalCalories) {
+  createDayHeader(date: Date, totalCalories?: number) {
     const header = this.#createElementWithClass("div", "day-header");
 
     const dateElement = this.#createElementWithClass("h2", "selected-date");
-    dateElement.textContent = date;
+    dateElement.textContent = date.toDateString();
     header.appendChild(dateElement);
 
     const totalCaloriesElement = document.createElement("h3");
@@ -139,67 +144,73 @@ export default class View {
     return header;
   }
 
-  createRecipePreview(recipe, id = -1) {
+  // TODO finish implementing
+  createRecipePreview(recipe: Recipe) {
     const card = this.#createElementWithClass("div", "recipe-card");
-    card.setAttribute("data-id-recipe", id);
+    card.setAttribute("data-id-recipe", recipe.id.toString());
 
     const title = this.#createElementWithClass("h3", "recipe-title");
     title.textContent = recipe.title;
     card.appendChild(title);
 
-    const image = this.#createElementWithClass("img", "recipe-image");
-    image.src = recipe.image;
-    image.alt = recipe.title;
+    const image = this.#createElementWithClass(
+      "img",
+      "recipe-image"
+    ) as HTMLImageElement;
+    image.src = recipe.img_src;
+    image.alt = recipe.img_alt ? recipe.img_alt : recipe.title;
     card.appendChild(image);
 
     const calorieCount = this.#createElementWithClass(
       "h4",
       "recipe-calorie-count"
     );
-    calorieCount.textContent = `${recipe.nutrition.calories} calories`;
+    // TODO add nutrition/calories to recipe object
+    calorieCount.textContent = `${0} calories`;
     card.appendChild(calorieCount);
 
+    // TODO fix name
     const saveRecipeBtn = this.#createElementWithClass("button", "button");
-    saveRecipeBtn.textContent = "Save to Favorites";
+    saveRecipeBtn.textContent = "Add to meal";
     saveRecipeBtn.setAttribute("data-id", "save-recipe-btn");
     card.appendChild(saveRecipeBtn);
 
     return card;
   }
 
-  showSelectedDaySummary() {}
+  //showSelectedDaySummary() {}
 
-  #createElementWithClass(tag, className) {
+  #createElementWithClass(tag: string, className: string): HTMLElement {
     const element = document.createElement(tag);
     element.classList.add(className);
     return element;
   }
 
-  bindSundayEvent(eventHandler) {
+  bindSundayEvent(eventHandler: EventListener) {
     this.$.sundayBtn.addEventListener("click", eventHandler);
   }
 
-  bindMondayEvent(eventHandler) {
+  bindMondayEvent(eventHandler: EventListener) {
     this.$.mondayBtn.addEventListener("click", eventHandler);
   }
 
-  bindTuesdayEvent(eventHandler) {
+  bindTuesdayEvent(eventHandler: EventListener) {
     this.$.tuesdayBtn.addEventListener("click", eventHandler);
   }
 
-  bindWednesdayEvent(eventHandler) {
+  bindWednesdayEvent(eventHandler: EventListener) {
     this.$.wednesdayBtn.addEventListener("click", eventHandler);
   }
 
-  bindThursdayEvent(eventHandler) {
+  bindThursdayEvent(eventHandler: EventListener) {
     this.$.thursdayBtn.addEventListener("click", eventHandler);
   }
 
-  bindFridayEvent(eventHandler) {
+  bindFridayEvent(eventHandler: EventListener) {
     this.$.fridayBtn.addEventListener("click", eventHandler);
   }
 
-  bindSaturdayEvent(eventHandler) {
+  bindSaturdayEvent(eventHandler: EventListener) {
     this.$.saturdayBtn.addEventListener("click", eventHandler);
   }
 }
