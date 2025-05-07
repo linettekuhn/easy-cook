@@ -18,7 +18,7 @@ const defaultFilters: Filter[] = [
   { label: "no_gluten", value: "intolerances=gluten", isChecked: false },
 ];
 
-function RecipeLookupForm() {
+export default function RecipeLookupForm() {
   const [foundRecipes, setFoundRecipes] = useState<Recipe[]>([]);
   //const [localSavedRecipes, setLocalSavedRecipes] = useState<Recipe[]>([]);
   const [filters, setFilters] = useState(defaultFilters);
@@ -135,5 +135,3 @@ function RecipeLookupForm() {
     </div>
   );
 }
-
-export default RecipeLookupForm;

@@ -6,7 +6,7 @@ type FoundRecipes = {
   recipes: Recipe[];
 };
 
-function FoundRecipes({ recipes }: FoundRecipes) {
+export default function FoundRecipes({ recipes }: FoundRecipes) {
   return (
     <>
       <div className={styles["recipesHeader"]}>
@@ -23,4 +23,3 @@ function FoundRecipes({ recipes }: FoundRecipes) {
     </>
   );
 }
-export default FoundRecipes;

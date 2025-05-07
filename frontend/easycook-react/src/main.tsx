@@ -4,10 +4,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import Recipes from "./pages/Recipes.tsx";
+import MealPrep from "./pages/MealPrep.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/recipes", element: <Recipes /> },
+  { path: "/plan", element: <MealPrep /> },
 ]);
 
 createRoot(document.getElementById("root")!).render(

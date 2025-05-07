@@ -1,12 +1,14 @@
 import { Link } from "react-router";
 
-export default function Header() {
+function Header() {
   return (
     <>
       <Link to={"/"}>Return Home</Link>
       <h1>
-        <span className="bold">find</span> recipes
+        <span className="bold">plan</span> your week
       </h1>
     </>
   );
 }
+
+export default Header;

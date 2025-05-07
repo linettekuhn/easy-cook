@@ -5,7 +5,7 @@ type RecipeCardProps = {
   recipe: Recipe;
 };
 
-function RecipeCard({ recipe }: RecipeCardProps) {
+export default function RecipeCard({ recipe }: RecipeCardProps) {
   return (
     <div
       className={styles.recipeCard}
@@ -61,5 +61,3 @@ function RecipeCard({ recipe }: RecipeCardProps) {
     </div>
   );
 }
-
-export default RecipeCard;

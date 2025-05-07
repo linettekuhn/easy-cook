@@ -7,7 +7,10 @@ type FilterModalParams = {
   setFilters: (filters: Filter[]) => void;
 };
 
-function FiltersModal({ filters, setFilters }: FilterModalParams) {
+export default function FiltersModal({
+  filters,
+  setFilters,
+}: FilterModalParams) {
   const [localFilters, setLocalFilters] = useState(filters);
   const [hidden, setHidden] = useState(true);
 
@@ -30,5 +33,3 @@ function FiltersModal({ filters, setFilters }: FilterModalParams) {
     </>
   );
 }
-
-export default FiltersModal;

@@ -1,0 +1,10 @@
+.day {
+  display: block;
+  font-size: 2em;
+}
+
+.days .button {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+}

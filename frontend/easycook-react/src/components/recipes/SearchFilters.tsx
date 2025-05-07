@@ -2,7 +2,12 @@ import { Filter, Filters } from "../../types.ts";
 import { useState, useEffect } from "react";
 import styles from "./SearchFilters.module.css";
 
-function SearchFilters({ filters, setFilters, onCancel, onApply }: Filters) {
+export default function SearchFilters({
+  filters,
+  setFilters,
+  onCancel,
+  onApply,
+}: Filters) {
   const [localFilters, setLocalFilters] = useState(filters);
 
   useEffect(() => setLocalFilters(filters), [filters]);
@@ -70,4 +75,3 @@ function SearchFilters({ filters, setFilters, onCancel, onApply }: Filters) {
     </div>
   );
 }
-export default SearchFilters;
