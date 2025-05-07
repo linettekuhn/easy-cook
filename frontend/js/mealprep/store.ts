@@ -1,7 +1,8 @@
-import { Day, Week } from "../types";
+import { Day, SavedRecipes, Week } from "../types";
 export default class Store {
   $ = {};
 
+  #saved: SavedRecipes = { recipes: [] };
   #week: Week = {
     selectedDay: this.createDefaultDay(),
     days: [],
@@ -25,17 +26,6 @@ export default class Store {
 
   #getKey() {
     return this.apiKey;
-  }
-
-  createDefaultDay(): Day {
-    return {
-      date: new Date(),
-      calories: 0,
-      html: document.createElement("div"),
-      breakfastRecipes: [],
-      lunchRecipes: [],
-      dinnerRecipes: [],
-    };
   }
 
   // API requests
@@ -67,5 +57,23 @@ export default class Store {
     const data = await response.json();
     console.log(data);
     return data;
+  }
+
+  loadSavedRecipes() {
+    const savedRecipes = localStorage.getItem("savedRecipes");
+    if (savedRecipes) {
+      this.#saved.recipes = JSON.parse(savedRecipes);
+    }
+  }
+
+  createDefaultDay(): Day {
+    return {
+      date: new Date(),
+      calories: 0,
+      html: document.createElement("div"),
+      breakfastRecipes: [],
+      lunchRecipes: [],
+      dinnerRecipes: [],
+    };
   }
 }

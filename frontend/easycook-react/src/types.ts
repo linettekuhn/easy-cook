@@ -1,6 +1,14 @@
+export type RecipeData = {
+  id: number;
+  title: string;
+  image: string;
+  sourceUrl?: string;
+  extendedIngredients: Ingredient[];
+  analyzedInstructions: InstructionSet[];
+};
+
 export type Recipe = {
   id: number;
-  card: HTMLElement;
   title: string;
   img_src: string;
   img_alt?: string;
@@ -12,10 +20,13 @@ export type Recipe = {
 export type Ingredient = {
   id: number;
   name: string;
-  img_src: string;
-  img_alt?: string;
-  amount?: number;
-  unit?: string;
+  image: string;
+  measures: {
+    us: {
+      amount: number;
+      unitShort: string;
+    };
+  };
 };
 
 export type Instruction = {
@@ -29,15 +40,15 @@ export type InstructionSet = {
 };
 
 export type Filter = {
-  label?: string;
+  label: string;
   value: string;
   isChecked: boolean;
+  onChange?: (label: string, value: string) => void;
 };
 
 export type Filters = {
   filters: Filter[];
   setFilters: (filters: Filter[]) => void;
-  onClear: () => void;
   onCancel: () => void;
   onApply: () => void;
 };
