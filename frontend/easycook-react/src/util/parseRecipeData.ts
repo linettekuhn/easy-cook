@@ -2,6 +2,7 @@ import {
   Ingredient,
   Instruction,
   InstructionSet,
+  Nutrient,
   Recipe,
   RecipeData,
 } from "../types";
@@ -42,6 +43,16 @@ export default function buildRecipeObject(
     parseDirections.push(instructionSet);
   });
 
+  const parseNutrients: Nutrient[] = [];
+  recipeData.nutrition.nutrients.forEach((nutrient: Nutrient) => {
+    const myNutrient: Nutrient = {
+      amount: nutrient.amount,
+      name: nutrient.name,
+      unit: nutrient.unit,
+    };
+    parseNutrients.push(myNutrient);
+  });
+
   return {
     id: id,
     title: recipeData.title,
@@ -49,6 +60,7 @@ export default function buildRecipeObject(
     img_alt: recipeData.title,
     ingredients: parseIngredients,
     directions: parseDirections,
+    nutrients: parseNutrients,
     sourceURL: sourceURL,
   };
 }

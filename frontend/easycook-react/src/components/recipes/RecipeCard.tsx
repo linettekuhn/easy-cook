@@ -6,6 +6,10 @@ type RecipeCardProps = {
 };
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
+  const caloriesNutrient = recipe.nutrients.find(
+    (nutrient) => nutrient.name === "Calories"
+  );
+
   return (
     <div
       className={styles.recipeCard}
@@ -18,6 +22,12 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         alt={recipe.img_alt}
         className={styles.recipeImage}
       />
+      <h5 className={styles.calories}>
+        Total calories:{" "}
+        {caloriesNutrient
+          ? `${caloriesNutrient.amount} ${caloriesNutrient.unit}`
+          : "Calories were not found"}
+      </h5>
       <h4 className={styles.recipeIngredientsTitle}>Ingredients:</h4>
       <ul className={styles.recipeIngredientList}>
         {recipe.ingredients.map((ingredient) => (

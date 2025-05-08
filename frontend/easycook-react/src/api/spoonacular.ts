@@ -36,7 +36,7 @@ export async function fetchWebsiteRecipe(recipeURL: string) {
 export async function fetchRecipeInfo(id: number) {
   try {
     // api request
-    const apiRequest = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`;
+    const apiRequest = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}&includeNutrition=true`;
 
     // request data from api
     const data = await requestGetData(apiRequest);

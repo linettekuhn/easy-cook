@@ -6,6 +6,9 @@ type RecipeSummaryProps = {
 };
 
 export default function RecipeSummary({ recipe }: RecipeSummaryProps) {
+  const calories = recipe.nutrients.find(
+    (nutrient) => nutrient.name === "Calories"
+  );
   return (
     <div
       className={styles.recipeSummary}
@@ -18,7 +21,12 @@ export default function RecipeSummary({ recipe }: RecipeSummaryProps) {
         alt={recipe.img_alt}
         className={styles.recipeImage}
       />
-      <h4 className="recipeCalorieCount"></h4>
+      <h4 className="recipeCalorieCount">
+        Total calories:{" "}
+        {calories
+          ? `${calories.amount} ${calories.unit}`
+          : "Calories were not found"}
+      </h4>
       <button className="button">See Full Recipe</button>
     </div>
   );

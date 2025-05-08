@@ -5,6 +5,7 @@ export type RecipeData = {
   sourceUrl?: string;
   extendedIngredients: Ingredient[];
   analyzedInstructions: InstructionSet[];
+  nutrition: { nutrients: Nutrient[] };
 };
 
 export type Recipe = {
@@ -14,9 +15,14 @@ export type Recipe = {
   img_alt?: string;
   ingredients: Ingredient[];
   directions: InstructionSet[];
+  nutrients: Nutrient[];
   sourceURL?: string;
 };
-
+export type Nutrient = {
+  amount: number;
+  name: string;
+  unit: string;
+};
 export type Ingredient = {
   id: number;
   name: string;
