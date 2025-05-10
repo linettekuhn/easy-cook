@@ -10,7 +10,7 @@ app.use(express.json());
 console.log("express started");
 // api routes
 const recipeRouter = require("./routes/recipe");
-app.use("api/recipe", recipeRouter);
+app.use("/api/recipe", recipeRouter);
 console.log("router started");
 
 app.listen(3000, () => {

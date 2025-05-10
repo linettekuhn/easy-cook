@@ -44,14 +44,16 @@ export default function buildRecipeObject(
   });
 
   const parseNutrients: Nutrient[] = [];
-  recipeData.nutrition.nutrients.forEach((nutrient: Nutrient) => {
-    const myNutrient: Nutrient = {
-      amount: nutrient.amount,
-      name: nutrient.name,
-      unit: nutrient.unit,
-    };
-    parseNutrients.push(myNutrient);
-  });
+  if (recipeData.nutrition) {
+    recipeData.nutrition.nutrients.forEach((nutrient: Nutrient) => {
+      const myNutrient: Nutrient = {
+        amount: nutrient.amount,
+        name: nutrient.name,
+        unit: nutrient.unit,
+      };
+      parseNutrients.push(myNutrient);
+    });
+  }
 
   return {
     id: id,
@@ -60,7 +62,7 @@ export default function buildRecipeObject(
     img_alt: recipeData.title,
     ingredients: parseIngredients,
     directions: parseDirections,
-    nutrients: parseNutrients,
+    nutrients: parseNutrients || undefined,
     sourceURL: sourceURL,
   };
 }
