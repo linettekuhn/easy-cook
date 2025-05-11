@@ -1,7 +1,26 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const {
+  initializeApp,
+  applicationDefault,
+  cert,
+} = require("firebase-admin/app");
+const {
+  getFirestore,
+  Timestamp,
+  FieldValue,
+  Filter,
+} = require("firebase-admin/firestore");
+const credentials = require("./api/firebase-credentials.json");
 
+// initialize firebase
+initializeApp({
+  credential: cert(credentials),
+});
+
+//
+const db = getFirestore();
 // lets frontend access backend
 app.use(cors());
 

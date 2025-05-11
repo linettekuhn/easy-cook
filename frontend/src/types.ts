@@ -59,10 +59,6 @@ export type Filters = {
   onApply: () => void;
 };
 
-export type SavedRecipes = {
-  recipes: Recipe[];
-};
-
 export type SavedFilters = {
   filters: Filter[];
 };

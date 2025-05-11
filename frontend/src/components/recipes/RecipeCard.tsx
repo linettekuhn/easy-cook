@@ -3,12 +3,32 @@ import styles from "./RecipeCard.module.css";
 
 type RecipeCardProps = {
   recipe: Recipe;
+  isSaved: boolean;
+  onSave?: (recipe: Recipe) => void;
+  onRemove?: (recipe: Recipe) => void;
 };
 
-export default function RecipeCard({ recipe }: RecipeCardProps) {
+export default function RecipeCard({
+  recipe,
+  isSaved,
+  onSave,
+  onRemove,
+}: RecipeCardProps) {
   const caloriesNutrient = recipe.nutrients.find(
     (nutrient) => nutrient.name === "Calories"
   );
+
+  const handleSaveClick = () => {
+    if (onSave) {
+      onSave(recipe);
+    }
+  };
+
+  const handleRemoveClick = () => {
+    if (onRemove) {
+      onRemove(recipe);
+    }
+  };
 
   return (
     <div
@@ -67,7 +87,15 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           </ol>
         );
       })}
-      <button className="button">Save to Favorites</button>
+      {isSaved ? (
+        <button className="button" onClick={handleRemoveClick}>
+          Remove from Favorites
+        </button>
+      ) : (
+        <button className="button" onClick={handleSaveClick}>
+          Save to Favorites
+        </button>
+      )}
     </div>
   );
 }

@@ -1,0 +1,16 @@
+.recipeOutput,
+.savedRecipes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: auto;
+  gap: 20px;
+  padding: 30px;
+}
+
+.recipesHeader {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

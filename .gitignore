@@ -139,3 +139,5 @@ package-lock.json
 package.json
 eslint.config.mjs
 frontend/tsconfig.json
+backend/api/spoonacular-credentials.json
+backend/api/firebase-credentials.json

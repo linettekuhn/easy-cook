@@ -18,17 +18,17 @@ const defaultFilters: Filter[] = [
   { label: "no_gluten", value: "intolerances=gluten", isChecked: false },
 ];
 
-export default function RecipeLookupForm() {
+type RecipeLookupProps = {
+  onRecipeSave: (recipe: Recipe) => void;
+};
+
+export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
   const [foundRecipes, setFoundRecipes] = useState<Recipe[]>([]);
-  //const [localSavedRecipes, setLocalSavedRecipes] = useState<Recipe[]>([]);
   const [filters, setFilters] = useState(defaultFilters);
   const [queryInput, setQueryInput] = useState("");
   const [websiteInput, setWebsiteInput] = useState("");
   const [quantity, setQuantity] = useState(10);
   const [hidden, setHidden] = useState(true);
-
-  //TODO: link saved recipes w/ backend
-  //useEffect(() => setLocalSavedRecipes(savedRecipes.recipes), [savedRecipes]);
 
   const handleFiltersUpdate = (newFilters: Filter[]) => {
     setFilters(newFilters);
@@ -131,7 +131,7 @@ export default function RecipeLookupForm() {
           submit query
         </button>
       </form>
-      {!hidden && <FoundRecipes recipes={foundRecipes} />}
+      {!hidden && <FoundRecipes recipes={foundRecipes} onSave={onRecipeSave} />}
     </div>
   );
 }
