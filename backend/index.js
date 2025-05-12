@@ -30,7 +30,11 @@ console.log("express started");
 // api routes
 const recipeRouter = require("./routes/recipe");
 app.use("/api/recipe", recipeRouter);
-console.log("router started");
+console.log("recipe router started");
+
+const plannerRouter = require("./routes/planner");
+app.use("/api/planner", plannerRouter);
+console.log("planner router started");
 
 app.listen(3000, () => {
   console.log("app listening on 3000");

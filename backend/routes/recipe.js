@@ -11,8 +11,8 @@ router.use((req, res, next) => {
 
 router.get("/saved", async (req, res) => {
   try {
-    const savedRecipesRef = database.collection("savedRecipes");
-    const doc = await savedRecipesRef.doc("recipes").get();
+    const savedDataRef = database.collection("savedData");
+    const doc = await savedDataRef.doc("savedRecipes").get();
 
     if (doc.exists) {
       const data = doc.data();
@@ -27,10 +27,10 @@ router.get("/saved", async (req, res) => {
 
 router.post("/store", async (req, res) => {
   try {
-    const savedRecipesCollection = database.collection("savedRecipes");
+    const savedDataRef = database.collection("savedData");
     const recipeData = req.body;
     if (Array.isArray(recipeData)) {
-      await savedRecipesCollection.doc("recipes").set({ recipes: recipeData });
+      await savedDataRef.doc("savedRecipes").set({ recipes: recipeData });
       console.log("saved recipes updated with: ", recipeData);
       res.status(200).json({
         message: "Recipes saved successfully to the 'recipes' document.",
