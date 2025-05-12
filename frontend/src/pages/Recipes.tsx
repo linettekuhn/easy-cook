@@ -23,13 +23,19 @@ export default function Recipes() {
     await saveRecipes(newRecipes);
   };
   const handleRecipeSave = (recipeToSave: Recipe) => {
-    let newSavedRecipes = [];
-    if (savedRecipes.length > 0) {
-      newSavedRecipes = [...savedRecipes, recipeToSave];
+    const isSaved = savedRecipes.some((recipe) => {
+      if (recipeToSave.id === -1) {
+        return recipe.sourceURL === recipeToSave.sourceURL;
+      }
+      return recipe.id === recipeToSave.id;
+    });
+
+    if (!isSaved) {
+      const newSavedRecipes = [...savedRecipes, recipeToSave];
+      handleRecipesChange(newSavedRecipes);
     } else {
-      newSavedRecipes = [recipeToSave];
+      console.log(`recipe ${recipeToSave.title} is already saved`);
     }
-    handleRecipesChange(newSavedRecipes);
   };
   const handleRecipeRemove = (recipeToRemove: Recipe) => {
     const newSavedRecipes = savedRecipes.filter((recipe) => {

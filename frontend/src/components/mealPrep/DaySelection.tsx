@@ -24,7 +24,7 @@ export default function DaySelection({ days }: Week) {
           </button>
         ))}
       </div>
-      <div className="day-output hidden">
+      <div className="day-output">
         <DaySummary {...localWeek[selectedDay]} />
       </div>
     </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SearchFilters from "./SearchFilters";
 import { Filter } from "../../types";
 
-type FilterModalParams = {
+type FilterModalProps = {
   filters: Filter[];
   setFilters: (filters: Filter[]) => void;
 };
@@ -10,13 +10,12 @@ type FilterModalParams = {
 export default function FiltersModal({
   filters,
   setFilters,
-}: FilterModalParams) {
+}: FilterModalProps) {
   const [localFilters, setLocalFilters] = useState(filters);
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => setLocalFilters(filters), [filters]);
 
-  console.log("filters modal initialized");
   return (
     <>
       <button className="button" type="button" onClick={() => setHidden(false)}>
