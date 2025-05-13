@@ -14,7 +14,7 @@ export default function MealRecipes({
   mealRecipes,
   setRecipes,
 }: MealRecipesProps) {
-  const [localRecipes, setLocalRecipes] = useState<Recipe[]>(mealRecipes);
+  const [localRecipes, setLocalRecipes] = useState<Recipe[]>([]);
   useEffect(() => setLocalRecipes(mealRecipes), [mealRecipes]);
 
   const handleAddToMeal = (recipeToAdd: Recipe) => {

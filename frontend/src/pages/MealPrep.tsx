@@ -1,29 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DaySelection from "../components/mealPrep/DaySelection";
 import Header from "../components/mealPrep/Header";
 import WeekSelection from "../components/mealPrep/WeekSelection";
 import { Day } from "../types";
+import { fetchSavedWeek, saveWeek } from "../api/firestore";
+import { getPreviousSunday } from "../util/plannerHelper";
 
-// TODO: implement on backend
-const defaultWeek: Day[] = Array(7)
-  .fill(null)
-  .map(() => ({
-    date: new Date(),
-    calories: 0,
-    breakfastRecipes: [],
-    lunchRecipes: [],
-    dinnerRecipes: [],
-  }));
 export default function MealPrep() {
-  const [week, setWeek] = useState<Day[]>(defaultWeek);
+  const [week, setWeek] = useState<Day[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [localWeek, setLocalWeek] = useState<Day[]>([]);
 
-  const handleWeekUpdate = (newWeek: Day[]) => setWeek(newWeek);
+  const handleWeekChange = async (sunday: Date) => {
+    const savedWeek = await fetchSavedWeek(sunday);
+    setWeek(savedWeek);
+    setLocalWeek(savedWeek);
+  };
+
+  const handleLocalWeekUpdate = (updatedWeek: Day[]) => {
+    setLocalWeek(updatedWeek);
+  };
+
+  const handleSaveWeek = async () => {
+    await saveWeek(localWeek);
+    setWeek(localWeek);
+  };
+
+  useEffect(() => {
+    const loadDefaultWeek = async () => {
+      const defaultSunday = getPreviousSunday(new Date());
+      const savedWeek = await fetchSavedWeek(defaultSunday);
+      setWeek(savedWeek);
+      setLocalWeek(savedWeek);
+    };
+
+    loadDefaultWeek();
+  }, []);
+
+  // set loading to false once week loaded
+  useEffect(() => {
+    if (week.length > 0) {
+      setLoading(false);
+    }
+  }, [week]);
+
   return (
     <>
       <main>
         <Header />
-        <WeekSelection week={week} setWeek={handleWeekUpdate} />
-        <DaySelection days={week} />
+        {loading ? (
+          <p>Loading your week...</p>
+        ) : (
+          <>
+            <WeekSelection week={week} setWeek={handleWeekChange} />
+            <DaySelection
+              week={localWeek}
+              onWeekUpdated={handleLocalWeekUpdate}
+            />
+            <button className="button" onClick={handleSaveWeek}>
+              Save Week
+            </button>
+          </>
+        )}
       </main>
     </>
   );

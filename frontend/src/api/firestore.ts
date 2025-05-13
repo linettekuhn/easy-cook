@@ -1,4 +1,5 @@
 import { Day, Recipe } from "../types";
+import { buildEmptyWeek } from "../util/plannerHelper";
 
 export async function saveRecipes(recipes: Recipe[]) {
   // TODO: change localhost
@@ -36,7 +37,9 @@ export async function fetchSavedRecipes(): Promise<Recipe[]> {
 
 export async function saveWeek(week: Day[]) {
   const sunday = week[0].date;
-  const id = `${sunday.getFullYear()}-${sunday.getMonth()}-${sunday.getDate}`;
+  const id = `${sunday.getFullYear()}-${
+    sunday.getMonth() + 1
+  }-${sunday.getDate()}`;
   // TODO: change localhost
   await fetch(`http://localhost:3000/api/planner/week/${id}`, {
     method: "POST",
@@ -48,7 +51,9 @@ export async function saveWeek(week: Day[]) {
 }
 
 export async function fetchSavedWeek(sunday: Date): Promise<Day[]> {
-  const id = `${sunday.getFullYear()}-${sunday.getMonth()}-${sunday.getDate}`;
+  const id = `${sunday.getFullYear()}-${
+    sunday.getMonth() + 1
+  }-${sunday.getDate()}`;
   // TODO: change localhost
   const response = await fetch(`http://localhost:3000/api/planner/week/${id}`, {
     method: "GET",
@@ -57,6 +62,16 @@ export async function fetchSavedWeek(sunday: Date): Promise<Day[]> {
     },
   });
   console.log(response);
-  const week: Day[] = await response.json();
+  if (!response.ok) {
+    console.error(`HTTP error status: ${response.status}`);
+    return buildEmptyWeek(sunday);
+  }
+
+  const weekJson = await response.json();
+
+  const week: Day[] = weekJson.week.map((day: Day) => ({
+    ...day,
+    date: new Date(day.date),
+  }));
   return week;
 }

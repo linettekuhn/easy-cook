@@ -36,7 +36,7 @@ router.get("/week/:id", async (req, res) => {
 
     if (doc.exists) {
       const data = doc.data();
-      res.json(data ? data.recipes : []);
+      res.json(data ? data : []);
     } else {
       res.json([]);
     }

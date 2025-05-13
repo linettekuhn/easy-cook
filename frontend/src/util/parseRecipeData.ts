@@ -17,18 +17,21 @@ export default function buildRecipeObject(
   recipeData.extendedIngredients.forEach((ingredient: Ingredient) => {
     // TODO measure trigger
     const quantity = ingredient.measures.us;
-
-    parseIngredients.push({
-      id: ingredient.id,
-      name: ingredient.name,
-      image: ingredient.image,
-      measures: {
-        us: {
-          amount: quantity.amount,
-          unitShort: quantity.unitShort,
-        },
-      },
-    });
+    if (ingredient.id !== -1) {
+      if (!parseIngredients.some((item) => item.id === ingredient.id)) {
+        parseIngredients.push({
+          id: ingredient.id,
+          name: ingredient.name,
+          image: ingredient.image,
+          measures: {
+            us: {
+              amount: quantity.amount,
+              unitShort: quantity.unitShort,
+            },
+          },
+        });
+      }
+    }
   });
   const parseDirections: InstructionSet[] = [];
 

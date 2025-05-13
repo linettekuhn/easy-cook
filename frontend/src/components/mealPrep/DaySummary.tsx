@@ -5,40 +5,76 @@ import { DayHeader } from "./DayHeader";
 import MealHeader from "./MealHeader";
 import MealRecipes from "./MealRecipes";
 
-export default function DaySummary({
-  date,
-  calories,
-  breakfastRecipes,
-  lunchRecipes,
-  dinnerRecipes,
-}: Day) {
+type DaySummaryProps = {
+  day: Day;
+  setDay: (day: Day) => void;
+};
+export default function DaySummary({ day, setDay }: DaySummaryProps) {
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
-
   useEffect(() => {
     const loadSavedRecipes = async () => {
       const saved = await fetchSavedRecipes();
       setSavedRecipes(saved);
-      console.log(saved);
     };
 
     loadSavedRecipes();
   }, []);
 
-  const [localBreakfast, setLocalBreakfast] =
-    useState<Recipe[]>(breakfastRecipes);
-  const [localLunch, setLocalLunch] = useState<Recipe[]>(lunchRecipes);
-  const [localDinner, setLocalDinner] = useState<Recipe[]>(dinnerRecipes);
+  const [localBreakfast, setLocalBreakfast] = useState<Recipe[]>(
+    day.breakfastRecipes || []
+  );
+  const [localLunch, setLocalLunch] = useState<Recipe[]>(
+    day.lunchRecipes || []
+  );
+  const [localDinner, setLocalDinner] = useState<Recipe[]>(
+    day.dinnerRecipes || []
+  );
+
+  useEffect(() => {
+    setLocalBreakfast(day.breakfastRecipes);
+    setLocalLunch(day.lunchRecipes);
+    setLocalDinner(day.dinnerRecipes);
+  }, [day]);
+
+  const updateDay = (
+    breakfast = localBreakfast,
+    lunch = localLunch,
+    dinner = localDinner
+  ) => {
+    const newDay: Day = {
+      ...day,
+      breakfastRecipes: breakfast,
+      lunchRecipes: lunch,
+      dinnerRecipes: dinner,
+    };
+    setDay(newDay);
+  };
+
+  const handleSetBreakfast = (recipes: Recipe[]) => {
+    setLocalBreakfast(recipes);
+    updateDay(recipes, localLunch, localDinner);
+  };
+
+  const handleSetLunch = (recipes: Recipe[]) => {
+    setLocalLunch(recipes);
+    updateDay(localBreakfast, recipes, localDinner);
+  };
+
+  const handleSetDinner = (recipes: Recipe[]) => {
+    setLocalDinner(recipes);
+    updateDay(localBreakfast, localLunch, recipes);
+  };
 
   return (
     <div className="dayOutput">
-      <DayHeader date={date} totalCalories={calories} />
+      <DayHeader date={day.date} totalCalories={day.calories} />
       <div className="daySummary">
         <div className="breakfast">
           <MealHeader mealType="Breakfast" calories={0} />
           <MealRecipes
             savedRecipes={savedRecipes}
             mealRecipes={localBreakfast}
-            setRecipes={setLocalBreakfast}
+            setRecipes={handleSetBreakfast}
           />
         </div>
         <div className="lunch">
@@ -46,7 +82,7 @@ export default function DaySummary({
           <MealRecipes
             savedRecipes={savedRecipes}
             mealRecipes={localLunch}
-            setRecipes={setLocalLunch}
+            setRecipes={handleSetLunch}
           />
         </div>
         <div className="dinner">
@@ -54,7 +90,7 @@ export default function DaySummary({
           <MealRecipes
             savedRecipes={savedRecipes}
             mealRecipes={localDinner}
-            setRecipes={setLocalDinner}
+            setRecipes={handleSetDinner}
           />
         </div>
       </div>
