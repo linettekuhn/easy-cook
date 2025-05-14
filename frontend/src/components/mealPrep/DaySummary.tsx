@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchSavedRecipes } from "../../api/firestore";
 import { Day, Recipe } from "../../types";
 import { DayHeader } from "./DayHeader";
@@ -11,8 +11,11 @@ type DaySummaryProps = {
 };
 export default function DaySummary({ day, setDay }: DaySummaryProps) {
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
+  const loaded = useRef(false);
   useEffect(() => {
     const loadSavedRecipes = async () => {
+      if (loaded.current) return;
+      loaded.current = true;
       const saved = await fetchSavedRecipes();
       setSavedRecipes(saved);
     };
@@ -65,12 +68,30 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
     updateDay(localBreakfast, localLunch, recipes);
   };
 
+  const getCalories = (recipes: Recipe[]) => {
+    let calorieSum = 0;
+    recipes.forEach((recipe: Recipe) => {
+      const caloriesNutrient = recipe.nutrients.find(
+        (nutrient) => nutrient.name === "Calories"
+      );
+      calorieSum += caloriesNutrient?.amount || 0;
+    });
+    return calorieSum;
+  };
+
+  const breakfastCalories = getCalories(localBreakfast);
+  const lunchCalories = getCalories(localLunch);
+  const dinnerCalories = getCalories(localDinner);
+
   return (
     <div className="dayOutput">
-      <DayHeader date={day.date} totalCalories={day.calories} />
+      <DayHeader
+        date={day.date}
+        totalCalories={breakfastCalories + lunchCalories + dinnerCalories}
+      />
       <div className="daySummary">
         <div className="breakfast">
-          <MealHeader mealType="Breakfast" calories={0} />
+          <MealHeader mealType="Breakfast" calories={breakfastCalories} />
           <MealRecipes
             savedRecipes={savedRecipes}
             mealRecipes={localBreakfast}
@@ -78,7 +99,7 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
           />
         </div>
         <div className="lunch">
-          <MealHeader mealType="Lunch" calories={0} />
+          <MealHeader mealType="Lunch" calories={lunchCalories} />
           <MealRecipes
             savedRecipes={savedRecipes}
             mealRecipes={localLunch}
@@ -86,7 +107,7 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
           />
         </div>
         <div className="dinner">
-          <MealHeader mealType="Dinner" calories={0} />
+          <MealHeader mealType="Dinner" calories={dinnerCalories} />
           <MealRecipes
             savedRecipes={savedRecipes}
             mealRecipes={localDinner}

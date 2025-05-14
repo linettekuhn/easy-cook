@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DaySelection from "../components/mealPrep/DaySelection";
 import Header from "../components/mealPrep/Header";
 import WeekSelection from "../components/mealPrep/WeekSelection";
@@ -26,8 +26,11 @@ export default function MealPrep() {
     setWeek(localWeek);
   };
 
+  const loaded = useRef(false);
   useEffect(() => {
     const loadDefaultWeek = async () => {
+      if (loaded.current) return;
+      loaded.current = true;
       const defaultSunday = getPreviousSunday(new Date());
       const savedWeek = await fetchSavedWeek(defaultSunday);
       setWeek(savedWeek);

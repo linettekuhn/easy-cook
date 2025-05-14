@@ -38,7 +38,7 @@ router.get("/week/:id", async (req, res) => {
       const data = doc.data();
       res.json(data ? data : []);
     } else {
-      res.json([]);
+      res.status(404).json({ error: "Week not found." });
     }
   } catch (error) {
     console.error("Error fetching saved recipe:", error);
