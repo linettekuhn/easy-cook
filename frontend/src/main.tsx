@@ -5,11 +5,13 @@ import "./index.css";
 import App from "./App.tsx";
 import Recipes from "./pages/Recipes.tsx";
 import MealPrep from "./pages/MealPrep.tsx";
+import FullRecipe from "./pages/FullRecipe.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/recipes", element: <Recipes /> },
   { path: "/plan", element: <MealPrep /> },
+  { path: "/recipe/:id", element: <FullRecipe /> },
 ]);
 
 createRoot(document.getElementById("root")!).render(

@@ -7,11 +7,15 @@ import { fetchSavedRecipes, saveRecipes } from "../api/firestore";
 
 export default function Recipes() {
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
+  const [originalSavedRecipes, setOriginalSavedRecipes] = useState<Recipe[]>(
+    []
+  );
 
   useEffect(() => {
     const loadSavedRecipes = async () => {
       const saved = await fetchSavedRecipes();
       setSavedRecipes(saved);
+      setOriginalSavedRecipes(saved);
       console.log(saved);
     };
 
@@ -20,7 +24,8 @@ export default function Recipes() {
 
   const handleRecipesChange = async (newRecipes: Recipe[]) => {
     setSavedRecipes(newRecipes);
-    await saveRecipes(newRecipes);
+    await saveRecipes(newRecipes, originalSavedRecipes);
+    setOriginalSavedRecipes(newRecipes);
   };
   const handleRecipeSave = (recipeToSave: Recipe) => {
     const isSaved = savedRecipes.some((recipe) => {

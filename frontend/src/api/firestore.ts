@@ -1,25 +1,32 @@
 import { Day, Recipe } from "../types";
 import { buildEmptyWeek } from "../util/plannerHelper";
 
-export async function saveRecipes(recipes: Recipe[]) {
-  // TODO: change localhost
-  await fetch("http://localhost:3000/api/recipe/store", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(recipes),
-  });
-}
+export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
+  const getDocId = (recipe: Recipe): string | null => {
+    if (recipe.id && recipe.id !== -1) {
+      return `recipe-${recipe.id}`;
+    } else if (recipe.sourceURL) {
+      const encodedURL = encodeURIComponent(recipe.sourceURL);
+      return `recipe-${encodedURL}`;
+    } else return null;
+  };
 
-export async function saveRecipe(recipe: Recipe) {
+  const recipesToUpdate = newRecipes;
+  const newIds = new Set(
+    newRecipes.map(getDocId).filter((id): id is string => !!id)
+  );
+
+  const recipeIdsToDelete: string[] = oldRecipes
+    .map(getDocId)
+    .filter((id): id is string => !!id)
+    .filter((oldId) => !newIds.has(oldId));
   // TODO: change localhost
   await fetch("http://localhost:3000/api/recipe/store", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(recipe),
+    body: JSON.stringify({ recipesToUpdate, recipeIdsToDelete }),
   });
 }
 

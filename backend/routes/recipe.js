@@ -11,15 +11,19 @@ router.use((req, res, next) => {
 
 router.get("/saved", async (req, res) => {
   try {
-    const savedDataRef = database.collection("savedData");
-    const doc = await savedDataRef.doc("savedRecipes").get();
+    const savedRecipesRef = database
+      .collection("savedData")
+      .doc("savedRecipes")
+      .collection("recipes");
+    const snapshot = await savedRecipesRef.get();
+    const recipes = [];
 
-    if (doc.exists) {
-      const data = doc.data();
-      res.json(data ? data.recipes : []);
-    } else {
-      res.json([]);
-    }
+    snapshot.forEach((doc) => {
+      if (doc.data() && doc.data().recipe) {
+        recipes.push(doc.data().recipe);
+      }
+    });
+    res.json(recipes);
   } catch (error) {
     console.error("Error fetching saved recipe:", error);
   }
@@ -27,19 +31,48 @@ router.get("/saved", async (req, res) => {
 
 router.post("/store", async (req, res) => {
   try {
-    const savedDataRef = database.collection("savedData");
-    const recipeData = req.body;
-    if (Array.isArray(recipeData)) {
-      await savedDataRef.doc("savedRecipes").set({ recipes: recipeData });
-      console.log("saved recipes updated with: ", recipeData);
-      res.status(200).json({
-        message: "Recipes saved successfully to the 'recipes' document.",
+    const savedRecipesRef = database
+      .collection("savedData")
+      .doc("savedRecipes")
+      .collection("recipes");
+    const { recipesToUpdate, recipeIdsToDelete } = req.body;
+    const batch = database.batch();
+
+    // recipes to update
+    if (Array.isArray(recipesToUpdate)) {
+      recipesToUpdate.forEach((recipe) => {
+        const getDocId = (recipe) => {
+          if (recipe.id && recipe.id !== -1) {
+            return `recipe-${recipe.id}`;
+          } else if (recipe.sourceURL) {
+            const encodedURL = encodeURIComponent(recipe.sourceURL);
+            return `recipe-${encodedURL}`;
+          } else return null;
+        };
+
+        let docId = getDocId(recipe);
+        if (docId) {
+          const doc = savedRecipesRef.doc(docId);
+          batch.set(doc, { recipe: recipe });
+        } else {
+          console.log("recipe missing id or sourceURL:", recipe);
+        }
       });
-    } else {
-      res
-        .status(400)
-        .json({ error: "Invalid recipe data. Expected an array of recipes." });
     }
+
+    // recipes to remove
+    if (Array.isArray(recipeIdsToDelete)) {
+      recipeIdsToDelete.forEach((docId) => {
+        const doc = savedRecipesRef.doc(docId);
+        batch.delete(doc);
+      });
+    }
+
+    await batch.commit();
+    console.log("saved recipes updated with: ", recipesToUpdate);
+    res.status(200).json({
+      message: "Recipes saved successfully to the 'recipes' document.",
+    });
   } catch (error) {
     console.error("Error saving recipe:", error);
   }
@@ -78,21 +111,33 @@ router.get("/search", async (req, res) => {
 
 router.get("/from-url", async (req, res) => {
   try {
-    // construct url for api request
-    const apiRequest = `https://api.spoonacular.com/recipes/extract?url=${req.query.url}&apiKey=${credentials.API_KEY}`;
+    const savedRecipesRef = database
+      .collection("savedData")
+      .doc("savedRecipes")
+      .collection("recipes");
+    const encodedURL = encodeURIComponent(req.query.url);
+    const doc = await savedRecipesRef.doc(`recipe-${encodedURL}`).get();
 
-    // request data from api
-    const response = await fetch(apiRequest, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    // fetch from database if saved
+    if (doc.exists) {
+      const data = doc.data();
+      res.json(data ? data.recipe : []);
+    } else {
+      // construct url for api request
+      const apiRequest = `https://api.spoonacular.com/recipes/extract?url=${req.query.url}&apiKey=${credentials.API_KEY}`;
 
-    // parse json data returned by api
-    const data = await response.json();
-    console.log(data);
-    res.send(data);
+      // request data from api
+      const response = await fetch(apiRequest, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      // parse json data returned by api
+      const data = await response.json();
+      console.log(data);
+      res.send(data);
+    }
   } catch (error) {
     console.error("Error fetching recipe:", error);
   }
@@ -100,21 +145,33 @@ router.get("/from-url", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    // construct url for api req
-    const apiRequest = `https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=${credentials.API_KEY}&includeNutrition=true`;
-    console.log(apiRequest);
-    // req data from api
-    const response = await fetch(apiRequest, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const savedRecipesRef = database
+      .collection("savedData")
+      .doc("savedRecipes")
+      .collection("recipes");
+    const doc = await savedRecipesRef.doc(`recipe-${req.params.id}`).get();
 
-    // parse json data returned by api
-    const data = await response.json();
-    console.log(data);
-    res.send(data);
+    // fetch from database if saved
+    if (doc.exists) {
+      const data = doc.data();
+      res.json(data ? data.recipe : []);
+    } else {
+      // construct url for api req
+      const apiRequest = `https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=${credentials.API_KEY}&includeNutrition=true`;
+      console.log(apiRequest);
+      // req data from api
+      const response = await fetch(apiRequest, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // parse json data returned by api
+      const data = await response.json();
+      console.log(data);
+      res.send(data);
+    }
   } catch (error) {
     console.error("Error fetching recipe:", error);
   }

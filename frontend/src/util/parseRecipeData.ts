@@ -66,7 +66,7 @@ export default function buildRecipeObject(
     ingredients: parseIngredients,
     directions: parseDirections,
     nutrients: parseNutrients || undefined,
-    servingSize: recipeData.nutrition.weightPerServing || undefined,
+    servingSize: recipeData.nutrition?.weightPerServing || undefined,
     sourceURL: sourceURL,
   };
 }

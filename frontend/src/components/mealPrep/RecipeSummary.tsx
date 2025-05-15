@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Recipe } from "../../types";
 import styles from "./RecipeSummary.module.css";
+import { Link } from "react-router-dom";
 
 type RecipeSummaryProps = {
   recipe: Recipe;
@@ -91,6 +92,13 @@ export default function RecipeSummary({
           Remove from meal
         </button>
       )}
+      <Link
+        to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        See full recipe
+      </Link>
     </div>
   );
 }
