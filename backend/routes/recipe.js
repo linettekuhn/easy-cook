@@ -145,6 +145,12 @@ router.get("/from-url", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
+    const id = Number(req.params.id);
+    if (isNaN(id)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid recipe ID. Expected a number." });
+    }
     const savedRecipesRef = database
       .collection("savedData")
       .doc("savedRecipes")
@@ -172,6 +178,24 @@ router.get("/:id", async (req, res) => {
       console.log(data);
       res.send(data);
     }
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+  }
+});
+
+router.get("/label/:id", async (req, res) => {
+  try {
+    // construct url for api req
+    const apiRequest = `https://api.spoonacular.com/recipes/${req.params.id}/nutritionLabel?apiKey=${credentials.API_KEY}`;
+    console.log(apiRequest);
+    // req data from api
+    const response = await fetch(apiRequest, {
+      method: "GET",
+    });
+    const data = await response.text();
+    res.setHeader("Content-Type", "text/html");
+    console.log(data);
+    res.send(data);
   } catch (error) {
     console.error("Error fetching recipe:", error);
   }

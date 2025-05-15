@@ -17,6 +17,13 @@ export async function fetchRecipeInfo(id: number) {
   return data;
 }
 
+export async function fetchRecipeNutritionLabel(id: number) {
+  // TODO: change localhost
+  const response = await fetch(`http://localhost:3000/api/recipe/label/${id}`);
+  const data = await response.text();
+  return data;
+}
+
 export async function fetchQueryRecipes(
   query: string,
   quantity: number,

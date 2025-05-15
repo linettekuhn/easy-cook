@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchRecipeInfo, fetchWebsiteRecipe } from "../api/spoonacular";
-import { Nutrient, Recipe } from "../types";
+import {
+  fetchRecipeInfo,
+  fetchRecipeNutritionLabel,
+  fetchWebsiteRecipe,
+} from "../api/spoonacular";
+import { Recipe } from "../types";
 import styles from "./FullRecipe.module.css";
 
 export default function FullRecipe() {
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
-  const [nutrients, setNutrients] = useState<Nutrient[] | null>(null);
+  const [nutritionLabel, setNutritionLabel] = useState<string | null>(null);
 
   useEffect(() => {
     const loadRecipe = async () => {
@@ -16,31 +20,31 @@ export default function FullRecipe() {
 
       // try fetching website
       if (id) {
+        // try fetching by id
+        try {
+          const recipeData = await fetchRecipeInfo(Number(id));
+          if (!isNaN(Number(id))) {
+            if (recipeData) {
+              setRecipe(recipeData);
+              const label = await fetchRecipeNutritionLabel(recipeData.id);
+              setNutritionLabel(label);
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (error) {
+          console.error("error fetching recipe info:", error);
+        }
         try {
           const recipeData = await fetchWebsiteRecipe(id);
-
           if (recipeData) {
             setRecipe(recipeData);
             setLoading(false);
             return;
           }
-        } catch (error) {
-          console.log("not valid website URL:", id, error);
-        }
-        // try fetching by id
-        try {
-          if (!isNaN(Number(id))) {
-            const recipeData = await fetchRecipeInfo(Number(id));
-            if (recipeData) {
-              setNutrients(recipeData.nutrients);
-              setRecipe(recipeData);
-              setLoading(false);
-              return;
-            }
-          }
           setLoading(false);
         } catch (error) {
-          console.error("error fetching recipe info:", error);
+          console.log("not valid website URL:", id, error);
           setLoading(false);
         }
       } else {
@@ -67,6 +71,12 @@ export default function FullRecipe() {
         alt={recipe.img_alt}
         className={styles.recipeImage}
       />
+      {nutritionLabel && (
+        <div
+          className={styles.nutritionWidgetContainer}
+          dangerouslySetInnerHTML={{ __html: nutritionLabel }}
+        />
+      )}
       <h4 className={styles.recipeIngredientsTitle}>Ingredients:</h4>
       <ul className={styles.recipeIngredientList}>
         {recipe.ingredients.map((ingredient) => (
@@ -106,6 +116,14 @@ export default function FullRecipe() {
           </ol>
         );
       })}
+      {recipe.sourceURL && (
+        <p>
+          Source:{" "}
+          <a href={recipe.sourceURL} target="_blank" rel="noopener noreferrer">
+            {recipe.sourceURL}
+          </a>
+        </p>
+      )}
     </div>
   );
 }
