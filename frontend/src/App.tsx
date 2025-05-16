@@ -19,6 +19,9 @@ function App() {
           <li>
             <Link to={"/groceries"}>Groceries</Link>
           </li>
+          <li>
+            <Link to={"/pantry"}>Pantry</Link>
+          </li>
         </ul>
       </main>
     </>

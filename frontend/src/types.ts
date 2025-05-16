@@ -27,6 +27,14 @@ export type Nutrient = {
   name: string;
   unit: string;
 };
+
+export type IngredientData = {
+  name: string;
+  image: string;
+  id: number;
+  aisle: string;
+  possibleUnits: string[];
+};
 export type Ingredient = {
   id: number;
   name: string;

@@ -49,3 +49,18 @@ export async function fetchQueryRecipes(
     console.log(error);
   }
 }
+
+export async function fetchAutocompleteIngredient(query: string) {
+  const params = new URLSearchParams();
+  params.append("query", query);
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/pantry/search/autocomplete?${params.toString()}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

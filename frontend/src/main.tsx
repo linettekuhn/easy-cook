@@ -7,6 +7,7 @@ import Recipes from "./pages/Recipes.tsx";
 import MealPrep from "./pages/MealPrep.tsx";
 import FullRecipe from "./pages/FullRecipe.tsx";
 import Groceries from "./pages/Groceries.tsx";
+import Pantry from "./pages/Pantry.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
   { path: "/plan", element: <MealPrep /> },
   { path: "/recipe/:id", element: <FullRecipe /> },
   { path: "/groceries", element: <Groceries /> },
+  { path: "/pantry", element: <Pantry /> },
 ]);
 
 createRoot(document.getElementById("root")!).render(

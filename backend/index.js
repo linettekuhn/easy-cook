@@ -36,6 +36,10 @@ const plannerRouter = require("./routes/planner");
 app.use("/api/planner", plannerRouter);
 console.log("planner router started");
 
+const pantryRouter = require("./routes/pantry");
+app.use("/api/pantry", pantryRouter);
+console.log("pantry router started");
+
 app.listen(3000, () => {
   console.log("app listening on 3000");
 });
