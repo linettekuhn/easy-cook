@@ -5,7 +5,7 @@ function Header() {
     <>
       <Link to={"/"}>Return Home</Link>
       <h1>
-        <span className="bold">groceries</span> for the week
+        <span className="bold">what</span> you'll need
       </h1>
     </>
   );

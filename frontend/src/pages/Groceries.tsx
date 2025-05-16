@@ -51,6 +51,24 @@ export default function Groceries() {
     }
   }, [week]);
 
+  const handleIngredientRemove = (ingredientToRemove: Ingredient) => {
+    const newIngredients = ingredients.filter(
+      (ingredient) => ingredient.id !== ingredientToRemove.id
+    );
+    setIngredients(newIngredients);
+  };
+
+  const handleIngredientChange = (newIngredient: Ingredient) => {
+    const index = ingredients.findIndex(
+      (ingridient) => ingridient.id === newIngredient.id
+    );
+    if (index !== -1) {
+      const newIngredients = ingredients;
+      ingredients[index] = newIngredient;
+      setIngredients(newIngredients);
+    }
+  };
+
   return (
     <>
       <main>
@@ -62,7 +80,12 @@ export default function Groceries() {
             {ingredients.map((ingredient) => {
               if (ingredient) {
                 return (
-                  <IngredientCard key={ingredient.id} ingredient={ingredient} />
+                  <IngredientCard
+                    key={ingredient.id}
+                    ingredient={ingredient}
+                    onRemove={handleIngredientRemove}
+                    onChange={handleIngredientChange}
+                  />
                 );
               }
             })}
