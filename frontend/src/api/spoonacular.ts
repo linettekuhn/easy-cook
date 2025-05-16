@@ -1,4 +1,4 @@
-import { Filter } from "../types";
+import { Filter, IngredientData } from "../types";
 
 export async function fetchWebsiteRecipe(recipeURL: string) {
   const encodedURL = encodeURIComponent(recipeURL);
@@ -57,6 +57,24 @@ export async function fetchAutocompleteIngredient(query: string) {
   try {
     const response = await fetch(
       `http://localhost:3000/api/pantry/search/autocomplete?${params.toString()}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function fetchPantryRecipes(ingredients: IngredientData[]) {
+  const ingredientNames = ingredients
+    .map((ingredient) => ingredient.name)
+    .join(",");
+  const params = new URLSearchParams();
+  params.append("ingredients", ingredientNames);
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/pantry/search/recipes?${params.toString()}`
     );
     const data = await response.json();
     return data;

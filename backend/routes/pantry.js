@@ -31,4 +31,24 @@ router.get("/search/autocomplete", async (req, res) => {
     console.error("Error fetching ingredient:", error);
   }
 });
+
+router.get("/search/recipes", async (req, res) => {
+  try {
+    const encondedIngredients = encodeURIComponent(req.query.ingredients);
+
+    let apiRequest = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${encondedIngredients}&number=20&apiKey=${credentials.API_KEY}`; // request data from api
+    const response = await fetch(apiRequest, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+    res.send(data);
+  } catch (error) {
+    console.error("Error fetching ingredient:", error);
+  }
+});
 module.exports = router;

@@ -3,6 +3,8 @@ import AutocompleteIngredientSearch from "../components/pantry/AutocompleteIngre
 import { IngredientData } from "../types";
 import IngredientCard from "../components/pantry/IngredientCard";
 import styles from "./Pantry.module.css";
+import Header from "../components/pantry/Header";
+import PantryRecipeLookup from "../components/pantry/PantryRecipeLookup";
 
 export default function Pantry() {
   const [ingredients, setIngredients] = useState<IngredientData[]>([]);
@@ -29,6 +31,7 @@ export default function Pantry() {
 
   return (
     <>
+      <Header />
       <AutocompleteIngredientSearch onSave={handleIngredientSave} />
       <div className={styles.ingredientsOutput}>
         {ingredients.map((ingredient) => {
@@ -43,6 +46,7 @@ export default function Pantry() {
           }
         })}
       </div>
+      <PantryRecipeLookup ingredients={ingredients} />
     </>
   );
 }
