@@ -9,8 +9,16 @@ function App() {
           <strong>simplify</strong> your cooking.
         </p>
         <ul className="pages">
-          <Link to={"/recipes"}>Recipes</Link>
-          <Link to={"/plan"}>Meal Plan</Link>
+          <li>
+            {" "}
+            <Link to={"/recipes"}>Recipes</Link>
+          </li>
+          <li>
+            <Link to={"/plan"}>Meal Plan</Link>
+          </li>
+          <li>
+            <Link to={"/groceries"}>Groceries</Link>
+          </li>
         </ul>
       </main>
     </>

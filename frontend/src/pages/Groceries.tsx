@@ -1,0 +1,74 @@
+import { useEffect, useRef, useState } from "react";
+import { fetchSavedWeek } from "../api/firestore";
+import { Day, Ingredient, Recipe } from "../types";
+import { getPreviousSunday } from "../util/plannerHelper";
+import Header from "../components/groceries/Header";
+import IngredientCard from "../components/groceries/IngredientCard";
+import styles from "./Groceries.module.css";
+
+export default function Groceries() {
+  const [week, setWeek] = useState<Day[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+
+  const getIngredients = (week: Day[]) => {
+    const weekIngredients: Ingredient[] = [];
+    week.forEach((day: Day) => {
+      day.breakfastRecipes.forEach((recipe: Recipe) => {
+        recipe.ingredients.forEach((ingredient) => {
+          const savedIngredient = weekIngredients.find(
+            (weekIngredient) => weekIngredient.id === ingredient.id
+          );
+          if (savedIngredient) {
+            savedIngredient.measures.us.amount += ingredient.measures.us.amount;
+          } else {
+            weekIngredients.push(ingredient);
+          }
+        });
+      });
+    });
+    setIngredients(weekIngredients);
+  };
+
+  const loaded = useRef(false);
+  useEffect(() => {
+    const loadDefaultWeek = async () => {
+      if (loaded.current) return;
+      loaded.current = true;
+      const defaultSunday = getPreviousSunday(new Date());
+      const savedWeek = await fetchSavedWeek(defaultSunday);
+      setWeek(savedWeek);
+    };
+
+    loadDefaultWeek();
+  }, []);
+
+  // set loading to false once week loaded
+  useEffect(() => {
+    if (week.length > 0) {
+      getIngredients(week);
+      setLoading(false);
+    }
+  }, [week]);
+
+  return (
+    <>
+      <main>
+        <Header />
+        {loading ? (
+          <p>Loading current week...</p>
+        ) : (
+          <div className={styles.ingredientOutput}>
+            {ingredients.map((ingredient) => {
+              if (ingredient) {
+                return (
+                  <IngredientCard key={ingredient.id} ingredient={ingredient} />
+                );
+              }
+            })}
+          </div>
+        )}
+      </main>
+    </>
+  );
+}
