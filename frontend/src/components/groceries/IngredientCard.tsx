@@ -32,8 +32,8 @@ export default function IngredientCard({
         alt={localIngredient.name}
       />
       <h4 className={styles.ingredientTitle}>{localIngredient.name}</h4>
-      <form action="" className="servingSizeForm">
-        <label htmlFor="recipe-serving-size">x</label>
+      <form action="" className="ingredientAmountForm">
+        <label>x</label>
         <input
           type="number"
           value={amount}
@@ -44,9 +44,9 @@ export default function IngredientCard({
             setLocalIngredient(newIngredient);
             setAmount(Number(e.target.value));
           }}
-          min="0.1"
+          min="1"
           max="100"
-          step="0.1"
+          step="1"
           placeholder="1"
           required
         />

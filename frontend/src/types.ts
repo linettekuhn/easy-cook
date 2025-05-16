@@ -19,7 +19,7 @@ export type Recipe = {
   ingredients: Ingredient[];
   directions: InstructionSet[];
   nutrients: Nutrient[];
-  servingSize: { amount: number; unit: string };
+  servingSize?: { amount: number; unit: string };
   sourceURL?: string;
 };
 export type Nutrient = {

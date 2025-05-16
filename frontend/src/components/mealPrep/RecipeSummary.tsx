@@ -29,10 +29,12 @@ export default function RecipeSummary({
       const adjustedRecipe: Recipe = {
         ...recipe,
         nutrients: adjustedNutrients,
-        servingSize: {
-          ...recipe.servingSize,
-          amount: recipe.servingSize.amount * servingMultiplier,
-        },
+        servingSize: recipe.servingSize
+          ? {
+              ...recipe.servingSize,
+              amount: recipe.servingSize.amount * servingMultiplier,
+            }
+          : undefined,
       };
 
       onAddToMeal(adjustedRecipe);
@@ -79,9 +81,12 @@ export default function RecipeSummary({
               placeholder="1"
               required
             />
-            <p>
-              1 serving = {recipe.servingSize.amount} {recipe.servingSize.unit}
-            </p>
+            {recipe.servingSize ? (
+              <p>
+                1 serving = {recipe.servingSize?.amount}{" "}
+                {recipe.servingSize?.unit}
+              </p>
+            ) : null}
           </form>
           <button className="button" onClick={handleAddToMealClick}>
             Add to meal

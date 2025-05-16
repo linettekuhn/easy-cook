@@ -69,6 +69,26 @@ export default function Groceries() {
     }
   };
 
+  const handleSaveToTextFile = () => {
+    const ingredientsList = ingredients
+      .map((ingredient) => {
+        return `- ${ingredient.measures.us.amount.toFixed(2)} ${
+          ingredient.measures.us.unitShort
+        } ${ingredient.name}`;
+      })
+      .join("\n");
+
+    const blob = new Blob([ingredientsList], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "grocery-list.txt";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       <main>
@@ -76,20 +96,28 @@ export default function Groceries() {
         {loading ? (
           <p>Loading current week...</p>
         ) : (
-          <div className={styles.ingredientOutput}>
-            {ingredients.map((ingredient) => {
-              if (ingredient) {
-                return (
-                  <IngredientCard
-                    key={ingredient.id}
-                    ingredient={ingredient}
-                    onRemove={handleIngredientRemove}
-                    onChange={handleIngredientChange}
-                  />
-                );
-              }
-            })}
-          </div>
+          <>
+            <button
+              className={styles.exportButton}
+              onClick={handleSaveToTextFile}
+            >
+              Save grocery list as text file
+            </button>
+            <div className={styles.ingredientOutput}>
+              {ingredients.map((ingredient) => {
+                if (ingredient) {
+                  return (
+                    <IngredientCard
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      onRemove={handleIngredientRemove}
+                      onChange={handleIngredientChange}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </>
         )}
       </main>
     </>
