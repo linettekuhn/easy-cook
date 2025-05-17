@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchPantryRecipes, fetchRecipeInfo } from "../../api/spoonacular";
 import { IngredientData, Recipe } from "../../types";
 import parseRecipeData from "../../util/parseRecipeData";
@@ -18,8 +18,12 @@ export default function PantryRecipeLookup({
   const [originalSavedRecipes, setOriginalSavedRecipes] = useState<Recipe[]>(
     []
   );
+
+  const loaded = useRef(false);
   useEffect(() => {
     const loadSavedRecipes = async () => {
+      if (loaded.current) return;
+      loaded.current = true;
       const saved = await fetchSavedRecipes();
       setSavedRecipes(saved);
       setOriginalSavedRecipes(saved);
@@ -42,7 +46,9 @@ export default function PantryRecipeLookup({
     for (let i = 0; i < results.length; i++) {
       const id = results[i].id;
       const recipeData = await fetchRecipeInfo(id);
-      const recipe: Recipe = parseRecipeData(recipeData, id);
+      const recipe: Recipe = recipeData.directions
+        ? recipeData
+        : parseRecipeData(recipeData, id);
       recipes.push(recipe);
     }
     setFoundRecipes(recipes);

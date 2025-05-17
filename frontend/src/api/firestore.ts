@@ -1,5 +1,43 @@
-import { Day, Recipe } from "../types";
+import { Day, IngredientData, Recipe } from "../types";
 import { buildEmptyWeek } from "../util/plannerHelper";
+
+export async function saveIngredients(
+  newIngredients: IngredientData[],
+  oldIngredients: IngredientData[]
+) {
+  const getDocId = (ingredient: IngredientData): string =>
+    `ingredient-${ingredient.id}`;
+
+  const ingredientsToUpdate = newIngredients;
+  const newIds = new Set(
+    newIngredients.map(getDocId).filter((id): id is string => !!id)
+  );
+
+  const ingredientIdsToDelete: string[] = oldIngredients
+    .map(getDocId)
+    .filter((id): id is string => !!id)
+    .filter((oldId) => !newIds.has(oldId));
+  // TODO: change localhost
+  await fetch("http://localhost:3000/api/pantry/store", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ingredientsToUpdate, ingredientIdsToDelete }),
+  });
+}
+
+export async function fetchSavedIngredients(): Promise<IngredientData[]> {
+  const response = await fetch("http://localhost:3000/api/pantry/saved", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  console.log(response);
+  const recipes: IngredientData[] = await response.json();
+  return recipes;
+}
 
 export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
   const getDocId = (recipe: Recipe): string | null => {

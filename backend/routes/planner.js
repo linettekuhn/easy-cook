@@ -4,7 +4,7 @@ const firebase = require("firebase-admin");
 const database = firebase.firestore();
 
 router.use((req, res, next) => {
-  console.log(`[Router] ${req.method} ${req.url}`);
+  console.log(`[Planner Router] ${req.method} ${req.url}`);
   next();
 });
 

@@ -67,7 +67,9 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
     for (let i = 0; i < results.length; i++) {
       const id = results[i].id;
       const recipeData = await fetchRecipeInfo(id);
-      const recipe: Recipe = parseRecipeData(recipeData, id);
+      const recipe: Recipe = recipeData.directions
+        ? recipeData
+        : parseRecipeData(recipeData, id);
       recipes.push(recipe);
     }
     setFoundRecipes(recipes);
