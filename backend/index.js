@@ -19,14 +19,13 @@ initializeApp({
   credential: cert(credentials),
 });
 
-//
-const db = getFirestore();
 // lets frontend access backend
 app.use(cors());
 
 // to parse json
 app.use(express.json());
 console.log("express started");
+
 // api routes
 const recipeRouter = require("./routes/recipe");
 app.use("/api/recipe", recipeRouter);

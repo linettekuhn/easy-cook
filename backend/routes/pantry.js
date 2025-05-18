@@ -3,63 +3,67 @@ const router = express.Router();
 const credentials = require("../api/spoonacular-credentials.json");
 const firebase = require("firebase-admin");
 const database = firebase.firestore();
+const logger = require("../middleware/logger");
+const authenticateUser = require("../middleware/authenticateUser");
 
-router.use((req, res, next) => {
-  console.log(`[Pantry Router] ${req.method} ${req.url}`);
-  next();
-});
+router.use(logger);
 
-router.get("/saved", async (req, res) => {
+router.get("/saved", authenticateUser, async (req, res) => {
   try {
-    const savedIngredientsRef = database
-      .collection("savedData")
-      .doc("pantry")
-      .collection("ingredients");
-    const snapshot = await savedIngredientsRef.get();
-    const ingredients = [];
+    if (req.user) {
+      const savedIngredientsRef = database
+        .collection("users")
+        .doc(req.user.uid)
+        .collection("pantry");
+      const snapshot = await savedIngredientsRef.get();
+      const ingredients = [];
 
-    snapshot.forEach((doc) => {
-      if (doc.data() && doc.data().ingredient) {
-        ingredients.push(doc.data().ingredient);
-      }
-    });
-    res.json(ingredients);
+      snapshot.forEach((doc) => {
+        if (doc.data() && doc.data().ingredient) {
+          ingredients.push(doc.data().ingredient);
+        }
+      });
+      res.json(ingredients);
+    }
   } catch (error) {
     console.error("Error fetching saved ingredient:", error);
   }
 });
 
-router.post("/store", async (req, res) => {
+router.post("/store", authenticateUser, async (req, res) => {
   try {
-    const savedIngredientsRef = database
-      .collection("savedData")
-      .doc("pantry")
-      .collection("ingredients");
-    const { ingredientsToUpdate, ingredientsToDelete } = req.body;
-    const batch = database.batch();
+    if (req.user) {
+      const savedIngredientsRef = database
+        .collection("users")
+        .doc(req.user.uid)
+        .collection("pantry");
+      const { ingredientsToUpdate, ingredientsToDelete } = req.body;
+      const batch = database.batch();
 
-    // ingredients to update
-    if (Array.isArray(ingredientsToUpdate)) {
-      ingredientsToUpdate.forEach((ingredient) => {
-        let docId = `ingredient-${ingredient.id}`;
-        const doc = savedIngredientsRef.doc(docId);
-        batch.set(doc, { ingredient: ingredient });
+      // ingredients to update
+      if (Array.isArray(ingredientsToUpdate)) {
+        ingredientsToUpdate.forEach((ingredient) => {
+          let docId = `ingredient-${ingredient.id}`;
+          const doc = savedIngredientsRef.doc(docId);
+          batch.set(doc, { ingredient: ingredient });
+        });
+      }
+
+      // ingredients to remove
+      if (Array.isArray(ingredientsToDelete)) {
+        ingredientsToDelete.forEach((docId) => {
+          const doc = savedIngredientsRef.doc(docId);
+          batch.delete(doc);
+        });
+      }
+
+      await batch.commit();
+      console.log("saved ingredients updated with: ", ingredientsToUpdate);
+      res.status(200).json({
+        message:
+          "Ingredients saved successfully to the 'ingredients' document.",
       });
     }
-
-    // ingredients to remove
-    if (Array.isArray(ingredientsToDelete)) {
-      ingredientsToDelete.forEach((docId) => {
-        const doc = savedIngredientsRef.doc(docId);
-        batch.delete(doc);
-      });
-    }
-
-    await batch.commit();
-    console.log("saved ingredients updated with: ", ingredientsToUpdate);
-    res.status(200).json({
-      message: "Ingredients saved successfully to the 'ingredients' document.",
-    });
   } catch (error) {
     console.error("Error saving ingredient:", error);
   }

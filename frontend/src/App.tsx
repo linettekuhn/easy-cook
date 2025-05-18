@@ -4,13 +4,18 @@ import "./App.css";
 function App() {
   return (
     <>
+      <nav>
+        <p>
+          <Link to={"/register"}>Register</Link> /{" "}
+          <Link to={"/login"}>Log in</Link>
+        </p>
+      </nav>
       <main>
         <p>
           <strong>simplify</strong> your cooking.
         </p>
         <ul className="pages">
           <li>
-            {" "}
             <Link to={"/recipes"}>Recipes</Link>
           </li>
           <li>

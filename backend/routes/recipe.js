@@ -2,84 +2,86 @@ const express = require("express");
 const credentials = require("../api/spoonacular-credentials.json");
 const router = express.Router();
 const firebase = require("firebase-admin");
+const logger = require("../middleware/logger");
+const authenticateUser = require("../middleware/authenticateUser");
 const database = firebase.firestore();
 
-router.use((req, res, next) => {
-  console.log(`[Recipe Router] ${req.method} ${req.url}`);
-  next();
-});
+router.use(logger);
 
-router.get("/saved", async (req, res) => {
+router.get("/saved", authenticateUser, async (req, res) => {
   try {
-    const savedRecipesRef = database
-      .collection("savedData")
-      .doc("savedRecipes")
-      .collection("recipes");
-    const snapshot = await savedRecipesRef.get();
-    const recipes = [];
+    if (req.user) {
+      const savedRecipesRef = database
+        .collection("users")
+        .doc(req.user.uid)
+        .collection("recipes");
+      const snapshot = await savedRecipesRef.get();
+      const recipes = [];
 
-    snapshot.forEach((doc) => {
-      if (doc.data() && doc.data().recipe) {
-        recipes.push(doc.data().recipe);
-      }
-    });
-    res.json(recipes);
+      snapshot.forEach((doc) => {
+        if (doc.data() && doc.data().recipe) {
+          recipes.push(doc.data().recipe);
+        }
+      });
+      res.json(recipes);
+    }
   } catch (error) {
     console.error("Error fetching saved recipe:", error);
   }
 });
 
-router.post("/store", async (req, res) => {
+router.post("/store", authenticateUser, async (req, res) => {
   try {
-    const savedRecipesRef = database
-      .collection("savedData")
-      .doc("savedRecipes")
-      .collection("recipes");
-    const { recipesToUpdate, recipeIdsToDelete } = req.body;
-    const batch = database.batch();
+    if (req.user) {
+      const savedRecipesRef = database
+        .collection("users")
+        .doc(req.user.uid)
+        .collection("recipes");
+      const { recipesToUpdate, recipeIdsToDelete } = req.body;
+      const batch = database.batch();
 
-    // recipes to update
-    if (Array.isArray(recipesToUpdate)) {
-      recipesToUpdate.forEach((recipe) => {
-        const getDocId = (recipe) => {
-          if (recipe.id && recipe.id !== -1) {
-            return `recipe-${recipe.id}`;
-          } else if (recipe.sourceURL) {
-            const encodedURL = encodeURIComponent(recipe.sourceURL);
-            return `recipe-${encodedURL}`;
-          } else return null;
-        };
+      // recipes to update
+      if (Array.isArray(recipesToUpdate)) {
+        recipesToUpdate.forEach((recipe) => {
+          const getDocId = (recipe) => {
+            if (recipe.id && recipe.id !== -1) {
+              return `recipe-${recipe.id}`;
+            } else if (recipe.sourceURL) {
+              const encodedURL = encodeURIComponent(recipe.sourceURL);
+              return `recipe-${encodedURL}`;
+            } else return null;
+          };
 
-        let docId = getDocId(recipe);
-        if (docId) {
+          let docId = getDocId(recipe);
+          if (docId) {
+            const doc = savedRecipesRef.doc(docId);
+            batch.set(doc, { recipe: recipe });
+          } else {
+            console.log("recipe missing id or sourceURL:", recipe);
+          }
+        });
+      }
+
+      // recipes to remove
+      if (Array.isArray(recipeIdsToDelete)) {
+        recipeIdsToDelete.forEach((docId) => {
           const doc = savedRecipesRef.doc(docId);
-          batch.set(doc, { recipe: recipe });
-        } else {
-          console.log("recipe missing id or sourceURL:", recipe);
-        }
+          batch.delete(doc);
+        });
+      }
+
+      await batch.commit();
+      console.log("saved recipes updated with: ", recipesToUpdate);
+      res.status(200).json({
+        message: "Recipes saved successfully to the 'recipes' document.",
       });
     }
-
-    // recipes to remove
-    if (Array.isArray(recipeIdsToDelete)) {
-      recipeIdsToDelete.forEach((docId) => {
-        const doc = savedRecipesRef.doc(docId);
-        batch.delete(doc);
-      });
-    }
-
-    await batch.commit();
-    console.log("saved recipes updated with: ", recipesToUpdate);
-    res.status(200).json({
-      message: "Recipes saved successfully to the 'recipes' document.",
-    });
   } catch (error) {
     console.error("Error saving recipe:", error);
   }
 });
 
 router.get("/search", async (req, res) => {
-  console.log("search reached");
   try {
     // encode query for url
     const encondedQuery = encodeURIComponent(req.query.query);
@@ -109,19 +111,21 @@ router.get("/search", async (req, res) => {
   }
 });
 
-router.get("/from-url", async (req, res) => {
+router.get("/from-url", authenticateUser, async (req, res) => {
   try {
-    const savedRecipesRef = database
-      .collection("savedData")
-      .doc("savedRecipes")
-      .collection("recipes");
-    const encodedURL = encodeURIComponent(req.query.url);
-    const doc = await savedRecipesRef.doc(`recipe-${encodedURL}`).get();
+    if (req.user) {
+      const savedRecipesRef = database
+        .collection("users")
+        .doc(req.user.uid)
+        .collection("recipes");
+      const encodedURL = encodeURIComponent(req.query.url);
+      const doc = await savedRecipesRef.doc(`recipe-${encodedURL}`).get();
 
-    // fetch from database if saved
-    if (doc.exists) {
-      const data = doc.data();
-      res.json(data ? data.recipe : []);
+      // fetch from database if saved
+      if (doc.exists) {
+        const data = doc.data();
+        res.json(data ? data.recipe : []);
+      }
     } else {
       // construct url for api request
       const apiRequest = `https://api.spoonacular.com/recipes/extract?url=${req.query.url}&apiKey=${credentials.API_KEY}`;
@@ -143,7 +147,7 @@ router.get("/from-url", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateUser, async (req, res) => {
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) {
@@ -151,16 +155,18 @@ router.get("/:id", async (req, res) => {
         .status(400)
         .json({ error: "Invalid recipe ID. Expected a number." });
     }
-    const savedRecipesRef = database
-      .collection("savedData")
-      .doc("savedRecipes")
-      .collection("recipes");
-    const doc = await savedRecipesRef.doc(`recipe-${req.params.id}`).get();
+    if (req.user) {
+      const savedRecipesRef = database
+        .collection("users")
+        .doc(req.user.uid)
+        .collection("recipes");
+      const doc = await savedRecipesRef.doc(`recipe-${req.params.id}`).get();
 
-    // fetch from database if saved
-    if (doc.exists) {
-      const data = doc.data();
-      res.json(data ? data.recipe : []);
+      // fetch from database if saved
+      if (doc.exists) {
+        const data = doc.data();
+        res.json(data ? data.recipe : []);
+      }
     } else {
       // construct url for api req
       const apiRequest = `https://api.spoonacular.com/recipes/${req.params.id}/information?apiKey=${credentials.API_KEY}&includeNutrition=true`;

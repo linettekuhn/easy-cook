@@ -1,10 +1,16 @@
 import { Day, IngredientData, Recipe } from "../types";
 import { buildEmptyWeek } from "../util/plannerHelper";
+import { getUserID } from "./authentication";
 
 export async function saveIngredients(
   newIngredients: IngredientData[],
   oldIngredients: IngredientData[]
 ) {
+  const userID = await getUserID();
+  if (!userID) {
+    alert("You are not signed in");
+    return;
+  }
   const getDocId = (ingredient: IngredientData): string =>
     `ingredient-${ingredient.id}`;
 
@@ -21,6 +27,7 @@ export async function saveIngredients(
   await fetch("http://localhost:3000/api/pantry/store", {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${userID}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ ingredientsToUpdate, ingredientIdsToDelete }),
@@ -28,18 +35,35 @@ export async function saveIngredients(
 }
 
 export async function fetchSavedIngredients(): Promise<IngredientData[]> {
+  const userID = await getUserID();
+  if (!userID) {
+    alert("You are not signed in");
+    return [];
+  }
   const response = await fetch("http://localhost:3000/api/pantry/saved", {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${userID}`,
       "Content-Type": "application/json",
     },
   });
+
+  if (!response.ok) {
+    if (response.status == 401) {
+      return [];
+    }
+  }
   console.log(response);
   const recipes: IngredientData[] = await response.json();
   return recipes;
 }
 
 export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
+  const userID = await getUserID();
+  if (!userID) {
+    alert("You are not signed in");
+    return;
+  }
   const getDocId = (recipe: Recipe): string | null => {
     if (recipe.id && recipe.id !== -1) {
       return `recipe-${recipe.id}`;
@@ -62,6 +86,7 @@ export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
   await fetch("http://localhost:3000/api/recipe/store", {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${userID}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ recipesToUpdate, recipeIdsToDelete }),
@@ -69,18 +94,35 @@ export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
 }
 
 export async function fetchSavedRecipes(): Promise<Recipe[]> {
+  const userID = await getUserID();
+  if (!userID) {
+    alert("You are not signed in");
+    return [];
+  }
   const response = await fetch("http://localhost:3000/api/recipe/saved", {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${userID}`,
       "Content-Type": "application/json",
     },
   });
+
+  if (!response.ok) {
+    if (response.status == 401) {
+      return [];
+    }
+  }
   console.log(response);
   const recipes: Recipe[] = await response.json();
   return recipes;
 }
 
 export async function saveWeek(week: Day[]) {
+  const userID = await getUserID();
+  if (!userID) {
+    alert("You are not signed in");
+    return [];
+  }
   const sunday = week[0].date;
   const id = `${sunday.getFullYear()}-${
     sunday.getMonth() + 1
@@ -89,6 +131,7 @@ export async function saveWeek(week: Day[]) {
   await fetch(`http://localhost:3000/api/planner/week/${id}`, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${userID}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(week),
@@ -96,6 +139,11 @@ export async function saveWeek(week: Day[]) {
 }
 
 export async function fetchSavedWeek(sunday: Date): Promise<Day[]> {
+  const userID = await getUserID();
+  if (!userID) {
+    alert("You are not signed in");
+    return [];
+  }
   const id = `${sunday.getFullYear()}-${
     sunday.getMonth() + 1
   }-${sunday.getDate()}`;
@@ -103,6 +151,7 @@ export async function fetchSavedWeek(sunday: Date): Promise<Day[]> {
   const response = await fetch(`http://localhost:3000/api/planner/week/${id}`, {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${userID}`,
       "Content-Type": "application/json",
     },
   });
