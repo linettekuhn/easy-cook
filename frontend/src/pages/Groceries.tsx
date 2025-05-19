@@ -5,6 +5,7 @@ import { getPreviousSunday } from "../util/plannerHelper";
 import Header from "../components/groceries/Header";
 import IngredientCard from "../components/groceries/IngredientCard";
 import styles from "./Groceries.module.css";
+import FindNearbyStoresMap from "../components/groceries/FindNearbyStoresMap";
 
 export default function Groceries() {
   const [week, setWeek] = useState<Day[]>([]);
@@ -119,6 +120,9 @@ export default function Groceries() {
             </div>
           </>
         )}
+        <div style={{ width: "100%", height: "400px" }}>
+          <FindNearbyStoresMap />
+        </div>
       </main>
     </>
   );
