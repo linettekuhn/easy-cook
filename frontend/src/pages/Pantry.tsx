@@ -6,6 +6,7 @@ import styles from "./Pantry.module.css";
 import Header from "../components/pantry/Header";
 import PantryRecipeLookup from "../components/pantry/PantryRecipeLookup";
 import { fetchSavedIngredients, saveIngredients } from "../api/firestore";
+import NavigationBar from "../components/NavigationBar";
 
 export default function Pantry() {
   const [savedIngredients, setSavedIngredients] = useState<IngredientData[]>(
@@ -66,29 +67,32 @@ export default function Pantry() {
 
   return (
     <>
-      <Header />
-      {loading ? (
-        <p>Loading ingredients</p>
-      ) : (
-        <>
-          <AutocompleteIngredientSearch onSave={handleIngredientSave} />
-          <div className={styles.ingredientsOutput}>
-            {savedIngredients.map((ingredient) => {
-              if (ingredient) {
-                return (
-                  <IngredientCard
-                    key={ingredient.id}
-                    ingredient={ingredient}
-                    onRemove={handleIngredientRemove}
-                  />
-                );
-              }
-            })}
-          </div>
-        </>
-      )}
+      <NavigationBar />
+      <main>
+        <Header />
+        {loading ? (
+          <p>Loading ingredients</p>
+        ) : (
+          <>
+            <AutocompleteIngredientSearch onSave={handleIngredientSave} />
+            <div className={styles.ingredientsOutput}>
+              {savedIngredients.map((ingredient) => {
+                if (ingredient) {
+                  return (
+                    <IngredientCard
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      onRemove={handleIngredientRemove}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </>
+        )}
 
-      <PantryRecipeLookup ingredients={savedIngredients} />
+        <PantryRecipeLookup ingredients={savedIngredients} />
+      </main>
     </>
   );
 }

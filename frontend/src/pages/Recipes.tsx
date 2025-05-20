@@ -4,6 +4,7 @@ import RecipeLookupForm from "../components/recipes/RecipeLookupForm";
 import SavedRecipes from "../components/recipes/SavedRecipes";
 import { Recipe } from "../types";
 import { fetchSavedRecipes, saveRecipes } from "../api/firestore";
+import NavigationBar from "../components/NavigationBar";
 
 export default function Recipes() {
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
@@ -53,6 +54,7 @@ export default function Recipes() {
   };
   return (
     <>
+      <NavigationBar />
       <main>
         <Header />
         <RecipeLookupForm onRecipeSave={handleRecipeSave} />

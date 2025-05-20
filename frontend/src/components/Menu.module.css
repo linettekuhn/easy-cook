@@ -1,0 +1,14 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  width: 100px;
+}
+
+.menuButton:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}

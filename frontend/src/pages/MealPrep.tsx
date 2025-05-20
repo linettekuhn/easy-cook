@@ -5,6 +5,7 @@ import WeekSelection from "../components/mealPrep/WeekSelection";
 import { Day } from "../types";
 import { fetchSavedWeek, saveWeek } from "../api/firestore";
 import { getPreviousSunday } from "../util/plannerHelper";
+import NavigationBar from "../components/NavigationBar";
 
 export default function MealPrep() {
   const [week, setWeek] = useState<Day[]>([]);
@@ -49,6 +50,7 @@ export default function MealPrep() {
 
   return (
     <>
+      <NavigationBar />
       <main>
         <Header />
         {loading ? (

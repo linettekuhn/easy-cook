@@ -1,0 +1,11 @@
+.navBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10vh;
+  background-color: pink;
+}
+
+.menu {
+  position: relative;
+}
