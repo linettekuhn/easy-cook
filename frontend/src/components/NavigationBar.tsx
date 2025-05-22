@@ -1,22 +1,37 @@
 import { useState } from "react";
-import { CgMenu } from "react-icons/cg";
+import { CgMenu, CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import styles from "./NavigationBar.module.css";
 import Menu from "./Menu";
+import UserAuth from "./UserAuth";
 
 export default function NavigationBar() {
-  const [hidden, setHidden] = useState(true);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const closeAll = () => {
+    setMenuOpen(false);
+    setIsLoginOpen(false);
+  };
+  const showBackdrop = isMenuOpen || isLoginOpen;
   return (
-    <nav className={styles.navBar}>
-      <Link to={"/"}>easyCook</Link>
-      <p>
-        <Link to={"/register"}>Register</Link> /{" "}
-        <Link to={"/login"}>Log in</Link>
-      </p>
-      <div className={styles.menu}>
-        <CgMenu onClick={() => setHidden(!hidden)} />
-        {!hidden && <Menu />}
-      </div>
-    </nav>
+    <>
+      {showBackdrop && (
+        <div className={styles.backdrop} onClick={closeAll}></div>
+      )}
+      <nav className={styles.navBar}>
+        <Link to={"/"}>easyCook</Link>
+        <div className={styles.buttons}>
+          <div className={styles.modal}>
+            <CgProfile onClick={() => setIsLoginOpen(!isLoginOpen)} />
+            {isLoginOpen && <UserAuth />}
+          </div>
+          <div className={styles.menu}>
+            <CgMenu onClick={() => setMenuOpen(!isMenuOpen)} />
+            {isMenuOpen && <Menu />}
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }

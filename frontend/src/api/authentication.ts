@@ -75,3 +75,7 @@ export async function getUserID(forceRefresh = false) {
     console.log("cannot get user ID because no user is signed in");
   }
 }
+
+export function isUserLoggedIn(): boolean {
+  return auth.currentUser !== null;
+}
