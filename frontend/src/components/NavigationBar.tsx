@@ -2,10 +2,14 @@ import { useState } from "react";
 import { CgMenu, CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import styles from "./NavigationBar.module.css";
+import "../global.css";
 import Menu from "./Menu";
 import UserAuth from "./UserAuth";
 
-export default function NavigationBar() {
+type NavigationBarProps = {
+  theme: string;
+};
+export default function NavigationBar({ theme }: NavigationBarProps) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -19,8 +23,10 @@ export default function NavigationBar() {
       {showBackdrop && (
         <div className={styles.backdrop} onClick={closeAll}></div>
       )}
-      <nav className={styles.navBar}>
-        <Link to={"/"}>easyCook</Link>
+      <nav data-theme={theme}>
+        <Link className="homeButton" to={"/"}>
+          easyCook
+        </Link>
         <div className={styles.buttons}>
           <div className={styles.modal}>
             <CgProfile onClick={() => setIsLoginOpen(!isLoginOpen)} />

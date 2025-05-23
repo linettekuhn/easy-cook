@@ -11,15 +11,7 @@
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 1vw;
-}
-
-.navBar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 10vh;
-  background-color: pink;
+  gap: var(--space-2xs);
 }
 
 .menu {
@@ -28,4 +20,10 @@
 
 .modal {
   position: relative;
+}
+
+.modal svg,
+.menu svg,
+nav a {
+  font-size: var(--font-xl);
 }

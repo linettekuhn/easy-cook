@@ -11,7 +11,7 @@ export default function Menu() {
         <Link to={"/pantry"}>Pantry</Link>
       </button>
       <button className={styles.menuButton}>
-        <Link to={"/plan"}>Meal Prep</Link>
+        <Link to={"/plan"}>Meal Plan</Link>
       </button>
       <button className={styles.menuButton}>
         <Link to={"/groceries"}>Groceries</Link>

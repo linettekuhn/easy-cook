@@ -66,8 +66,8 @@ export default function FullRecipe() {
 
   return (
     <>
-      <NavigationBar />
-      <main>
+      <NavigationBar theme="blue" />
+      <main data-theme="blue">
         <div data-recipe-id={recipe.id} data-recipe-url={recipe.sourceURL}>
           <h3 className={styles.recipeTitle}>{recipe.title}</h3>
           <img

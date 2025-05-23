@@ -1,20 +1,43 @@
 .userLogin {
-  position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
   background-color: white;
-  border: 1px solid black;
-  min-width: 15vw;
-  min-height: 25vh;
+  border: 2px solid black;
   z-index: 10;
+
+  width: clamp(18rem, 80vw, 30rem); /* 18 rem = 288px & 30 rem = 480px */
+  min-height: clamp(8rem, 15vh, 20rem);
+  padding: var(--space-s);
 }
 
-.buttons {
+.userLogin p {
+  text-align: center;
+  font-size: var(--font-m);
+  margin: var(--space-3xs) 0;
+  width: 100%;
+}
+
+.userLogin input {
+  width: 100%;
+  padding: var(--space-3xs);
+  gap: var(--space-2xs);
+  font-size: var(--font-s);
+}
+
+.userLogin .buttons {
+  width: 100%;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: var(--space-xs);
+  margin-top: var(--space-s);
 }
 
 .menuButton:hover {

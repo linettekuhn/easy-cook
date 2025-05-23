@@ -50,8 +50,8 @@ export default function MealPrep() {
 
   return (
     <>
-      <NavigationBar />
-      <main>
+      <NavigationBar theme="green" />
+      <main data-theme="green">
         <Header />
         {loading ? (
           <p>Loading your week...</p>

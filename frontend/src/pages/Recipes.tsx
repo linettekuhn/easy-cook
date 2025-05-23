@@ -54,8 +54,8 @@ export default function Recipes() {
   };
   return (
     <>
-      <NavigationBar />
-      <main>
+      <NavigationBar theme="blue" />
+      <main data-theme="blue">
         <Header />
         <RecipeLookupForm onRecipeSave={handleRecipeSave} />
         <SavedRecipes recipes={savedRecipes} onRemove={handleRecipeRemove} />

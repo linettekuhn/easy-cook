@@ -93,8 +93,8 @@ export default function Groceries() {
 
   return (
     <>
-      <NavigationBar />
-      <main>
+      <NavigationBar theme="red" />
+      <main data-theme="red">
         <Header />
         {loading ? (
           <p>Loading current week...</p>

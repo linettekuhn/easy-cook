@@ -6,14 +6,23 @@
   position: absolute;
   background-color: white;
   border: 1px solid black;
-  min-width: 10vw;
+  min-width: 30vw;
   min-height: 10vh;
   z-index: 10;
+  padding: var(--space-2xs);
+  left: 50%;
+  transform: translateX(-50%);
 }
 .menuButton {
+  padding: var(--space-3xs);
   background: none;
-  display: block;
-  width: 100%;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  a {
+    text-decoration: none;
+    color: black;
+  }
 }
 .menuButton:hover {
   background-color: rgba(0, 0, 0, 0.2);

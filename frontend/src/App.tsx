@@ -5,25 +5,23 @@ import NavigationBar from "./components/NavigationBar";
 function App() {
   return (
     <>
-      <NavigationBar />
-      <main>
-        <p>
-          <strong>simplify</strong> your cooking.
-        </p>
-        <ul className="pages">
-          <li>
-            <Link to={"/recipes"}>Recipes</Link>
-          </li>
-          <li>
-            <Link to={"/plan"}>Meal Plan</Link>
-          </li>
-          <li>
-            <Link to={"/groceries"}>Groceries</Link>
-          </li>
-          <li>
-            <Link to={"/pantry"}>Pantry</Link>
-          </li>
-        </ul>
+      <NavigationBar theme="yellow" />
+      <main data-theme="yellow">
+        <h1>
+          <strong className="bold">simplify</strong> your cooking.
+        </h1>
+        <Link className="homeButton" to={"/recipes"}>
+          Recipes
+        </Link>
+        <Link className="homeButton" to={"/plan"}>
+          Meal Plan
+        </Link>
+        <Link className="homeButton" to={"/groceries"}>
+          Groceries
+        </Link>
+        <Link className="homeButton" to={"/pantry"}>
+          Pantry
+        </Link>
       </main>
     </>
   );

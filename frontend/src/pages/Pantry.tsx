@@ -67,8 +67,8 @@ export default function Pantry() {
 
   return (
     <>
-      <NavigationBar />
-      <main>
+      <NavigationBar theme="red" />
+      <main data-theme="red">
         <Header />
         {loading ? (
           <p>Loading ingredients</p>
