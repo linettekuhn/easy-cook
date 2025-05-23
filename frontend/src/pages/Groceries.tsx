@@ -100,10 +100,7 @@ export default function Groceries() {
           <p>Loading current week...</p>
         ) : (
           <>
-            <button
-              className={styles.exportButton}
-              onClick={handleSaveToTextFile}
-            >
+            <button className="button" onClick={handleSaveToTextFile}>
               Save grocery list as text file
             </button>
             <div className={styles.ingredientOutput}>

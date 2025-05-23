@@ -50,7 +50,7 @@ export default function UserAuth() {
       />
       <label htmlFor="password">password:</label>
       <input
-        type="text"
+        type="password"
         name="password"
         id="userPassword"
         placeholder="password goes here..."
