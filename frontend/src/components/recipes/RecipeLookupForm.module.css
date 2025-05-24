@@ -1,0 +1,28 @@
+.recipeLookup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-l);
+}
+
+.recipeLookup form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.recipe input {
+  width: 100%;
+  padding: var(--space-3xs);
+  font-size: var(--font-s);
+  font-style: italic;
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  border-radius: 5px;
+}
+
+.recipeQuantity {
+  display: flex;
+  gap: var(--space-xs);
+}

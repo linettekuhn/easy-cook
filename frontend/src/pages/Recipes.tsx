@@ -5,12 +5,17 @@ import SavedRecipes from "../components/recipes/SavedRecipes";
 import { Recipe } from "../types";
 import { fetchSavedRecipes, saveRecipes } from "../api/firestore";
 import NavigationBar from "../components/NavigationBar";
+import FoundRecipes from "../components/recipes/FoundRecipes";
+//import styles from "./Recipes.module.css";
+import BackButton from "../components/buttons/BackButton";
 
 export default function Recipes() {
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
   const [originalSavedRecipes, setOriginalSavedRecipes] = useState<Recipe[]>(
     []
   );
+  const [foundRecipes, setFoundRecipes] = useState<Recipe[]>([]);
+  const [showFoundRecipes, setShowFoundRecipes] = useState(false);
 
   useEffect(() => {
     const loadSavedRecipes = async () => {
@@ -52,13 +57,33 @@ export default function Recipes() {
     });
     handleRecipesChange(newSavedRecipes);
   };
+  const handleFoundRecipes = (recipes: Recipe[]) => {
+    setFoundRecipes(recipes);
+    setShowFoundRecipes(true);
+  };
+  const handleBack = () => {
+    setShowFoundRecipes(false);
+    setFoundRecipes([]);
+  };
   return (
     <>
       <NavigationBar theme="blue" />
       <main data-theme="blue">
-        <Header />
-        <RecipeLookupForm onRecipeSave={handleRecipeSave} />
-        <SavedRecipes recipes={savedRecipes} onRemove={handleRecipeRemove} />
+        {showFoundRecipes ? (
+          <>
+            <BackButton onClick={handleBack} text="BACK TO RECIPES" />
+            <FoundRecipes recipes={foundRecipes} onSave={handleRecipeSave} />
+          </>
+        ) : (
+          <>
+            <Header />
+            <RecipeLookupForm onFoundRecipes={handleFoundRecipes} />
+            <SavedRecipes
+              recipes={savedRecipes}
+              onRemove={handleRecipeRemove}
+            />
+          </>
+        )}
       </main>
     </>
   );

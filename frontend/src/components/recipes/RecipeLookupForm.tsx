@@ -1,6 +1,5 @@
 import { useState } from "react";
 import FiltersModal from "./FiltersModal";
-import FoundRecipes from "./FoundRecipes";
 import { Filter, Recipe } from "../../types";
 import {
   fetchQueryRecipes,
@@ -8,6 +7,8 @@ import {
   fetchWebsiteRecipe,
 } from "../../api/spoonacular";
 import parseRecipeData from "../../util/parseRecipeData";
+import styles from "./RecipeLookupForm.module.css";
+import NumberInput from "../NumberInput";
 
 const defaultFilters: Filter[] = [
   { label: "quick", value: "maxReadyTime=30", isChecked: false },
@@ -19,16 +20,16 @@ const defaultFilters: Filter[] = [
 ];
 
 type RecipeLookupProps = {
-  onRecipeSave: (recipe: Recipe) => void;
+  onFoundRecipes: (recipes: Recipe[]) => void;
 };
 
-export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
-  const [foundRecipes, setFoundRecipes] = useState<Recipe[]>([]);
+export default function RecipeLookupForm({
+  onFoundRecipes,
+}: RecipeLookupProps) {
   const [filters, setFilters] = useState(defaultFilters);
   const [queryInput, setQueryInput] = useState("");
   const [websiteInput, setWebsiteInput] = useState("");
   const [quantity, setQuantity] = useState(10);
-  const [hidden, setHidden] = useState(true);
 
   const handleFiltersUpdate = (newFilters: Filter[]) => {
     setFilters(newFilters);
@@ -48,8 +49,7 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
       recipes.push(recipe);
     }
 
-    setFoundRecipes(recipes);
-    setHidden(false);
+    onFoundRecipes(recipes);
   };
 
   const handleQuerySubmit = async () => {
@@ -72,14 +72,13 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
         : parseRecipeData(recipeData, id);
       recipes.push(recipe);
     }
-    setFoundRecipes(recipes);
-    setHidden(false);
+    onFoundRecipes(recipes);
   };
 
   return (
-    <div className="recipe-lookup">
-      <form action="" className="recipe" id="website">
-        <label htmlFor="recipe-website">extract recipes from website:</label>
+    <div className={styles.recipeLookup}>
+      <form action="" className={styles.recipe} id="website">
+        <h4>extract recipes from website:</h4>
         <input
           type="url"
           id="recipe-website"
@@ -88,6 +87,7 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
           onChange={(e) => {
             setWebsiteInput(e.target.value);
           }}
+          placeholder="enter a recipe's website..."
         />
         <button
           className="button"
@@ -98,8 +98,8 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
           submit website
         </button>
       </form>
-      <form action="" className="recipe" id="query">
-        <label htmlFor="recipe-query">or search for one:</label>
+      <form action="" className={styles.recipe} id="query">
+        <h4>or search for one:</h4>
         <input
           type="text"
           id="recipe-query"
@@ -109,20 +109,12 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
           onChange={(e) => {
             setQueryInput(e.target.value);
           }}
+          placeholder="enter your query..."
         />
-        <label htmlFor="recipe-query-quantity">how many recipes?</label>
-        <input
-          type="number"
-          id="recipe-query-quantity"
-          value={quantity}
-          onChange={(e) => {
-            setQuantity(Number(e.target.value));
-          }}
-          min="1"
-          max="100"
-          placeholder="10"
-          required
-        />
+        <div className={styles.recipeQuantity}>
+          <h4>how many recipes?</h4>
+          <NumberInput setQuantity={setQuantity} quantity={quantity} />
+        </div>
         <FiltersModal filters={filters} setFilters={handleFiltersUpdate} />
         <button
           className="button"
@@ -133,7 +125,6 @@ export default function RecipeLookupForm({ onRecipeSave }: RecipeLookupProps) {
           submit query
         </button>
       </form>
-      {!hidden && <FoundRecipes recipes={foundRecipes} onSave={onRecipeSave} />}
     </div>
   );
 }

@@ -39,14 +39,13 @@ export default function SearchFilters({
     setLocalFilters(filters);
     onCancel();
   };
-  console.log("filters open");
   return (
-    <div className={styles["filtersModal"]}>
-      <div className={styles["filtersContent"]}>
-        <h3>
+    <div className={styles.filtersModal}>
+      <div className={styles.filtersContent}>
+        <h2>
           <span className="bold">filter</span> your search
-        </h3>
-        <div id="filters-form">
+        </h2>
+        <div id={styles.filtersForm}>
           {localFilters.map((filter) => (
             <label key={filter.label}>
               <input
@@ -61,14 +60,16 @@ export default function SearchFilters({
               {filter.label.replace(/_/g, " ")}
             </label>
           ))}
+        </div>
+        <div className={styles.buttons}>
           <button type="button" className="button" onClick={handleApply}>
-            apply filters
+            apply
           </button>
           <button type="button" className="button" onClick={handleCancel}>
             cancel
           </button>
           <button type="button" className="button" onClick={handleClear}>
-            clear filters
+            clear
           </button>
         </div>
       </div>

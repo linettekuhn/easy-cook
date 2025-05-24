@@ -11,8 +11,8 @@ export default function FoundRecipes({ recipes, onSave }: FoundRecipes) {
   return (
     <>
       <div className={styles["recipesHeader"]}>
-        <h2 className="bold">found recipes</h2>
-        <p>{`${recipes.length} recipe(s)`}</p>
+        <h1 className="bold">found recipes</h1>
+        <h2>{`${recipes.length} recipe(s)`}</h2>
       </div>
       <div className={styles["recipeOutput"]} id="recipeOutput">
         {recipes.map((recipe: Recipe) => {

@@ -15,19 +15,42 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  background-color: white;
-  border: 2px solid black;
-  gap: 10px;
+  background-color: var(--color-light);
+  border: 2px solid var(--color-text);
+  padding: var(--space-s) var(--space-3xs);
+  width: 90%;
+  max-width: 600px;
+  gap: var(--space-xs);
 }
 
 #filtersForm {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: auto;
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-row-gap: var(--space-m);
+  width: 100%;
 }
-#filterForm label {
+
+#filtersForm label {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: var(--font-s);
+}
+
+#filtersForm input[type="checkbox"] {
+  width: var(--font-m);
+  height: var(--font-m);
+  accent-color: var(--color);
+  margin: var(--space-xs);
+}
+
+#filtersForm .buttons {
+  display: flex;
+  align-items: center;
+}
+
+.buttons button {
+  margin: var(--space-3xs);
 }
