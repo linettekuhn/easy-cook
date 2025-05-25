@@ -2,14 +2,20 @@ import { useEffect, useState } from "react";
 import { Recipe } from "../../types";
 import RecipesModal from "./RecipesModal";
 import RecipeSummary from "./RecipeSummary";
+import MealHeader from "./MealHeader";
+import styles from "./MealRecipes.module.css";
 
 type MealRecipesProps = {
+  mealType: string;
+  calories: number;
   savedRecipes: Recipe[];
   mealRecipes: Recipe[];
   setRecipes: (recipes: Recipe[]) => void;
 };
 
 export default function MealRecipes({
+  mealType,
+  calories,
   savedRecipes,
   mealRecipes,
   setRecipes,
@@ -45,8 +51,14 @@ export default function MealRecipes({
 
   return (
     <>
-      <RecipesModal savedRecipes={savedRecipes} onAddToMeal={handleAddToMeal} />
-      <div className="recipeContainer">
+      <div className={styles.mealRecipeHeader}>
+        <MealHeader mealType={mealType} calories={calories} />
+        <RecipesModal
+          savedRecipes={savedRecipes}
+          onAddToMeal={handleAddToMeal}
+        />
+      </div>
+      <div className={styles.recipeContainer}>
         {localRecipes.map((recipe) => (
           <RecipeSummary
             key={recipe.id}

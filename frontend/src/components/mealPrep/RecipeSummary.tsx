@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Recipe } from "../../types";
 import styles from "./RecipeSummary.module.css";
 import { Link } from "react-router-dom";
+import { CgCloseR } from "react-icons/cg";
 
 type RecipeSummaryProps = {
   recipe: Recipe;
@@ -46,26 +47,55 @@ export default function RecipeSummary({
     }
   };
 
+  const getServing = () => {
+    if (recipe.servingSize) {
+      const recipeAmount = recipe.servingSize.amount * servingMultiplier;
+      return `${recipeAmount.toFixed(2)} ${recipe.servingSize.unit}`;
+    } else {
+      return "";
+    }
+  };
+
+  const getCalories = () => {
+    if (caloriesNutrient) {
+      const recipeCalories = caloriesNutrient.amount * servingMultiplier;
+      return `(${recipeCalories.toFixed(0)} cal)`;
+    } else {
+      return "";
+    }
+  };
+
   return (
-    <div
-      className={styles.recipeCard}
-      data-recipe-id={recipe.id}
-      data-recipe-url={recipe.sourceURL}
-    >
-      <h3 className={styles.recipeTitle}>{recipe.title}</h3>
-      <img
-        src={recipe.img_src}
-        alt={recipe.img_alt}
-        className={styles.recipeImage}
-      />
-      <p className={styles.calories}>
-        Total calories:{" "}
-        {caloriesNutrient
-          ? `${caloriesNutrient.amount} ${caloriesNutrient.unit}`
-          : "Calories were not found"}
-      </p>
+    <div className={styles.recipeCard}>
+      <div className={styles.recipeSummary}>
+        {onRemoveFromMeal ? (
+          <button className="iconButton" onClick={handleRemoveFromMealClick}>
+            <CgCloseR />
+          </button>
+        ) : null}
+        <h4 className={styles.recipeTitle}>
+          <Link
+            to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {recipe.title} — {getServing()} {getCalories()}
+          </Link>
+        </h4>
+      </div>
       {onAddToMeal ? (
         <>
+          <img
+            src={recipe.img_src}
+            alt={recipe.img_alt}
+            className={styles.recipeImage}
+          />
+          <p className={styles.calories}>
+            Total calories:{" "}
+            {caloriesNutrient
+              ? `${caloriesNutrient.amount} ${caloriesNutrient.unit}`
+              : "Calories were not found"}
+          </p>
           <form action="" className="servingSizeForm">
             <label htmlFor="recipe-serving-size">serving size:</label>
             <input
@@ -92,18 +122,7 @@ export default function RecipeSummary({
             Add to meal
           </button>
         </>
-      ) : (
-        <button className="button" onClick={handleRemoveFromMealClick}>
-          Remove from meal
-        </button>
-      )}
-      <Link
-        to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        See full recipe
-      </Link>
+      ) : null}
     </div>
   );
 }

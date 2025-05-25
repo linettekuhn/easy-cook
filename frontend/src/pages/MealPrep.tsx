@@ -6,6 +6,7 @@ import { Day } from "../types";
 import { fetchSavedWeek, saveWeek } from "../api/firestore";
 import { getPreviousSunday } from "../util/plannerHelper";
 import NavigationBar from "../components/NavigationBar";
+import styles from "./MealPrep.module.css";
 
 export default function MealPrep() {
   const [week, setWeek] = useState<Day[]>([]);
@@ -56,16 +57,16 @@ export default function MealPrep() {
         {loading ? (
           <p>Loading your week...</p>
         ) : (
-          <>
+          <div className={styles.planner}>
             <WeekSelection week={week} setWeek={handleWeekChange} />
+            <button className="button" onClick={handleSaveWeek}>
+              Save Week
+            </button>
             <DaySelection
               week={localWeek}
               onWeekUpdated={handleLocalWeekUpdate}
             />
-            <button className="button" onClick={handleSaveWeek}>
-              Save Week
-            </button>
-          </>
+          </div>
         )}
       </main>
     </>

@@ -95,7 +95,7 @@ export default function RecipeLookupForm({
           data-id="website-submit-btn"
           onClick={handleWebsiteSubmit}
         >
-          submit website
+          submit
         </button>
       </form>
       <form action="" className={styles.recipe} id="query">
@@ -111,18 +111,18 @@ export default function RecipeLookupForm({
           }}
           placeholder="enter your query..."
         />
+        <FiltersModal filters={filters} setFilters={handleFiltersUpdate} />
         <div className={styles.recipeQuantity}>
           <h4>how many recipes?</h4>
           <NumberInput setQuantity={setQuantity} quantity={quantity} />
         </div>
-        <FiltersModal filters={filters} setFilters={handleFiltersUpdate} />
         <button
           className="button"
           type="button"
           data-id="query-submit-btn"
           onClick={handleQuerySubmit}
         >
-          submit query
+          search
         </button>
       </form>
     </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import RecipeSelection from "./RecipeSelection";
 import { Recipe } from "../../types";
+import { CgAddR } from "react-icons/cg";
 
 type RecipesModalProps = {
   savedRecipes: Recipe[];
@@ -14,8 +15,12 @@ export default function RecipesModal({
   const [hidden, setHidden] = useState(true);
   return (
     <>
-      <button className="button" type="button" onClick={() => setHidden(false)}>
-        +
+      <button
+        className="iconButton"
+        type="button"
+        onClick={() => setHidden(false)}
+      >
+        <CgAddR />
       </button>
       {!hidden ? (
         <RecipeSelection

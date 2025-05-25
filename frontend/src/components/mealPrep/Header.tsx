@@ -1,9 +1,14 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
+import BackButton from "../buttons/BackButton";
 
 function Header() {
+  const navigate = useNavigate();
+  const handleBack = () => {
+    navigate("/");
+  };
   return (
     <>
-      <Link to={"/"}>Return Home</Link>
+      <BackButton onClick={handleBack} text="BACK TO HOME" />
       <h1>
         <span className="bold">plan</span> your week
       </h1>

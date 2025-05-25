@@ -1,0 +1,15 @@
+.dayOutput {
+  display: flex;
+  flex-direction: column;
+  background: url("../../../public/images/imageedit_8_8693021623.png") no-repeat;
+  background-size: cover;
+  background-position: top center;
+  padding: var(--space-2xl) var(--space-m) var(--space-m) var(--space-m);
+}
+
+.daySummary {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--space-m);
+}

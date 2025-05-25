@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Day } from "../../types";
 import { getPreviousSunday } from "../../util/plannerHelper";
+import styles from "./WeekSelection.module.css";
 
 type WeekSelectionProps = {
   week: Day[];
@@ -24,18 +25,13 @@ export default function WeekSelection({ week, setWeek }: WeekSelectionProps) {
 
   return (
     <>
-      <form>
-        <label>
-          select a date:
-          <input type="date" name="selectedDate" onChange={handleDaySelect} />
-        </label>
+      <form className={styles.dateSelectForm}>
+        <p>select a date:</p>
+        <input type="date" name="selectedDate" onChange={handleDaySelect} />
       </form>
-      <div className="current-week">
-        <h4>
-          {localWeek[0].date.toDateString()} -----{" "}
-          {localWeek[6].date.toDateString()}
-        </h4>
-      </div>
+      <p className={styles.selectedWeek}>
+        {localWeek[0].date.toDateString()} — {localWeek[6].date.toDateString()}
+      </p>
     </>
   );
 }

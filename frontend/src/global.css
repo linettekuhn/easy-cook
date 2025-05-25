@@ -22,6 +22,10 @@
   font-weight: 700;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .homeButton {
   background: none;
   border: none;
@@ -65,6 +69,12 @@ input {
   border: 2px solid var(--color-text);
 }
 
+.iconButton {
+  background: none;
+  border: none;
+  font-size: var(--font-l);
+}
+
 html,
 body {
   min-height: 100%;
@@ -85,27 +95,32 @@ nav {
 main {
   background-color: var(--color-lighter);
   height: 100%;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: var(--space-xl);
+  padding: var(--space-xl) var(--space-s) var(--font-xl) var(--space-s);
 }
 
 h1 {
+  text-align: center;
   font-size: var(--font-2xl);
   color: var(--color-text);
 }
 h2 {
+  text-align: center;
   font-size: var(--font-xl);
   color: var(--color-text);
 }
 h3 {
+  text-align: center;
   font-size: var(--font-l);
   color: var(--color-text);
 }
 h4 {
+  text-align: center;
   font-size: var(--font-m);
   color: var(--color-text);
 }
@@ -197,8 +212,8 @@ p {
     --color-l: 74%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
-    --color-light: hsl(var(--color-h), var(--color-s), 65%);
-    --color-lighter: hsl(var(--color-h), var(--color-s), 80%);
+    --color-light: hsl(var(--color-h), var(--color-s), 80%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
     --color-dark: hsl(var(--color-h), var(--color-s), 35%);
     --color-darker: hsl(var(--color-h), var(--color-s), 25%);
     --color-text: hsl(var(--color-h), var(--color-s), 10%);

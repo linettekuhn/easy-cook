@@ -45,22 +45,26 @@ export default function DaySelection({
   };
 
   return (
-    <div className="plan-day">
+    <div className={styles.daySelection}>
       <div className={styles.days}>
         {dayLabels.map((label, i) => (
           <button
-            className={styles.button}
+            className={`${styles.button} ${
+              i === selectedDay ? styles.active : ""
+            }`}
             key={label}
             onClick={() => setSelectedDay(i)}
           >
-            {label}{" "}
-            <span className={styles.day}>{localWeek[i]?.date?.getDate()}</span>
+            <p>
+              {label}{" "}
+              <span className={styles.day}>
+                {localWeek[i]?.date?.getDate()}
+              </span>
+            </p>
           </button>
         ))}
       </div>
-      <div className="day-output">
-        {localDay && <DaySummary day={localDay} setDay={handleDayUpdate} />}
-      </div>
+      {localDay && <DaySummary day={localDay} setDay={handleDayUpdate} />}
     </div>
   );
 }

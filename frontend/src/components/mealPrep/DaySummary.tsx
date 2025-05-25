@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { fetchSavedRecipes } from "../../api/firestore";
 import { Day, Recipe } from "../../types";
 import { DayHeader } from "./DayHeader";
-import MealHeader from "./MealHeader";
 import MealRecipes from "./MealRecipes";
+import styles from "./DaySummary.module.css";
 
 type DaySummaryProps = {
   day: Day;
@@ -79,41 +79,38 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
     return calorieSum;
   };
 
-  const breakfastCalories = getCalories(localBreakfast);
-  const lunchCalories = getCalories(localLunch);
-  const dinnerCalories = getCalories(localDinner);
+  const breakfastCalories = Math.round(getCalories(localBreakfast));
+  const lunchCalories = Math.round(getCalories(localLunch));
+  const dinnerCalories = Math.round(getCalories(localDinner));
 
   return (
-    <div className="dayOutput">
+    <div className={styles.dayOutput}>
       <DayHeader
         date={day.date}
         totalCalories={breakfastCalories + lunchCalories + dinnerCalories}
       />
-      <div className="daySummary">
-        <div className="breakfast">
-          <MealHeader mealType="Breakfast" calories={breakfastCalories} />
-          <MealRecipes
-            savedRecipes={savedRecipes}
-            mealRecipes={localBreakfast}
-            setRecipes={handleSetBreakfast}
-          />
-        </div>
-        <div className="lunch">
-          <MealHeader mealType="Lunch" calories={lunchCalories} />
-          <MealRecipes
-            savedRecipes={savedRecipes}
-            mealRecipes={localLunch}
-            setRecipes={handleSetLunch}
-          />
-        </div>
-        <div className="dinner">
-          <MealHeader mealType="Dinner" calories={dinnerCalories} />
-          <MealRecipes
-            savedRecipes={savedRecipes}
-            mealRecipes={localDinner}
-            setRecipes={handleSetDinner}
-          />
-        </div>
+      <div className={styles.daySummary}>
+        <MealRecipes
+          mealType="Breakfast"
+          calories={breakfastCalories}
+          savedRecipes={savedRecipes}
+          mealRecipes={localBreakfast}
+          setRecipes={handleSetBreakfast}
+        />
+        <MealRecipes
+          mealType="Lunch"
+          calories={lunchCalories}
+          savedRecipes={savedRecipes}
+          mealRecipes={localLunch}
+          setRecipes={handleSetLunch}
+        />
+        <MealRecipes
+          mealType="Dinner"
+          calories={dinnerCalories}
+          savedRecipes={savedRecipes}
+          mealRecipes={localDinner}
+          setRecipes={handleSetDinner}
+        />
       </div>
     </div>
   );

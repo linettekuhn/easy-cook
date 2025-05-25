@@ -6,8 +6,8 @@ type MealHeaderProps = {
 export default function MealHeader({ mealType, calories }: MealHeaderProps) {
   return (
     <div className={`${mealType.toLowerCase()}Header`}>
-      <h2 className="bold italic">{mealType}</h2>
-      <p>{calories} calories</p>
+      <h3 className="bold italic">{mealType}</h3>
+      <h4>{calories} calories</h4>
     </div>
   );
 }
