@@ -3,22 +3,28 @@ import { Recipe } from "../../types";
 import styles from "./RecipeCard.module.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import NumberInput from "../NumberInput";
 
 type RecipeCardProps = {
   recipe: Recipe;
-  isSaved: boolean;
+  isSaved?: boolean;
   onSave?: (recipe: Recipe) => void;
   onRemove?: (recipe: Recipe) => void;
+  servingMultiplier?: number;
+  onServingMultiplier?: (value: number) => void;
 };
-
 export default function RecipeCard({
   recipe,
   isSaved,
   onSave,
   onRemove,
+  servingMultiplier,
+  onServingMultiplier,
 }: RecipeCardProps) {
   const [showPreview, setShowPreview] = useState(true);
-  const [localIsSaved, setLocalIsSaved] = useState(isSaved);
+  const [localIsSaved, setLocalIsSaved] = useState<boolean | undefined>(
+    undefined
+  );
   useEffect(() => {
     setLocalIsSaved(isSaved);
   }, [isSaved]);
@@ -42,15 +48,17 @@ export default function RecipeCard({
 
   return (
     <div className={styles.recipeCard}>
-      {localIsSaved ? (
-        <button className={styles.saveButton} onClick={handleRemoveClick}>
-          <FaHeart />
-        </button>
-      ) : (
-        <button className={styles.saveButton} onClick={handleSaveClick}>
-          <FaRegHeart />
-        </button>
-      )}
+      {isSaved ? (
+        localIsSaved ? (
+          <button className={styles.saveButton} onClick={handleRemoveClick}>
+            <FaHeart />
+          </button>
+        ) : (
+          <button className={styles.saveButton} onClick={handleSaveClick}>
+            <FaRegHeart />
+          </button>
+        )
+      ) : null}
       <h4 className={styles.recipeTitle}>
         <Link
           to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
@@ -117,6 +125,16 @@ export default function RecipeCard({
           <button onClick={() => setShowPreview(!showPreview)}>see less</button>
         </div>
       )}
+      {servingMultiplier && onServingMultiplier ? (
+        <NumberInput
+          quantity={servingMultiplier}
+          setQuantity={onServingMultiplier}
+          min={1}
+          max={10}
+          step={0.1}
+          placeholder="1"
+        />
+      ) : null}
     </div>
   );
 }

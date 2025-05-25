@@ -40,7 +40,7 @@ export default function SearchFilters({
     onCancel();
   };
   return (
-    <div scroll="no" className={styles.filtersModal}>
+    <div className={styles.filtersModal}>
       <div className={styles.filtersContent}>
         <h2>
           <span className="bold">filter</span> your search

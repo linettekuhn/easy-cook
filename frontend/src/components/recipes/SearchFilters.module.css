@@ -16,10 +16,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--color-light);
+  background-color: var(--color-lighter);
   border: 2px solid var(--color-text);
   padding: var(--space-s) var(--space-3xs);
-  width: 90%;
+  width: 95vw;
   max-width: 600px;
   gap: var(--space-xs);
 }

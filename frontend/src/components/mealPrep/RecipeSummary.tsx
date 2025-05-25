@@ -3,6 +3,7 @@ import { Recipe } from "../../types";
 import styles from "./RecipeSummary.module.css";
 import { Link } from "react-router-dom";
 import { CgCloseR } from "react-icons/cg";
+import RecipeCard from "../recipes/RecipeCard";
 
 type RecipeSummaryProps = {
   recipe: Recipe;
@@ -66,63 +67,35 @@ export default function RecipeSummary({
   };
 
   return (
-    <div className={styles.recipeCard}>
-      <div className={styles.recipeSummary}>
-        {onRemoveFromMeal ? (
+    <>
+      {onRemoveFromMeal ? (
+        <div className={styles.recipeSummary}>
           <button className="iconButton" onClick={handleRemoveFromMealClick}>
             <CgCloseR />
           </button>
-        ) : null}
-        <h4 className={styles.recipeTitle}>
-          <Link
-            to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {recipe.title} — {getServing()} {getCalories()}
-          </Link>
-        </h4>
-      </div>
+          <h4 className={styles.recipeTitle}>
+            <Link
+              to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {recipe.title} — {getServing()} {getCalories()}
+            </Link>
+          </h4>
+        </div>
+      ) : null}
       {onAddToMeal ? (
-        <>
-          <img
-            src={recipe.img_src}
-            alt={recipe.img_alt}
-            className={styles.recipeImage}
+        <div className={styles.recipeAdd}>
+          <RecipeCard
+            recipe={recipe}
+            servingMultiplier={servingMultiplier}
+            onServingMultiplier={setServingMultiplier}
           />
-          <p className={styles.calories}>
-            Total calories:{" "}
-            {caloriesNutrient
-              ? `${caloriesNutrient.amount} ${caloriesNutrient.unit}`
-              : "Calories were not found"}
-          </p>
-          <form action="" className="servingSizeForm">
-            <label htmlFor="recipe-serving-size">serving size:</label>
-            <input
-              type="number"
-              id="recipe-serving-size"
-              value={servingMultiplier}
-              onChange={(e) => {
-                setServingMultiplier(Number(e.target.value));
-              }}
-              min="0.1"
-              max="10"
-              step="0.1"
-              placeholder="1"
-              required
-            />
-            {recipe.servingSize ? (
-              <p>
-                1 serving = {recipe.servingSize?.amount}{" "}
-                {recipe.servingSize?.unit}
-              </p>
-            ) : null}
-          </form>
           <button className="button" onClick={handleAddToMealClick}>
             Add to meal
           </button>
-        </>
+        </div>
       ) : null}
-    </div>
+    </>
   );
 }

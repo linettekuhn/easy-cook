@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Recipe } from "../../types";
 import styles from "./RecipeSelection.module.css";
 import RecipeSummary from "./RecipeSummary";
+import BackButton from "../buttons/BackButton";
 
 type RecipeSelectionProps = {
   savedRecipes: Recipe[];
@@ -18,15 +19,13 @@ export default function RecipeSelection({
     useState<Recipe[]>(savedRecipes);
   useEffect(() => setLocalSavedRecipes(savedRecipes), [savedRecipes]);
   return (
-    <div className={styles["recipesModal"]}>
-      <div className={styles["recipesContent"]}>
+    <div className={styles.recipesModal}>
+      <div className={styles.recipesContent}>
         <h2>
           <span className="bold">add</span> a recipe
         </h2>
-        <button className="button" onClick={onClose}>
-          x
-        </button>
-        <div className={styles["savedRecipes"]} id="savedRecipes">
+        <BackButton onClick={onClose} text="BACK TO PLANNER" />
+        <div className={styles.savedRecipes}>
           {Array.isArray(localSavedRecipes) &&
             localSavedRecipes.map((recipe: Recipe) => {
               if (recipe) {

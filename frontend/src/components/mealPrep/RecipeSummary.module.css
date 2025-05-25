@@ -10,22 +10,7 @@
   text-align: left;
 }
 
-.recipeImage {
-  margin-top: 20px;
-  margin-bottom: 10%;
-  height: 100px;
-  width: 250px;
-  object-fit: cover;
-  align-self: center;
-}
-
-.recipeIngredientsTitle,
-.recipeDirectionTitle {
-  font-weight: 700;
-  padding-top: 5%;
-}
-
-.recipeIngredientList,
-.recipeDirectionsList {
-  text-align: left;
+.recipeAdd {
+  display: flex;
+  flex-direction: column;
 }

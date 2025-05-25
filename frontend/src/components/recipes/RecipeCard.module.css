@@ -7,7 +7,7 @@
   width: 100%;
   max-width: 500px;
   max-height: 500px;
-  padding: var(--space-s) var(--space-xs) var(--space-xs) var(--space-l);
+  padding: var(--space-s) var(--space-xs) var(--space-xs) var(--space-s);
   border-radius: 10px;
   border-top: 1px solid rgba(6, 18, 26, 0.17);
   border-right: 1px solid rgba(6, 18, 26, 0.17);
