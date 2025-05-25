@@ -50,9 +50,9 @@ export default function IngredientCard({
           placeholder="1"
           required
         />
-        <h5 className={styles.ingredientQuantity}>
+        <p className={styles.ingredientQuantity}>
           {localIngredient.measures.us.unitShort}
-        </h5>
+        </p>
       </form>
     </div>
   );

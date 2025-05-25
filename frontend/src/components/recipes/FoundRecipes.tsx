@@ -4,10 +4,17 @@ import styles from "./FoundRecipes.module.css";
 
 type FoundRecipes = {
   recipes: Recipe[];
+  savedRecipes: Recipe[];
   onSave: (recipe: Recipe) => void;
+  onRemove: (recipe: Recipe) => void;
 };
 
-export default function FoundRecipes({ recipes, onSave }: FoundRecipes) {
+export default function FoundRecipes({
+  recipes,
+  savedRecipes,
+  onSave,
+  onRemove,
+}: FoundRecipes) {
   return (
     <>
       <div className={styles["recipesHeader"]}>
@@ -16,13 +23,19 @@ export default function FoundRecipes({ recipes, onSave }: FoundRecipes) {
       </div>
       <div className={styles["recipeOutput"]} id="recipeOutput">
         {recipes.map((recipe: Recipe) => {
-          // TODO: check if recipe is saved in database
+          const isSaved = savedRecipes.some((saved) => {
+            if (recipe.id === -1) {
+              return saved.sourceURL === recipe.sourceURL;
+            }
+            return saved.id === recipe.id;
+          });
           return (
             <RecipeCard
               key={`${recipe.id}-${recipe.title}`}
               recipe={recipe}
-              isSaved={false}
+              isSaved={isSaved}
               onSave={onSave}
+              onRemove={onRemove}
             />
           );
         })}

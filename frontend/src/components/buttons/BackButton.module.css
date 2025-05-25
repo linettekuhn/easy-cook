@@ -13,7 +13,13 @@
 
 .backButton:hover {
   border-color: var(--color-text);
-  font-weight: 800;
+  .text {
+    font-weight: 800;
+  }
+}
+
+.backButton:active {
+  border-bottom: 2px solid var(--color-text);
 }
 
 .icon {

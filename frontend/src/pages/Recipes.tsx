@@ -72,7 +72,12 @@ export default function Recipes() {
         {showFoundRecipes ? (
           <>
             <BackButton onClick={handleBack} text="BACK TO RECIPES" />
-            <FoundRecipes recipes={foundRecipes} onSave={handleRecipeSave} />
+            <FoundRecipes
+              recipes={foundRecipes}
+              savedRecipes={savedRecipes}
+              onSave={handleRecipeSave}
+              onRemove={handleRecipeRemove}
+            />
           </>
         ) : (
           <>
@@ -80,6 +85,7 @@ export default function Recipes() {
             <RecipeLookupForm onFoundRecipes={handleFoundRecipes} />
             <SavedRecipes
               recipes={savedRecipes}
+              onSave={handleRecipeSave}
               onRemove={handleRecipeRemove}
             />
           </>

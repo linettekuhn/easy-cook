@@ -101,7 +101,7 @@ export default function FullRecipe() {
                 className={styles.recipeDirectionsList}
                 key={set.name || setIndex}
               >
-                <h5>{set.name}</h5>
+                <p>{set.name}</p>
                 <ol>
                   {set.steps.map((step) => (
                     <li key={`${set.name || setIndex}-${step.number}`}>

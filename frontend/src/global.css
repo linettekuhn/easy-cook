@@ -60,8 +60,9 @@ input {
   background-color: var(--color-light);
 }
 
-.button:click {
+.button:active {
   background-color: var(--color);
+  border: 2px solid var(--color-text);
 }
 
 html,
@@ -83,7 +84,7 @@ nav {
 
 main {
   background-color: var(--color-lighter);
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -94,22 +95,22 @@ main {
 
 h1 {
   font-size: var(--font-2xl);
-  text-align: center;
   color: var(--color-text);
 }
 h2 {
   font-size: var(--font-xl);
-  text-align: center;
   color: var(--color-text);
 }
 h3 {
   font-size: var(--font-l);
-  text-align: center;
   color: var(--color-text);
 }
 h4 {
   font-size: var(--font-m);
-  text-align: center;
+  color: var(--color-text);
+}
+p {
+  font-size: var(--font-s);
   color: var(--color-text);
 }
 :root {
@@ -168,8 +169,8 @@ h4 {
     --color-l: 55%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
-    --color-light: hsl(var(--color-h), var(--color-s), 65%);
-    --color-lighter: hsl(var(--color-h), var(--color-s), 80%);
+    --color-light: hsl(var(--color-h), var(--color-s), 75%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
     --color-dark: hsl(var(--color-h), var(--color-s), 35%);
     --color-darker: hsl(var(--color-h), var(--color-s), 25%);
     --color-text: hsl(var(--color-h), var(--color-s), 10%);

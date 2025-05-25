@@ -58,12 +58,12 @@ export default function RecipeSummary({
         alt={recipe.img_alt}
         className={styles.recipeImage}
       />
-      <h5 className={styles.calories}>
+      <p className={styles.calories}>
         Total calories:{" "}
         {caloriesNutrient
           ? `${caloriesNutrient.amount} ${caloriesNutrient.unit}`
           : "Calories were not found"}
-      </h5>
+      </p>
       {onAddToMeal ? (
         <>
           <form action="" className="servingSizeForm">
