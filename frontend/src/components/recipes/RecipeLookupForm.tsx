@@ -100,18 +100,19 @@ export default function RecipeLookupForm({
       </form>
       <form action="" className={styles.recipe} id="query">
         <h4>or search for one:</h4>
-        <input
-          type="text"
-          id="recipe-query"
-          data-id="recipe-query"
-          required
-          //value={queryInput}
-          onChange={(e) => {
-            setQueryInput(e.target.value);
-          }}
-          placeholder="enter your query..."
-        />
-        <FiltersModal filters={filters} setFilters={handleFiltersUpdate} />
+        <div className={styles.recipeSearch}>
+          <input
+            type="text"
+            id="recipe-query"
+            data-id="recipe-query"
+            required
+            onChange={(e) => {
+              setQueryInput(e.target.value);
+            }}
+            placeholder="enter your query..."
+          />
+          <FiltersModal filters={filters} setFilters={handleFiltersUpdate} />
+        </div>
         <div className={styles.recipeQuantity}>
           <h4>how many recipes?</h4>
           <NumberInput setQuantity={setQuantity} quantity={quantity} />

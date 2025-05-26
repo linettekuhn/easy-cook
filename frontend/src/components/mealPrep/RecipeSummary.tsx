@@ -4,6 +4,7 @@ import styles from "./RecipeSummary.module.css";
 import { Link } from "react-router-dom";
 import { CgCloseR } from "react-icons/cg";
 import RecipeCard from "../recipes/RecipeCard";
+import NumberInput from "../NumberInput";
 
 type RecipeSummaryProps = {
   recipe: Recipe;
@@ -86,10 +87,17 @@ export default function RecipeSummary({
       ) : null}
       {onAddToMeal ? (
         <div className={styles.recipeAdd}>
-          <RecipeCard
-            recipe={recipe}
-            servingMultiplier={servingMultiplier}
-            onServingMultiplier={setServingMultiplier}
+          <RecipeCard recipe={recipe} />
+          <p>
+            1 serving = {recipe.servingSize?.amount} {recipe.servingSize?.unit}
+          </p>
+          <NumberInput
+            quantity={servingMultiplier}
+            setQuantity={setServingMultiplier}
+            min={1}
+            max={10}
+            step={0.1}
+            placeholder="1"
           />
           <button className="button" onClick={handleAddToMealClick}>
             Add to meal

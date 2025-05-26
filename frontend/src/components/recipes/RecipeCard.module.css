@@ -29,6 +29,7 @@
 }
 
 .recipeContent button {
+  cursor: pointer;
   font-style: italic;
   background: none;
   border: none;
@@ -84,6 +85,7 @@
 }
 
 .saveButton {
+  cursor: pointer;
   color: pink;
   background: none;
   border: none;

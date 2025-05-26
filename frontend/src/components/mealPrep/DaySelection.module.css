@@ -20,6 +20,7 @@
 }
 
 .days .button {
+  cursor: pointer;
   padding: var(--space-3xs);
   border: 1px solid var(--color-text);
   background: none;

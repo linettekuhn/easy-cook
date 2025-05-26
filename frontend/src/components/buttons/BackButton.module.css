@@ -13,6 +13,7 @@
 
 .backButton:hover {
   border-color: var(--color-text);
+  cursor: pointer;
   .text {
     font-weight: 800;
   }

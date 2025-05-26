@@ -53,5 +53,6 @@
 }
 
 .buttons button {
+  cursor: pointer;
   margin: var(--space-3xs);
 }

@@ -26,4 +26,5 @@
 .menu svg,
 nav a {
   font-size: var(--font-xl);
+  cursor: pointer;
 }

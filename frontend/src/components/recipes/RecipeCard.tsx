@@ -3,23 +3,18 @@ import { Recipe } from "../../types";
 import styles from "./RecipeCard.module.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import NumberInput from "../NumberInput";
 
 type RecipeCardProps = {
   recipe: Recipe;
   isSaved?: boolean;
   onSave?: (recipe: Recipe) => void;
   onRemove?: (recipe: Recipe) => void;
-  servingMultiplier?: number;
-  onServingMultiplier?: (value: number) => void;
 };
 export default function RecipeCard({
   recipe,
   isSaved,
   onSave,
   onRemove,
-  servingMultiplier,
-  onServingMultiplier,
 }: RecipeCardProps) {
   const [showPreview, setShowPreview] = useState(true);
   const [localIsSaved, setLocalIsSaved] = useState<boolean | undefined>(
@@ -125,16 +120,6 @@ export default function RecipeCard({
           <button onClick={() => setShowPreview(!showPreview)}>see less</button>
         </div>
       )}
-      {servingMultiplier && onServingMultiplier ? (
-        <NumberInput
-          quantity={servingMultiplier}
-          setQuantity={onServingMultiplier}
-          min={1}
-          max={10}
-          step={0.1}
-          placeholder="1"
-        />
-      ) : null}
     </div>
   );
 }
