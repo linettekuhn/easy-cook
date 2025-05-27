@@ -1,3 +1,4 @@
+import CloseIcon from "../../../public/icons/CloseIcon";
 import { IngredientData } from "../../types";
 import styles from "./IngredientCard.module.css";
 
@@ -12,8 +13,8 @@ export default function IngredientCard({
 }: IngredientProps) {
   return (
     <div className={styles.ingredientCard} data-ingredient-id={ingredient.id}>
-      <button className="removeFromList" onClick={() => onRemove(ingredient)}>
-        x
+      <button className="iconButton" onClick={() => onRemove(ingredient)}>
+        <CloseIcon className="fIconButton" />
       </button>
       <img
         className={styles.ingredientImage}

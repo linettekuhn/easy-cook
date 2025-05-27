@@ -1,4 +1,5 @@
 import { IngredientData } from "../../types";
+import styles from "./SearchResults.module.css";
 
 type SearchResultsProps = {
   results: IngredientData[];
@@ -12,13 +13,13 @@ export default function SearchResults({
   onSave,
 }: SearchResultsProps) {
   return (
-    <div className="searchResultsOutput">
+    <div className={styles.searchResultsOutput}>
       {isLoading
         ? null
         : results.map((result) => {
             return (
               <div
-                className="searchResult"
+                className={styles.searchResult}
                 key={result.id}
                 onClick={() => onSave(result)}
               >

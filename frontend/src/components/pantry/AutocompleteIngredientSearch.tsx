@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { IngredientData } from "../../types";
 import SearchResults from "./SearchResults";
+import styles from "./AutocompleteIngredientSearch.module.css";
 
 type AutocompleteIngredientSearchProps = {
   onSave: (ingredient: IngredientData) => void;
@@ -19,9 +20,12 @@ export default function AutocompleteIngredientSearch({
     }
   }, [results]);
   return (
-    <>
+    <div className={styles.ingredientSearchBar}>
+      <h3>
+        <span className="bold">add</span> ingredients
+      </h3>
       <SearchBar setResults={setResults} />
       <SearchResults results={results} isLoading={loading} onSave={onSave} />
-    </>
+    </div>
   );
 }

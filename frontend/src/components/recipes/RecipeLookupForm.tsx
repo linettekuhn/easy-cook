@@ -89,12 +89,7 @@ export default function RecipeLookupForm({
           }}
           placeholder="enter a recipe's website..."
         />
-        <button
-          className="button"
-          type="button"
-          data-id="website-submit-btn"
-          onClick={handleWebsiteSubmit}
-        >
+        <button className="button" type="button" onClick={handleWebsiteSubmit}>
           submit
         </button>
       </form>
@@ -104,7 +99,6 @@ export default function RecipeLookupForm({
           <input
             type="text"
             id="recipe-query"
-            data-id="recipe-query"
             required
             onChange={(e) => {
               setQueryInput(e.target.value);
@@ -117,12 +111,7 @@ export default function RecipeLookupForm({
           <h4>how many recipes?</h4>
           <NumberInput setQuantity={setQuantity} quantity={quantity} />
         </div>
-        <button
-          className="button"
-          type="button"
-          data-id="query-submit-btn"
-          onClick={handleQuerySubmit}
-        >
+        <button className="button" type="button" onClick={handleQuerySubmit}>
           search
         </button>
       </form>

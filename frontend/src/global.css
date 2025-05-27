@@ -45,6 +45,7 @@
 
 .button {
   padding: var(--space-3xs) var(--space-2xs);
+  color: var(--color-text);
   font-size: var(--font-m);
   font-weight: 700;
   text-transform: uppercase;
@@ -71,9 +72,15 @@ input {
 }
 
 .iconButton {
+  cursor: pointer;
   background: none;
   border: none;
   font-size: var(--font-l);
+}
+
+.fIconButton {
+  width: var(--space-xl);
+  height: var(--space-xl);
 }
 
 html,
@@ -205,8 +212,8 @@ p {
     --color-l: 77%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
-    --color-light: hsl(var(--color-h), var(--color-s), 65%);
-    --color-lighter: hsl(var(--color-h), var(--color-s), 80%);
+    --color-light: hsl(var(--color-h), var(--color-s), 75%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
     --color-dark: hsl(var(--color-h), var(--color-s), 35%);
     --color-darker: hsl(var(--color-h), var(--color-s), 25%);
     --color-text: hsl(var(--color-h), var(--color-s), 10%);

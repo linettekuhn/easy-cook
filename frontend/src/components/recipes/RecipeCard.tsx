@@ -17,12 +17,12 @@ export default function RecipeCard({
   onRemove,
 }: RecipeCardProps) {
   const [showPreview, setShowPreview] = useState(true);
-  const [localIsSaved, setLocalIsSaved] = useState<boolean | undefined>(
-    undefined
-  );
+  const [localIsSaved, setLocalIsSaved] = useState<boolean>(!!isSaved);
   useEffect(() => {
-    setLocalIsSaved(isSaved);
-  }, [isSaved]);
+    if (isSaved !== localIsSaved) {
+      setLocalIsSaved(!!isSaved);
+    }
+  }, [isSaved, localIsSaved]);
   const caloriesNutrient = recipe.nutrients.find(
     (nutrient) => nutrient.name === "Calories"
   );
@@ -43,7 +43,7 @@ export default function RecipeCard({
 
   return (
     <div className={styles.recipeCard}>
-      {isSaved ? (
+      {onSave || onRemove ? (
         localIsSaved ? (
           <button className={styles.saveButton} onClick={handleRemoveClick}>
             <FaHeart />
