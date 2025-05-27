@@ -23,8 +23,8 @@
 }
 
 .modal svg,
-.menu svg,
-nav a {
+.menu svg {
   font-size: var(--font-xl);
+  color: var(--color-text);
   cursor: pointer;
 }

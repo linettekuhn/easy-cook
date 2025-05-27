@@ -27,20 +27,27 @@
 }
 
 .homeButton {
+  color: var(--color-text);
   background: none;
   border: none;
   font-family: "Miama", sans-serif;
-  font-size: var(--font-3xl);
-  text-decoration: none;
-  color: var(--color-text);
-  transition: text-decoration 1s ease-in-out;
+  font-size: var(--font-xl-miama);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 2px;
+  transition: text-decoration-color 0.1s ease-in-out,
+    font-weight 0.1s ease-in-out;
   cursor: pointer;
 }
 
 .homeButton:hover {
-  color: var(--color-text);
+  text-decoration-color: var(--color-text);
   font-weight: 800;
-  text-decoration: underline;
+}
+
+.homeButton:active {
+  text-decoration-thickness: 4px;
 }
 
 .button {
@@ -89,6 +96,10 @@ body {
   width: 100%;
   overflow-x: hidden;
   font-size: 16px;
+}
+#homePage {
+  height: 100vh;
+  justify-content: space-evenly;
 }
 
 nav {
@@ -176,6 +187,14 @@ p {
   --font-2xl: clamp(2.7466rem, 2.4342rem + 1.562vw, 4.9333rem);
   /* Step 5: 54.9316px → 105.2182px */
   --font-3xl: clamp(3.4332rem, 2.9842rem + 2.2449vw, 6.5761rem);
+
+  /* adjusting Miama to match other fonts */
+  --font-s-miama: calc(var(--font-s) * 1.8);
+  --font-m-miama: calc(var(--font-m) * 1.8);
+  --font-l-miama: calc(var(--font-l) * 1.8);
+  --font-xl-miama: calc(var(--font-xl) * 1.8);
+  --font-2xl-miama: calc(var(--font-2xl) * 1.8);
+  --font-3xl-miama: calc(var(--font-3xl) * 1.8);
 
   /* #F2A20C */
   [data-theme="yellow"] {

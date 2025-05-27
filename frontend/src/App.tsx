@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <NavigationBar theme="yellow" />
-      <main data-theme="yellow">
+      <main data-theme="yellow" id="homePage">
         <h1>
           <strong className="bold">simplify</strong> your cooking.
         </h1>
