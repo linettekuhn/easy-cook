@@ -100,8 +100,11 @@ export default function Groceries() {
           <p>Loading current week...</p>
         ) : (
           <>
-            <button className="button" onClick={handleSaveToTextFile}>
-              Save grocery list as text file
+            <button
+              className={`${styles.donwloadButton} button`}
+              onClick={handleSaveToTextFile}
+            >
+              DOWNLOAD AS .TXT
             </button>
             <div className={styles.ingredientOutput}>
               {ingredients.map((ingredient) => {
@@ -117,11 +120,14 @@ export default function Groceries() {
                 }
               })}
             </div>
+            <div className={styles.nearbyStores}>
+              <h2>
+                <span className="bold">find</span> nearby stores
+              </h2>
+              <FindNearbyStoresMap />
+            </div>
           </>
         )}
-        <div style={{ width: "100%", height: "400px" }}>
-          <FindNearbyStoresMap />
-        </div>
       </main>
     </>
   );

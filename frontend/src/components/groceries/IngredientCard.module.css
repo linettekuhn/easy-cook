@@ -2,10 +2,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 250px;
-  padding: 30px;
+  justify-content: start;
+  padding: var(--space-s);
   border: 3px solid black;
+  border-radius: 10px;
+  background-color: white;
+  min-width: 200px;
+  margin: 0 auto;
+}
+
+.removeButtonWrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+}
+
+.removeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  z-index: 10;
 }
 
 .ingredientTitle {
@@ -14,15 +31,14 @@
 }
 
 .ingredientImage {
-  margin-top: 20px;
-  margin-bottom: 10%;
-  height: 100px;
+  margin: var(--space-s);
+  max-height: 100px;
   max-width: 150px;
   object-fit: contain;
   align-self: center;
 }
 
 .ingredientQuantity {
-  padding-top: 5%;
+  padding-top: 0;
   font-style: italic;
 }
