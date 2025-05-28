@@ -29,7 +29,7 @@ router.post("/week/:id", authenticateUser, async (req, res) => {
       }
     }
   } catch (error) {
-    console.error("Error saving week:", error);
+    res.status(500).json({ error: "Failed to save the week data." });
   }
 });
 
@@ -50,7 +50,7 @@ router.get("/week/:id", authenticateUser, async (req, res) => {
       }
     }
   } catch (error) {
-    console.error("Error fetching saved recipe:", error);
+    res.status(500).json({ error: "Failed to fetch the week data." });
   }
 });
 

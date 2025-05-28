@@ -8,8 +8,10 @@ import {
 import { Recipe } from "../types";
 import styles from "./FullRecipe.module.css";
 import NavigationBar from "../components/NavigationBar";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function FullRecipe() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,8 +35,10 @@ export default function FullRecipe() {
               return;
             }
           }
-        } catch (error) {
-          console.error("error fetching recipe info:", error);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            setErrorMessage(error.message);
+          }
         }
         try {
           const recipeData = await fetchWebsiteRecipe(id);
@@ -44,9 +48,10 @@ export default function FullRecipe() {
             return;
           }
           setLoading(false);
-        } catch (error) {
-          console.log("not valid website URL:", id, error);
-          setLoading(false);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            setErrorMessage(error.message);
+          }
         }
       } else {
         setLoading(false);
@@ -68,6 +73,12 @@ export default function FullRecipe() {
     <>
       <NavigationBar theme="blue" />
       <main data-theme="blue">
+        {errorMessage && (
+          <ErrorMessage
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        )}
         <div data-recipe-id={recipe.id} data-recipe-url={recipe.sourceURL}>
           <h3 className={styles.recipeTitle}>{recipe.title}</h3>
           <img

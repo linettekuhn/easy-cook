@@ -7,8 +7,10 @@ import IngredientCard from "../components/groceries/IngredientCard";
 import styles from "./Groceries.module.css";
 import FindNearbyStoresMap from "../components/groceries/FindNearbyStoresMap";
 import NavigationBar from "../components/NavigationBar";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Groceries() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [week, setWeek] = useState<Day[]>([]);
   const [loading, setLoading] = useState(true);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -38,8 +40,14 @@ export default function Groceries() {
       if (loaded.current) return;
       loaded.current = true;
       const defaultSunday = getPreviousSunday(new Date());
-      const savedWeek = await fetchSavedWeek(defaultSunday);
-      setWeek(savedWeek);
+      try {
+        const savedWeek = await fetchSavedWeek(defaultSunday);
+        setWeek(savedWeek);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        }
+      }
     };
 
     loadDefaultWeek();
@@ -96,6 +104,12 @@ export default function Groceries() {
       <NavigationBar theme="red" />
       <main data-theme="red">
         <Header />
+        {errorMessage && (
+          <ErrorMessage
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        )}
         {loading ? (
           <p>Loading current week...</p>
         ) : (

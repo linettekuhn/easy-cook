@@ -30,8 +30,8 @@ export async function registerUser(email: string, password: string) {
     const user = userCredential.user;
     console.log(`user signed up: ${user}`);
     return user;
-  } catch (error) {
-    console.log(`error registering account ${email}:`, error);
+  } catch (error: unknown) {
+    console.error(`error registering account ${email}:`, error);
     throw error;
   }
 }
@@ -46,8 +46,8 @@ export async function logInUser(email: string, password: string) {
     const user = userCredential.user;
     console.log(`user signed in: ${user}`);
     return user;
-  } catch (error) {
-    console.log(`error registering account ${email}:`, error);
+  } catch (error: unknown) {
+    console.error(`error logging in account ${email}:`, error);
     throw error;
   }
 }
@@ -55,8 +55,8 @@ export async function logInUser(email: string, password: string) {
 export async function logOutUser() {
   try {
     await signOut(auth);
-  } catch (error) {
-    console.log(`error logging out of account:`, error);
+  } catch (error: unknown) {
+    console.error(`error logging out of account:`, error);
     throw error;
   }
 }
@@ -67,12 +67,13 @@ export async function getUserID(forceRefresh = false) {
     try {
       const userId = await getIdToken(user, forceRefresh);
       return userId;
-    } catch (error) {
-      console.log(`error getting ID token:`, error);
+    } catch (error: unknown) {
+      console.error(`error getting ID token:`, error);
       throw error;
     }
   } else {
     console.log("cannot get user ID because no user is signed in");
+    return null;
   }
 }
 

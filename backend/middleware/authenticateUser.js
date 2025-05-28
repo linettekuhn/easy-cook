@@ -13,8 +13,7 @@ async function authenticateUser(req, res, next) {
       req.user = decoded;
       next();
     } catch (error) {
-      console.log("error verifying token: ", error);
-      return res.status(401).json({ error: "invalid or expired token" });
+      return res.status(401).json({ error: "Unauthenticated user." });
     }
   }
 }

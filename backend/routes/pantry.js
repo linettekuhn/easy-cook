@@ -26,7 +26,7 @@ router.get("/saved", authenticateUser, async (req, res) => {
       res.json(ingredients);
     }
   } catch (error) {
-    console.error("Error fetching saved ingredient:", error);
+    res.status(500).json({ error: "Failed to fetch saved ingredients." });
   }
 });
 
@@ -65,7 +65,7 @@ router.post("/store", authenticateUser, async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error saving ingredient:", error);
+    res.status(500).json({ error: "Failed to save ingredients." });
   }
 });
 
@@ -90,7 +90,7 @@ router.get("/search/autocomplete", async (req, res) => {
     console.log(data);
     res.send(data);
   } catch (error) {
-    console.error("Error fetching ingredient:", error);
+    res.status(500).json({ error: "Failed to fetch autocomplete results." });
   }
 });
 
@@ -110,7 +110,7 @@ router.get("/search/recipes", async (req, res) => {
     console.log(data);
     res.send(data);
   } catch (error) {
-    console.error("Error fetching ingredient:", error);
+    res.status(500).json({ error: "Failed to fetch recipes." });
   }
 });
 module.exports = router;

@@ -15,8 +15,10 @@ import { fetchPantryRecipes, fetchRecipeInfo } from "../api/spoonacular";
 import parseRecipeData from "../util/parseRecipeData";
 import BackButton from "../components/buttons/BackButton";
 import FoundRecipes from "../components/recipes/FoundRecipes";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Pantry() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savedIngredients, setSavedIngredients] = useState<IngredientData[]>(
     []
   );
@@ -30,11 +32,15 @@ export default function Pantry() {
     const loadSavedIngredients = async () => {
       if (savedIngredientsLoaded.current) return;
       savedIngredientsLoaded.current = true;
-
-      const saved = await fetchSavedIngredients();
-      setSavedIngredients(saved);
-      setOriginalSavedIngredients(saved);
-      console.log(saved);
+      try {
+        const saved = await fetchSavedIngredients();
+        setSavedIngredients(saved);
+        setOriginalSavedIngredients(saved);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        }
+      }
     };
 
     loadSavedIngredients();
@@ -49,8 +55,14 @@ export default function Pantry() {
 
   const handleIngredientsChange = async (newIngredients: IngredientData[]) => {
     setSavedIngredients(newIngredients);
-    await saveIngredients(newIngredients, originalSavedIngredients);
     setOriginalSavedIngredients(newIngredients);
+    try {
+      await saveIngredients(newIngredients, originalSavedIngredients);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
+    }
   };
 
   const handleIngredientRemove = (ingredientToRemove: IngredientData) => {
@@ -85,10 +97,15 @@ export default function Pantry() {
     const loadSavedRecipes = async () => {
       if (savedRecipesLoaded.current) return;
       savedRecipesLoaded.current = true;
-      const saved = await fetchSavedRecipes();
-      setSavedRecipes(saved);
-      setOriginalSavedRecipes(saved);
-      console.log(saved);
+      try {
+        const saved = await fetchSavedRecipes();
+        setSavedRecipes(saved);
+        setOriginalSavedRecipes(saved);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        }
+      }
     };
 
     loadSavedRecipes();
@@ -96,21 +113,25 @@ export default function Pantry() {
 
   const handleSearch = async () => {
     if (savedIngredients.length < 1) {
-      alert("Add ingredients to pantry before using this");
+      setErrorMessage("Add ingredients to pantry before using this");
       return;
     }
 
-    const results = await fetchPantryRecipes(savedIngredients);
-    console.log(results);
-
     const recipes = [];
-    for (let i = 0; i < results.length; i++) {
-      const id = results[i].id;
-      const recipeData = await fetchRecipeInfo(id);
-      const recipe: Recipe = recipeData.directions
-        ? recipeData
-        : parseRecipeData(recipeData, id);
-      recipes.push(recipe);
+    try {
+      const results = await fetchPantryRecipes(savedIngredients);
+      for (let i = 0; i < results.length; i++) {
+        const id = results[i].id;
+        const recipeData = await fetchRecipeInfo(id);
+        const recipe: Recipe = recipeData.directions
+          ? recipeData
+          : parseRecipeData(recipeData, id);
+        recipes.push(recipe);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
     }
     setFoundRecipes(recipes);
     setShowFoundRecipes(true);
@@ -118,7 +139,13 @@ export default function Pantry() {
 
   const handleRecipesChange = async (newRecipes: Recipe[]) => {
     setSavedRecipes(newRecipes);
-    await saveRecipes(newRecipes, originalSavedRecipes);
+    try {
+      await saveRecipes(newRecipes, originalSavedRecipes);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
+    }
     setOriginalSavedRecipes(newRecipes);
   };
   const handleRecipeSave = (recipeToSave: Recipe) => {
@@ -154,6 +181,12 @@ export default function Pantry() {
     <>
       <NavigationBar theme="red" />
       <main data-theme="red">
+        {errorMessage && (
+          <ErrorMessage
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        )}
         {showFoundRecipes ? (
           <>
             <BackButton onClick={handleBack} text="BACK TO PANTRY" />

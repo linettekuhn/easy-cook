@@ -4,20 +4,28 @@ import { Day, Recipe } from "../../types";
 import { DayHeader } from "./DayHeader";
 import MealRecipes from "./MealRecipes";
 import styles from "./DaySummary.module.css";
+import ErrorMessage from "../ErrorMessage";
 
 type DaySummaryProps = {
   day: Day;
   setDay: (day: Day) => void;
 };
 export default function DaySummary({ day, setDay }: DaySummaryProps) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
   const loaded = useRef(false);
   useEffect(() => {
     const loadSavedRecipes = async () => {
       if (loaded.current) return;
       loaded.current = true;
-      const saved = await fetchSavedRecipes();
-      setSavedRecipes(saved);
+      try {
+        const saved = await fetchSavedRecipes();
+        setSavedRecipes(saved);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        }
+      }
     };
 
     loadSavedRecipes();
@@ -85,6 +93,12 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
 
   return (
     <div className={styles.dayOutput}>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
       <DayHeader
         date={day.date}
         totalCalories={breakfastCalories + lunchCalories + dinnerCalories}

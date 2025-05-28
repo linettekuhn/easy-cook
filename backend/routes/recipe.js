@@ -26,7 +26,7 @@ router.get("/saved", authenticateUser, async (req, res) => {
       res.json(recipes);
     }
   } catch (error) {
-    console.error("Error fetching saved recipe:", error);
+    res.status(500).json({ error: "Failed to fetch saved recipes." });
   }
 });
 
@@ -77,7 +77,7 @@ router.post("/store", authenticateUser, async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error saving recipe:", error);
+    res.status(500).json({ error: "Failed to save or delete recipes." });
   }
 });
 
@@ -107,7 +107,7 @@ router.get("/search", async (req, res) => {
     console.log(data);
     res.send(data);
   } catch (error) {
-    console.error("Error fetching recipe:", error);
+    res.status(500).json({ error: "Failed to search for recipes." });
   }
 });
 
@@ -143,7 +143,7 @@ router.get("/from-url", authenticateUser, async (req, res) => {
       res.send(data);
     }
   } catch (error) {
-    console.error("Error fetching recipe:", error);
+    res.status(500).json({ error: "Failed to fetch recipe from URL." });
   }
 });
 
@@ -185,7 +185,7 @@ router.get("/:id", authenticateUser, async (req, res) => {
       res.send(data);
     }
   } catch (error) {
-    console.error("Error fetching recipe:", error);
+    res.status(500).json({ error: "Failed to fetch recipe by ID." });
   }
 });
 
@@ -203,7 +203,7 @@ router.get("/label/:id", async (req, res) => {
     console.log(data);
     res.send(data);
   } catch (error) {
-    console.error("Error fetching recipe:", error);
+    res.status(500).json({ error: "Failed to fetch nutrition label." });
   }
 });
 

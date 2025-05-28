@@ -1,10 +1,26 @@
 import { Filter, IngredientData } from "../types";
 
+async function handleResponse(response: Response) {
+  if (!response.ok) {
+    const errorBody = await response.text();
+    let errorMessage = `HTTP error! Status: ${response.status}`;
+    try {
+      const errorJson = JSON.parse(errorBody);
+      errorMessage = errorJson.message || errorMessage || errorJson.error;
+    } catch (error: unknown) {
+      console.log(error);
+      errorMessage = errorBody || errorMessage;
+    }
+    throw new Error(`Failed to fetch: ${response.status} - ${errorMessage}`);
+  }
+  return response;
+}
+
 export async function fetchWebsiteRecipe(recipeURL: string) {
   const encodedURL = encodeURIComponent(recipeURL);
   // TODO: change localhost
-  const response = await fetch(
-    `http://localhost:3000/api/recipe/from-url?url=${encodedURL}`
+  const response = await handleResponse(
+    await fetch(`http://localhost:3000/api/recipe/from-url?url=${encodedURL}`)
   );
   const data = await response.json();
   return data;
@@ -12,14 +28,18 @@ export async function fetchWebsiteRecipe(recipeURL: string) {
 
 export async function fetchRecipeInfo(id: number) {
   // TODO: change localhost
-  const response = await fetch(`http://localhost:3000/api/recipe/${id}`);
+  const response = await handleResponse(
+    await fetch(`http://localhost:3000/api/recipe/${id}`)
+  );
   const data = await response.json();
   return data;
 }
 
 export async function fetchRecipeNutritionLabel(id: number) {
   // TODO: change localhost
-  const response = await fetch(`http://localhost:3000/api/recipe/label/${id}`);
+  const response = await handleResponse(
+    await fetch(`http://localhost:3000/api/recipe/label/${id}`)
+  );
   const data = await response.text();
   return data;
 }
@@ -39,30 +59,23 @@ export async function fetchQueryRecipes(
     }
   });
   params.append("filters", paramsFilters);
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/recipe/search?${params.toString()}`
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await handleResponse(
+    await fetch(`http://localhost:3000/api/recipe/search?${params.toString()}`)
+  );
+  const data = await response.json();
+  return data;
 }
 
 export async function fetchAutocompleteIngredient(query: string) {
   const params = new URLSearchParams();
   params.append("query", query);
-
-  try {
-    const response = await fetch(
+  const response = await handleResponse(
+    await fetch(
       `http://localhost:3000/api/pantry/search/autocomplete?${params.toString()}`
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+    )
+  );
+  const data = await response.json();
+  return data;
 }
 
 export async function fetchPantryRecipes(ingredients: IngredientData[]) {
@@ -71,14 +84,11 @@ export async function fetchPantryRecipes(ingredients: IngredientData[]) {
     .join(",");
   const params = new URLSearchParams();
   params.append("ingredients", ingredientNames);
-
-  try {
-    const response = await fetch(
+  const response = await handleResponse(
+    await fetch(
       `http://localhost:3000/api/pantry/search/recipes?${params.toString()}`
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+    )
+  );
+  const data = await response.json();
+  return data;
 }

@@ -9,6 +9,7 @@ import {
 import parseRecipeData from "../../util/parseRecipeData";
 import styles from "./RecipeLookupForm.module.css";
 import NumberInput from "../NumberInput";
+import ErrorMessage from "../ErrorMessage";
 
 const defaultFilters: Filter[] = [
   { label: "quick", value: "maxReadyTime=30", isChecked: false },
@@ -26,6 +27,7 @@ type RecipeLookupProps = {
 export default function RecipeLookupForm({
   onFoundRecipes,
 }: RecipeLookupProps) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [filters, setFilters] = useState(defaultFilters);
   const [queryInput, setQueryInput] = useState("");
   const [websiteInput, setWebsiteInput] = useState("");
@@ -37,46 +39,57 @@ export default function RecipeLookupForm({
 
   const handleWebsiteSubmit = async () => {
     if (!websiteInput) {
-      alert("Please enter a recipe query");
+      setErrorMessage("Please enter a recipe query");
       return;
     }
-
-    const recipeData = await fetchWebsiteRecipe(websiteInput);
-
     const recipes = [];
-    if (recipeData) {
-      const recipe: Recipe = parseRecipeData(recipeData, -1, websiteInput);
-      recipes.push(recipe);
+    try {
+      const recipeData = await fetchWebsiteRecipe(websiteInput);
+      if (recipeData) {
+        const recipe: Recipe = parseRecipeData(recipeData, -1, websiteInput);
+        recipes.push(recipe);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
     }
-
     onFoundRecipes(recipes);
   };
 
   const handleQuerySubmit = async () => {
     if (!queryInput) {
-      alert("Please enter a recipe query");
+      setErrorMessage("Please enter a recipe query");
       return;
     }
-
-    const response = await fetchQueryRecipes(queryInput, quantity, filters);
-
-    const results = response.results;
-    console.log(results);
-
     const recipes = [];
-    for (let i = 0; i < results.length; i++) {
-      const id = results[i].id;
-      const recipeData = await fetchRecipeInfo(id);
-      const recipe: Recipe = recipeData.directions
-        ? recipeData
-        : parseRecipeData(recipeData, id);
-      recipes.push(recipe);
+    try {
+      const response = await fetchQueryRecipes(queryInput, quantity, filters);
+      const results = response.results;
+      for (let i = 0; i < results.length; i++) {
+        const id = results[i].id;
+        const recipeData = await fetchRecipeInfo(id);
+        const recipe: Recipe = recipeData.directions
+          ? recipeData
+          : parseRecipeData(recipeData, id);
+        recipes.push(recipe);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
     }
     onFoundRecipes(recipes);
   };
 
   return (
     <div className={styles.recipeLookup}>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
       <form action="" className={styles.recipe} id="website">
         <h4>extract recipes from website:</h4>
         <input

@@ -21,14 +21,14 @@
 .userLogin p {
   text-align: center;
   font-size: var(--font-m);
-  margin: var(--space-3xs) 0;
+  margin: var(--space-3xs);
   width: 100%;
 }
 
 .userLogin input {
   width: 100%;
   padding: var(--space-3xs);
-  gap: var(--space-2xs);
+  margin: var(--space-3xs);
   font-size: var(--font-s);
 }
 
@@ -37,7 +37,7 @@
   display: flex;
   justify-content: center;
   gap: var(--space-xs);
-  margin-top: var(--space-s);
+  margin: var(--space-3xs);
 }
 
 .menuButton:hover {

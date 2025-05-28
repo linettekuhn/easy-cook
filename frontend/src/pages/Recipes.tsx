@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../components/recipes/Header";
 import RecipeLookupForm from "../components/recipes/RecipeLookupForm";
 import SavedRecipes from "../components/recipes/SavedRecipes";
@@ -6,10 +6,11 @@ import { Recipe } from "../types";
 import { fetchSavedRecipes, saveRecipes } from "../api/firestore";
 import NavigationBar from "../components/NavigationBar";
 import FoundRecipes from "../components/recipes/FoundRecipes";
-//import styles from "./Recipes.module.css";
 import BackButton from "../components/buttons/BackButton";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Recipes() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
   const [originalSavedRecipes, setOriginalSavedRecipes] = useState<Recipe[]>(
     []
@@ -17,12 +18,20 @@ export default function Recipes() {
   const [foundRecipes, setFoundRecipes] = useState<Recipe[]>([]);
   const [showFoundRecipes, setShowFoundRecipes] = useState(false);
 
+  const loaded = useRef(false);
   useEffect(() => {
     const loadSavedRecipes = async () => {
-      const saved = await fetchSavedRecipes();
-      setSavedRecipes(saved);
-      setOriginalSavedRecipes(saved);
-      console.log(saved);
+      if (loaded.current) return;
+      loaded.current = true;
+      try {
+        const saved = await fetchSavedRecipes();
+        setSavedRecipes(saved);
+        setOriginalSavedRecipes(saved);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        }
+      }
     };
 
     loadSavedRecipes();
@@ -30,7 +39,13 @@ export default function Recipes() {
 
   const handleRecipesChange = async (newRecipes: Recipe[]) => {
     setSavedRecipes(newRecipes);
-    await saveRecipes(newRecipes, originalSavedRecipes);
+    try {
+      await saveRecipes(newRecipes, originalSavedRecipes);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
+    }
     setOriginalSavedRecipes(newRecipes);
   };
   const handleRecipeSave = (recipeToSave: Recipe) => {
@@ -69,6 +84,12 @@ export default function Recipes() {
     <>
       <NavigationBar theme="blue" />
       <main data-theme="blue">
+        {errorMessage && (
+          <ErrorMessage
+            message={errorMessage}
+            onClose={() => setErrorMessage(null)}
+          />
+        )}
         {showFoundRecipes ? (
           <>
             <BackButton onClick={handleBack} text="BACK TO RECIPES" />

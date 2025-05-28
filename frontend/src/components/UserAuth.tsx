@@ -8,8 +8,22 @@ import {
 } from "../api/authentication";
 import { CgSmileMouthOpen } from "react-icons/cg";
 import styles from "./UserAuth.module.css";
+import ErrorMessage from "./ErrorMessage";
+import { FirebaseError } from "firebase/app";
+
+const firebaseErrorMap: Record<string, string> = {
+  "auth/invalid-email": "Please enter a valid email address.",
+  "auth/invalid-credential": "Invalid email or password.",
+  "auth/user-not-found": "No account found with that email.",
+  "auth/wrong-password": "Incorrect password.",
+  "auth/email-already-in-use": "That email is already registered.",
+  "auth/weak-password": "Password must be at least 6 characters long.",
+  "auth/missing-password": "Please enter a password.",
+  "auth/too-many-requests": "Too many attempts. Try again later.",
+};
 
 export default function UserAuth() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(isUserLoggedIn());
@@ -21,21 +35,35 @@ export default function UserAuth() {
 
   const handleLogInButton = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      setErrorMessage("Please fill email and password fields");
+      return;
+    }
     try {
       await logInUser(email, password);
       setIsLoggedIn(true);
       navigate("/");
-    } catch (error) {
-      console.log("error logging in: ", error);
+    } catch (error: unknown) {
+      const err = error as FirebaseError;
+      const message =
+        firebaseErrorMap[err.code] || "An error occurred while logging in.";
+      setErrorMessage(message);
     }
   };
   const handleRegisterButton = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      setErrorMessage("Please fill email and password fields");
+      return;
+    }
     try {
       await registerUser(email, password);
       navigate("/");
-    } catch (error) {
-      console.log("error registering account: ", error);
+    } catch (error: unknown) {
+      const err = error as FirebaseError;
+      const message =
+        firebaseErrorMap[err.code] || "An error occurred during registration.";
+      setErrorMessage(message);
     }
   };
   const handleLogOutButton = async (e: React.FormEvent) => {
@@ -44,8 +72,11 @@ export default function UserAuth() {
       await logOutUser();
       setIsLoggedIn(false);
       navigate("/");
-    } catch (error) {
-      console.log("error logging in: ", error);
+    } catch (error: unknown) {
+      const err = error as FirebaseError;
+      const message =
+        firebaseErrorMap[err.code] || "An error occurred while logging out.";
+      setErrorMessage(message);
     }
   };
   return isLoggedIn ? (
@@ -70,7 +101,10 @@ export default function UserAuth() {
         id="userEmail"
         placeholder="email goes here..."
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setErrorMessage(null);
+        }}
       />
       <p>password:</p>
       <input
@@ -79,8 +113,17 @@ export default function UserAuth() {
         id="userPassword"
         placeholder="password goes here..."
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => {
+          setPassword(e.target.value);
+          setErrorMessage(null);
+        }}
       />
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
       <div className={styles.buttons}>
         <button
           className="button"
