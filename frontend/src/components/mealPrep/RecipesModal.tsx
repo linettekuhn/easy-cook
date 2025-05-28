@@ -19,6 +19,7 @@ export default function RecipesModal({
         className="iconButton"
         type="button"
         onClick={() => setHidden(false)}
+        title="Click to add recipe"
       >
         <CgAddR />
       </button>

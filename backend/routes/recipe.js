@@ -88,8 +88,14 @@ router.get("/search", async (req, res) => {
 
     // construct url for api request
     let apiRequest = `https://api.spoonacular.com/recipes/complexSearch?query=${encondedQuery}&number=${req.query.quantity}&apiKey=${credentials.API_KEY}`;
+
+    // add filters to api request
     if (req.query.filters) {
-      req.query.filters.forEach((filter) => {
+      const filters = Array.isArray(req.query.filters)
+        ? req.query.filters
+        : [req.query.filters];
+
+      filters.forEach((filter) => {
         apiRequest += `&${filter}`;
       });
     }

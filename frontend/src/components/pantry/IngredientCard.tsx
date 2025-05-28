@@ -13,7 +13,11 @@ export default function IngredientCard({
 }: IngredientProps) {
   return (
     <div className={styles.ingredientCard} data-ingredient-id={ingredient.id}>
-      <button className="iconButton" onClick={() => onRemove(ingredient)}>
+      <button
+        className="iconButton"
+        onClick={() => onRemove(ingredient)}
+        title="Click to remove ingredient"
+      >
         <CloseIcon className="fIconButton" />
       </button>
       <img

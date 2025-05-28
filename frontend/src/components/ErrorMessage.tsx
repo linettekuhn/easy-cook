@@ -11,7 +11,7 @@ export default function ErrorMessage({ message, onClose }: ErrorMessageProps) {
   return createPortal(
     <div className="errorBanner">
       <p>{message}</p>
-      <button className="iconButton">
+      <button className="iconButton" title="Click to close error">
         <IoIosClose onClick={onClose} />
       </button>
     </div>,

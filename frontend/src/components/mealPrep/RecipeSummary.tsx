@@ -71,7 +71,11 @@ export default function RecipeSummary({
     <>
       {onRemoveFromMeal ? (
         <div className={styles.recipeSummary}>
-          <button className="iconButton" onClick={handleRemoveFromMealClick}>
+          <button
+            className="iconButton"
+            onClick={handleRemoveFromMealClick}
+            title="Click to remove recipe"
+          >
             <CgCloseR />
           </button>
           <h4 className={styles.recipeTitle}>

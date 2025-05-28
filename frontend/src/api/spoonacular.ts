@@ -52,13 +52,11 @@ export async function fetchQueryRecipes(
   const params = new URLSearchParams();
   params.append("query", query);
   params.append("quantity", quantity.toString());
-  let paramsFilters = "";
   filters.forEach((filter) => {
     if (filter.isChecked) {
-      paramsFilters += `&${filter.value}`;
+      params.append("filters", filter.value);
     }
   });
-  params.append("filters", paramsFilters);
   const response = await handleResponse(
     await fetch(`http://localhost:3000/api/recipe/search?${params.toString()}`)
   );

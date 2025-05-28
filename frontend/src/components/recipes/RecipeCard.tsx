@@ -45,11 +45,19 @@ export default function RecipeCard({
     <div className={styles.recipeCard}>
       {onSave || onRemove ? (
         localIsSaved ? (
-          <button className={styles.saveButton} onClick={handleRemoveClick}>
+          <button
+            className={styles.saveButton}
+            onClick={handleRemoveClick}
+            title="Click to remove from saved recipes"
+          >
             <FaHeart />
           </button>
         ) : (
-          <button className={styles.saveButton} onClick={handleSaveClick}>
+          <button
+            className={styles.saveButton}
+            onClick={handleSaveClick}
+            title="Click to add to saved recipes"
+          >
             <FaRegHeart />
           </button>
         )

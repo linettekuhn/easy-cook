@@ -54,6 +54,7 @@ export default function DaySelection({
             }`}
             key={label}
             onClick={() => setSelectedDay(i)}
+            title={`Click to see day's meal plan`}
           >
             <p>
               {label}{" "}

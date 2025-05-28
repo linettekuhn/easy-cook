@@ -26,11 +26,11 @@ export default function NavigationBar({ theme }: NavigationBarProps) {
       <nav data-theme={theme}>
         <HomeButton />
         <div className={styles.buttons}>
-          <div className={styles.modal}>
+          <div className={styles.modal} title="Click to see profile">
             <CgProfile onClick={() => setIsLoginOpen(!isLoginOpen)} />
             {isLoginOpen && <UserAuth />}
           </div>
-          <div className={styles.menu}>
+          <div className={styles.menu} title="Click to see menu">
             <CgMenu onClick={() => setMenuOpen(!isMenuOpen)} />
             {isMenuOpen && <Menu />}
           </div>

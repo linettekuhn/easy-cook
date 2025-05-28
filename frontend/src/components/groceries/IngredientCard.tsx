@@ -34,6 +34,7 @@ export default function IngredientCard({
         <button
           className={`${styles.removeButton} iconButton`}
           onClick={() => onRemove(ingredient)}
+          title="Click to remove ingredient"
         >
           <CloseIcon className="fIconButton" />
         </button>
