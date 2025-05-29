@@ -8,10 +8,14 @@ import {
 import { Recipe } from "../types";
 import styles from "./FullRecipe.module.css";
 import NavigationBar from "../components/NavigationBar";
-import ErrorMessage from "../components/ErrorMessage";
+import AlertMessage from "../components/AlertMessage";
+import buildRecipeObject from "../util/parseRecipeData";
 
 export default function FullRecipe() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"error" | "warning" | "success">(
+    "error"
+  );
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
@@ -21,14 +25,14 @@ export default function FullRecipe() {
     const loadRecipe = async () => {
       setLoading(true);
 
-      // try fetching website
       if (id) {
         // try fetching by id
         try {
           const recipeData = await fetchRecipeInfo(Number(id));
           if (!isNaN(Number(id))) {
             if (recipeData) {
-              setRecipe(recipeData);
+              const recipe = buildRecipeObject(recipeData, Number(id));
+              setRecipe(recipe);
               const label = await fetchRecipeNutritionLabel(recipeData.id);
               setNutritionLabel(label);
               setLoading(false);
@@ -37,20 +41,25 @@ export default function FullRecipe() {
           }
         } catch (error: unknown) {
           if (error instanceof Error) {
-            setErrorMessage(error.message);
+            setAlertMessage(error.message);
+            setAlertType("error");
           }
-        }
-        try {
-          const recipeData = await fetchWebsiteRecipe(id);
-          if (recipeData) {
-            setRecipe(recipeData);
+          // try fetching website
+          try {
+            const recipeData = await fetchWebsiteRecipe(id);
+            if (recipeData) {
+              const recipe = buildRecipeObject(recipeData, -1, id);
+              setRecipe(recipe);
+              setLoading(false);
+              return;
+            }
+            setAlertMessage(null);
             setLoading(false);
-            return;
-          }
-          setLoading(false);
-        } catch (error: unknown) {
-          if (error instanceof Error) {
-            setErrorMessage(error.message);
+          } catch (error: unknown) {
+            if (error instanceof Error) {
+              setAlertMessage(error.message);
+              setAlertType("error");
+            }
           }
         }
       } else {
@@ -73,10 +82,11 @@ export default function FullRecipe() {
     <>
       <NavigationBar theme="blue" />
       <main data-theme="blue">
-        {errorMessage && (
-          <ErrorMessage
-            message={errorMessage}
-            onClose={() => setErrorMessage(null)}
+        {alertMessage && (
+          <AlertMessage
+            message={alertMessage}
+            type={alertType}
+            onClose={() => setAlertMessage(null)}
           />
         )}
         <div data-recipe-id={recipe.id} data-recipe-url={recipe.sourceURL}>

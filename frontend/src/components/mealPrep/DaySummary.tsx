@@ -4,14 +4,19 @@ import { Day, Recipe } from "../../types";
 import { DayHeader } from "./DayHeader";
 import MealRecipes from "./MealRecipes";
 import styles from "./DaySummary.module.css";
-import ErrorMessage from "../ErrorMessage";
 
 type DaySummaryProps = {
   day: Day;
   setDay: (day: Day) => void;
+  setAlertMessage: (message: string | null) => void;
+  setAlertType: (type: "error" | "warning" | "success") => void;
 };
-export default function DaySummary({ day, setDay }: DaySummaryProps) {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+export default function DaySummary({
+  day,
+  setDay,
+  setAlertMessage,
+  setAlertType,
+}: DaySummaryProps) {
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
   const loaded = useRef(false);
   useEffect(() => {
@@ -23,7 +28,8 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
         setSavedRecipes(saved);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage(error.message);
+          setAlertType("error");
         }
       }
     };
@@ -93,12 +99,6 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
 
   return (
     <div className={styles.dayOutput}>
-      {errorMessage && (
-        <ErrorMessage
-          message={errorMessage}
-          onClose={() => setErrorMessage(null)}
-        />
-      )}
       <DayHeader
         date={day.date}
         totalCalories={breakfastCalories + lunchCalories + dinnerCalories}
@@ -110,6 +110,8 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
           savedRecipes={savedRecipes}
           mealRecipes={localBreakfast}
           setRecipes={handleSetBreakfast}
+          setAlertMessage={setAlertMessage}
+          setAlertType={setAlertType}
         />
         <MealRecipes
           mealType="Lunch"
@@ -117,6 +119,8 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
           savedRecipes={savedRecipes}
           mealRecipes={localLunch}
           setRecipes={handleSetLunch}
+          setAlertMessage={setAlertMessage}
+          setAlertType={setAlertType}
         />
         <MealRecipes
           mealType="Dinner"
@@ -124,6 +128,8 @@ export default function DaySummary({ day, setDay }: DaySummaryProps) {
           savedRecipes={savedRecipes}
           mealRecipes={localDinner}
           setRecipes={handleSetDinner}
+          setAlertMessage={setAlertMessage}
+          setAlertType={setAlertType}
         />
       </div>
     </div>

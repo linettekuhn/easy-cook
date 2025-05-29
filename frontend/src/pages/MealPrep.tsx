@@ -7,34 +7,55 @@ import { fetchSavedWeek, saveWeek } from "../api/firestore";
 import { buildEmptyWeek, getPreviousSunday } from "../util/plannerHelper";
 import NavigationBar from "../components/NavigationBar";
 import styles from "./MealPrep.module.css";
-import ErrorMessage from "../components/ErrorMessage";
+import AlertMessage from "../components/AlertMessage";
 
 export default function MealPrep() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"error" | "warning" | "success">(
+    "error"
+  );
   const [week, setWeek] = useState<Day[]>([]);
   const [loading, setLoading] = useState(true);
   const [localWeek, setLocalWeek] = useState<Day[]>([]);
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
 
   const handleWeekChange = async (sunday: Date) => {
     try {
       const savedWeek = await fetchSavedWeek(sunday);
+      setUnsavedChanges(false);
       setWeek(savedWeek);
       setLocalWeek(savedWeek);
+      setAlertMessage("Loaded week!");
+      setAlertType("success");
     } catch (error) {
-      buildEmptyWeek(sunday);
+      const defaultWeek = buildEmptyWeek(sunday);
+      setWeek(defaultWeek);
+      setLocalWeek(defaultWeek);
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setAlertMessage("Loaded empty week");
+        setAlertType("warning");
       }
     }
   };
 
   const handleLocalWeekUpdate = (updatedWeek: Day[]) => {
     setLocalWeek(updatedWeek);
+    setUnsavedChanges(true);
   };
 
   const handleSaveWeek = async () => {
-    await saveWeek(localWeek);
-    setWeek(localWeek);
+    try {
+      await saveWeek(localWeek);
+      setWeek(localWeek);
+      setUnsavedChanges(false);
+      setAlertMessage("Your week's meal plan was saved!");
+      setAlertType("success");
+    } catch (error) {
+      if (error instanceof Error) {
+        setAlertMessage("Could not save week");
+        setAlertType("error");
+      }
+    }
   };
 
   const loaded = useRef(false);
@@ -47,10 +68,15 @@ export default function MealPrep() {
         const savedWeek = await fetchSavedWeek(defaultSunday);
         setWeek(savedWeek);
         setLocalWeek(savedWeek);
+        setAlertMessage("Loaded week!");
+        setAlertType("success");
       } catch (error) {
-        buildEmptyWeek(defaultSunday);
+        const defaultWeek = buildEmptyWeek(defaultSunday);
+        setWeek(defaultWeek);
+        setLocalWeek(defaultWeek);
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage("Loaded empty week");
+          setAlertType("warning");
         }
       }
     };
@@ -70,23 +96,30 @@ export default function MealPrep() {
       <NavigationBar theme="green" />
       <main data-theme="green">
         <Header />
-        {errorMessage && (
-          <ErrorMessage
-            message={errorMessage}
-            onClose={() => setErrorMessage(null)}
+        {alertMessage && (
+          <AlertMessage
+            message={alertMessage}
+            type={alertType}
+            onClose={() => setAlertMessage(null)}
           />
         )}
         {loading ? (
           <p>Loading your week...</p>
         ) : (
           <div className={styles.planner}>
-            <WeekSelection week={week} setWeek={handleWeekChange} />
+            <WeekSelection
+              week={week}
+              setWeek={handleWeekChange}
+              unsavedChanges={unsavedChanges}
+            />
             <button className="button" onClick={handleSaveWeek}>
               Save Week
             </button>
             <DaySelection
               week={localWeek}
               onWeekUpdated={handleLocalWeekUpdate}
+              setAlertMessage={setAlertMessage}
+              setAlertType={setAlertType}
             />
           </div>
         )}

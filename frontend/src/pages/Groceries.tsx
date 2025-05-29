@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchSavedWeek } from "../api/firestore";
 import { Day, Ingredient, Recipe } from "../types";
-import { getPreviousSunday } from "../util/plannerHelper";
+import { buildEmptyWeek, getPreviousSunday } from "../util/plannerHelper";
 import Header from "../components/groceries/Header";
 import IngredientCard from "../components/groceries/IngredientCard";
 import styles from "./Groceries.module.css";
 import FindNearbyStoresMap from "../components/groceries/FindNearbyStoresMap";
 import NavigationBar from "../components/NavigationBar";
-import ErrorMessage from "../components/ErrorMessage";
+import AlertMessage from "../components/AlertMessage";
 
 export default function Groceries() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"error" | "warning" | "success">(
+    "error"
+  );
   const [week, setWeek] = useState<Day[]>([]);
   const [loading, setLoading] = useState(true);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -19,6 +22,30 @@ export default function Groceries() {
     const weekIngredients: Ingredient[] = [];
     week.forEach((day: Day) => {
       day.breakfastRecipes.forEach((recipe: Recipe) => {
+        recipe.ingredients.forEach((ingredient) => {
+          const savedIngredient = weekIngredients.find(
+            (weekIngredient) => weekIngredient.id === ingredient.id
+          );
+          if (savedIngredient) {
+            savedIngredient.measures.us.amount += ingredient.measures.us.amount;
+          } else {
+            weekIngredients.push(ingredient);
+          }
+        });
+      });
+      day.lunchRecipes.forEach((recipe: Recipe) => {
+        recipe.ingredients.forEach((ingredient) => {
+          const savedIngredient = weekIngredients.find(
+            (weekIngredient) => weekIngredient.id === ingredient.id
+          );
+          if (savedIngredient) {
+            savedIngredient.measures.us.amount += ingredient.measures.us.amount;
+          } else {
+            weekIngredients.push(ingredient);
+          }
+        });
+      });
+      day.dinnerRecipes.forEach((recipe: Recipe) => {
         recipe.ingredients.forEach((ingredient) => {
           const savedIngredient = weekIngredients.find(
             (weekIngredient) => weekIngredient.id === ingredient.id
@@ -43,9 +70,13 @@ export default function Groceries() {
       try {
         const savedWeek = await fetchSavedWeek(defaultSunday);
         setWeek(savedWeek);
-      } catch (error: unknown) {
+        getIngredients(savedWeek);
+      } catch (error) {
+        const defaultWeek = buildEmptyWeek(defaultSunday);
+        setWeek(defaultWeek);
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage("Loaded empty week");
+          setAlertType("warning");
         }
       }
     };
@@ -66,6 +97,8 @@ export default function Groceries() {
       (ingredient) => ingredient.id !== ingredientToRemove.id
     );
     setIngredients(newIngredients);
+    setAlertMessage(`Ingredient removed: ${ingredientToRemove.name}`);
+    setAlertType("success");
   };
 
   const handleIngredientChange = (newIngredient: Ingredient) => {
@@ -97,6 +130,9 @@ export default function Groceries() {
     link.click();
 
     URL.revokeObjectURL(url);
+
+    setAlertMessage(`Grocery list downloaded as text file`);
+    setAlertType("success");
   };
 
   return (
@@ -104,10 +140,11 @@ export default function Groceries() {
       <NavigationBar theme="red" />
       <main data-theme="red">
         <Header />
-        {errorMessage && (
-          <ErrorMessage
-            message={errorMessage}
-            onClose={() => setErrorMessage(null)}
+        {alertMessage && (
+          <AlertMessage
+            message={alertMessage}
+            type={alertType}
+            onClose={() => setAlertMessage(null)}
           />
         )}
         {loading ? (

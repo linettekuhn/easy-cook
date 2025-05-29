@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { fetchAutocompleteIngredient } from "../../api/spoonacular";
 import { IngredientData } from "../../types";
-import ErrorMessage from "../ErrorMessage";
 
 type SearchBarProps = {
   setResults: (data: IngredientData[]) => void;
+  setAlertMessage: (message: string | null) => void;
+  setAlertType: (type: "error" | "warning" | "success") => void;
 };
-export default function SearchBar({ setResults }: SearchBarProps) {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+export default function SearchBar({
+  setResults,
+  setAlertMessage,
+  setAlertType,
+}: SearchBarProps) {
   const [input, setInput] = useState("");
   const [debouncedInput, setDebouncedInput] = useState(input);
 
   useEffect(() => {
-    // set debounced input if 500 ms pass with no user input
+    // set debounced input if 1000 ms pass with no user input
     const timer = setTimeout(() => {
       setDebouncedInput(input);
     }, 1000);
@@ -36,22 +40,17 @@ export default function SearchBar({ setResults }: SearchBarProps) {
         setResults(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage(error.message);
+          setAlertType("error");
         }
       }
     };
 
     fetchData();
-  }, [debouncedInput, setResults]);
+  }, [debouncedInput, setResults, setAlertMessage, setAlertType]);
 
   return (
     <>
-      {errorMessage && (
-        <ErrorMessage
-          message={errorMessage}
-          onClose={() => setErrorMessage(null)}
-        />
-      )}
       <input
         type="text"
         placeholder="type to search ingredients..."

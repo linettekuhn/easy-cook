@@ -6,9 +6,13 @@ import styles from "./AutocompleteIngredientSearch.module.css";
 
 type AutocompleteIngredientSearchProps = {
   onSave: (ingredient: IngredientData) => void;
+  setAlertMessage: (message: string | null) => void;
+  setAlertType: (type: "error" | "warning" | "success") => void;
 };
 export default function AutocompleteIngredientSearch({
   onSave,
+  setAlertMessage,
+  setAlertType,
 }: AutocompleteIngredientSearchProps) {
   const [results, setResults] = useState<IngredientData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +28,11 @@ export default function AutocompleteIngredientSearch({
       <h3>
         <span className="bold">add</span> ingredients
       </h3>
-      <SearchBar setResults={setResults} />
+      <SearchBar
+        setResults={setResults}
+        setAlertMessage={setAlertMessage}
+        setAlertType={setAlertType}
+      />
       <SearchResults results={results} isLoading={loading} onSave={onSave} />
     </div>
   );

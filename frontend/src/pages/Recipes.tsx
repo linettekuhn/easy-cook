@@ -7,10 +7,13 @@ import { fetchSavedRecipes, saveRecipes } from "../api/firestore";
 import NavigationBar from "../components/NavigationBar";
 import FoundRecipes from "../components/recipes/FoundRecipes";
 import BackButton from "../components/buttons/BackButton";
-import ErrorMessage from "../components/ErrorMessage";
+import AlertMessage from "../components/AlertMessage";
 
 export default function Recipes() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"error" | "warning" | "success">(
+    "error"
+  );
   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
   const [originalSavedRecipes, setOriginalSavedRecipes] = useState<Recipe[]>(
     []
@@ -29,7 +32,8 @@ export default function Recipes() {
         setOriginalSavedRecipes(saved);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage(error.message);
+          setAlertType("error");
         }
       }
     };
@@ -41,9 +45,12 @@ export default function Recipes() {
     setSavedRecipes(newRecipes);
     try {
       await saveRecipes(newRecipes, originalSavedRecipes);
+      setAlertMessage("Saved recipes changed!");
+      setAlertType("success");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setAlertMessage(error.message);
+        setAlertType("error");
       }
     }
     setOriginalSavedRecipes(newRecipes);
@@ -60,7 +67,8 @@ export default function Recipes() {
       const newSavedRecipes = [...savedRecipes, recipeToSave];
       handleRecipesChange(newSavedRecipes);
     } else {
-      console.log(`recipe ${recipeToSave.title} is already saved`);
+      setAlertMessage("Recipe is already saved");
+      setAlertType("warning");
     }
   };
   const handleRecipeRemove = (recipeToRemove: Recipe) => {
@@ -84,10 +92,11 @@ export default function Recipes() {
     <>
       <NavigationBar theme="blue" />
       <main data-theme="blue">
-        {errorMessage && (
-          <ErrorMessage
-            message={errorMessage}
-            onClose={() => setErrorMessage(null)}
+        {alertMessage && (
+          <AlertMessage
+            message={alertMessage}
+            type={alertType}
+            onClose={() => setAlertMessage(null)}
           />
         )}
         {showFoundRecipes ? (
@@ -103,7 +112,11 @@ export default function Recipes() {
         ) : (
           <>
             <Header />
-            <RecipeLookupForm onFoundRecipes={handleFoundRecipes} />
+            <RecipeLookupForm
+              onFoundRecipes={handleFoundRecipes}
+              setAlertMessage={setAlertMessage}
+              setAlertType={setAlertType}
+            />
             <SavedRecipes
               recipes={savedRecipes}
               onSave={handleRecipeSave}

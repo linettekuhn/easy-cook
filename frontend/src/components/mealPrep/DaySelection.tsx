@@ -6,21 +6,24 @@ import DaySummary from "./DaySummary";
 type DaySelectionProps = {
   week: Day[];
   onWeekUpdated: (week: Day[]) => void;
+  setAlertMessage: (message: string | null) => void;
+  setAlertType: (type: "error" | "warning" | "success") => void;
 };
 
 export default function DaySelection({
   week,
   onWeekUpdated,
+  setAlertMessage,
+  setAlertType,
 }: DaySelectionProps) {
   const [selectedDay, setSelectedDay] = useState<number>(0);
   const [localWeek, setLocalWeek] = useState(week);
+  const dayLabels = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const [localDay, setLocalDay] = useState<Day>(week[selectedDay]);
 
   useEffect(() => {
     setLocalWeek(week);
   }, [week]);
-
-  const dayLabels = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  const [localDay, setLocalDay] = useState<Day>(week[selectedDay]);
 
   // update localDay if localWeek or selectedDay changes
   useEffect(() => {
@@ -65,7 +68,14 @@ export default function DaySelection({
           </button>
         ))}
       </div>
-      {localDay && <DaySummary day={localDay} setDay={handleDayUpdate} />}
+      {localDay && (
+        <DaySummary
+          day={localDay}
+          setDay={handleDayUpdate}
+          setAlertMessage={setAlertMessage}
+          setAlertType={setAlertType}
+        />
+      )}
     </div>
   );
 }

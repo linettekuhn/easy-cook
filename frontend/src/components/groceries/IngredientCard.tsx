@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Ingredient } from "../../types";
 import styles from "./IngredientCard.module.css";
 import NumberInput from "../NumberInput";
-import CloseIcon from "../../../public/icons/CloseIcon";
+import CloseIcon from "../buttons/CloseIcon";
 
 type IngredientProps = {
   ingredient: Ingredient;

@@ -18,7 +18,7 @@
   font-weight: 400;
 }
 
-.errorBanner {
+.alertBanner {
   position: fixed;
   bottom: var(--space-xs);
   left: 50%;
@@ -33,15 +33,28 @@
   gap: var(--space-s);
 }
 
-.errorBanner p,
-.errorBanner button svg {
+.alertBanner p {
   font-family: "Playfair Display";
+}
+
+.alertBanner button {
+  display: flex;
+  align-items: center;
+}
+
+.error,
+.error button svg {
   color: red;
 }
 
-.errorBanner button {
-  display: flex;
-  align-items: center;
+.warning,
+.warning button svg {
+  color: orange;
+}
+
+.success,
+.success button svg {
+  color: green;
 }
 
 .bold {
@@ -126,7 +139,7 @@ body {
   font-size: 16px;
 }
 #homePage {
-  height: 100vh;
+  height: 100%;
   justify-content: space-evenly;
 }
 

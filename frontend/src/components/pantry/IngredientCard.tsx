@@ -1,4 +1,4 @@
-import CloseIcon from "../../../public/icons/CloseIcon";
+import CloseIcon from "../buttons/CloseIcon";
 import { IngredientData } from "../../types";
 import styles from "./IngredientCard.module.css";
 

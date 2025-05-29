@@ -8,7 +8,7 @@ import {
 } from "../api/authentication";
 import { CgSmileMouthOpen } from "react-icons/cg";
 import styles from "./UserAuth.module.css";
-import ErrorMessage from "./ErrorMessage";
+import AlertMessage from "./AlertMessage";
 import { FirebaseError } from "firebase/app";
 
 const firebaseErrorMap: Record<string, string> = {
@@ -23,7 +23,10 @@ const firebaseErrorMap: Record<string, string> = {
 };
 
 export default function UserAuth() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"error" | "warning" | "success">(
+    "error"
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(isUserLoggedIn());
@@ -36,34 +39,42 @@ export default function UserAuth() {
   const handleLogInButton = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setErrorMessage("Please fill email and password fields");
+      setAlertMessage("Please fill email and password fields");
+      setAlertType("warning");
       return;
     }
     try {
       await logInUser(email, password);
       setIsLoggedIn(true);
+      setAlertMessage("User logged in!");
+      setAlertType("success");
       navigate("/");
     } catch (error: unknown) {
       const err = error as FirebaseError;
       const message =
         firebaseErrorMap[err.code] || "An error occurred while logging in.";
-      setErrorMessage(message);
+      setAlertMessage(message);
+      setAlertType("warning");
     }
   };
   const handleRegisterButton = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setErrorMessage("Please fill email and password fields");
+      setAlertMessage("Please fill email and password fields");
+      setAlertType("warning");
       return;
     }
     try {
       await registerUser(email, password);
+      setAlertMessage("User registered!");
+      setAlertType("success");
       navigate("/");
     } catch (error: unknown) {
       const err = error as FirebaseError;
       const message =
         firebaseErrorMap[err.code] || "An error occurred during registration.";
-      setErrorMessage(message);
+      setAlertMessage(message);
+      setAlertType("warning");
     }
   };
   const handleLogOutButton = async (e: React.FormEvent) => {
@@ -71,12 +82,15 @@ export default function UserAuth() {
     try {
       await logOutUser();
       setIsLoggedIn(false);
+      setAlertMessage("User logged out!");
+      setAlertType("success");
       navigate("/");
     } catch (error: unknown) {
       const err = error as FirebaseError;
       const message =
         firebaseErrorMap[err.code] || "An error occurred while logging out.";
-      setErrorMessage(message);
+      setAlertMessage(message);
+      setAlertType("warning");
     }
   };
   return isLoggedIn ? (
@@ -103,7 +117,12 @@ export default function UserAuth() {
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
-          setErrorMessage(null);
+          setAlertMessage(null);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
         }}
       />
       <p>password:</p>
@@ -115,13 +134,19 @@ export default function UserAuth() {
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
-          setErrorMessage(null);
+          setAlertMessage(null);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+          }
         }}
       />
-      {errorMessage && (
-        <ErrorMessage
-          message={errorMessage}
-          onClose={() => setErrorMessage(null)}
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type={alertType}
+          onClose={() => setAlertMessage(null)}
         />
       )}
       <div className={styles.buttons}>

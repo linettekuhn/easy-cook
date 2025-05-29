@@ -3,15 +3,15 @@ import { Filter, IngredientData } from "../types";
 async function handleResponse(response: Response) {
   if (!response.ok) {
     const errorBody = await response.text();
-    let errorMessage = `HTTP error! Status: ${response.status}`;
+    let alertMessage = `HTTP error! Status: ${response.status}`;
     try {
       const errorJson = JSON.parse(errorBody);
-      errorMessage = errorJson.message || errorMessage || errorJson.error;
+      alertMessage = errorJson.message || alertMessage || errorJson.error;
     } catch (error: unknown) {
       console.log(error);
-      errorMessage = errorBody || errorMessage;
+      alertMessage = errorBody || alertMessage;
     }
-    throw new Error(`Failed to fetch: ${response.status} - ${errorMessage}`);
+    throw new Error(`Failed to fetch: ${response.status} - ${alertMessage}`);
   }
   return response;
 }

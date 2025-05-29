@@ -11,6 +11,8 @@ type MealRecipesProps = {
   savedRecipes: Recipe[];
   mealRecipes: Recipe[];
   setRecipes: (recipes: Recipe[]) => void;
+  setAlertMessage: (message: string | null) => void;
+  setAlertType: (type: "error" | "warning" | "success") => void;
 };
 
 export default function MealRecipes({
@@ -19,6 +21,8 @@ export default function MealRecipes({
   savedRecipes,
   mealRecipes,
   setRecipes,
+  setAlertMessage,
+  setAlertType,
 }: MealRecipesProps) {
   const [localRecipes, setLocalRecipes] = useState<Recipe[]>([]);
   useEffect(() => setLocalRecipes(mealRecipes), [mealRecipes]);
@@ -34,8 +38,11 @@ export default function MealRecipes({
     if (!isAdded) {
       const newMealRecipes = [...localRecipes, recipeToAdd];
       setRecipes(newMealRecipes);
+      setAlertMessage(`Recipe added to ${mealType.toLowerCase()}!`);
+      setAlertType("success");
     } else {
-      console.log(`recipe ${recipeToAdd.title} is already in this meal`);
+      setAlertMessage(`Recipe already added to ${mealType.toLowerCase()}`);
+      setAlertType("warning");
     }
   };
 
@@ -47,6 +54,8 @@ export default function MealRecipes({
       return recipe.id !== recipeToRemove.id;
     });
     setRecipes(newMealRecipes);
+    setAlertMessage(`Recipe removed from ${mealType.toLowerCase()}!`);
+    setAlertType("success");
   };
 
   return (

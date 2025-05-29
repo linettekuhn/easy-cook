@@ -15,10 +15,13 @@ import { fetchPantryRecipes, fetchRecipeInfo } from "../api/spoonacular";
 import parseRecipeData from "../util/parseRecipeData";
 import BackButton from "../components/buttons/BackButton";
 import FoundRecipes from "../components/recipes/FoundRecipes";
-import ErrorMessage from "../components/ErrorMessage";
+import AlertMessage from "../components/AlertMessage";
 
 export default function Pantry() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"error" | "warning" | "success">(
+    "error"
+  );
   const [savedIngredients, setSavedIngredients] = useState<IngredientData[]>(
     []
   );
@@ -36,22 +39,16 @@ export default function Pantry() {
         const saved = await fetchSavedIngredients();
         setSavedIngredients(saved);
         setOriginalSavedIngredients(saved);
+        setLoading(false);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage(error.message);
         }
       }
     };
 
     loadSavedIngredients();
   }, []);
-
-  // set loading to false once week loaded
-  useEffect(() => {
-    if (savedIngredients.length > 0) {
-      setLoading(false);
-    }
-  }, [savedIngredients]);
 
   const handleIngredientsChange = async (newIngredients: IngredientData[]) => {
     setSavedIngredients(newIngredients);
@@ -60,7 +57,8 @@ export default function Pantry() {
       await saveIngredients(newIngredients, originalSavedIngredients);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setAlertMessage(error.message);
+        setAlertType("error");
       }
     }
   };
@@ -70,6 +68,8 @@ export default function Pantry() {
       (ingredient) => ingredient.id !== ingredientToRemove.id
     );
     handleIngredientsChange(newIngredients);
+    setAlertMessage(`Ingredient removed!`);
+    setAlertType("success");
   };
 
   const handleIngredientSave = (ingredientToSave: IngredientData) => {
@@ -80,8 +80,11 @@ export default function Pantry() {
     if (!isSaved) {
       const newIngredients = [...savedIngredients, ingredientToSave];
       handleIngredientsChange(newIngredients);
+      setAlertMessage(`Ingredient saved!`);
+      setAlertType("success");
     } else {
-      console.log(`ingredient ${ingredientToSave.name} is already saved`);
+      setAlertMessage("Ingredient is already saved");
+      setAlertType("warning");
     }
   };
 
@@ -103,7 +106,8 @@ export default function Pantry() {
         setOriginalSavedRecipes(saved);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setAlertMessage(error.message);
+          setAlertType("error");
         }
       }
     };
@@ -113,12 +117,15 @@ export default function Pantry() {
 
   const handleSearch = async () => {
     if (savedIngredients.length < 1) {
-      setErrorMessage("Add ingredients to pantry before using this");
+      setAlertMessage("Add ingredients to pantry before using this");
+      setAlertType("warning");
       return;
     }
 
     const recipes = [];
     try {
+      setAlertMessage("Finding recipes...");
+      setAlertType("warning");
       const results = await fetchPantryRecipes(savedIngredients);
       for (let i = 0; i < results.length; i++) {
         const id = results[i].id;
@@ -128,9 +135,12 @@ export default function Pantry() {
           : parseRecipeData(recipeData, id);
         recipes.push(recipe);
       }
+      setAlertMessage("Found recipes using your pantry ingredients!");
+      setAlertType("success");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setAlertMessage(error.message);
+        setAlertType("error");
       }
     }
     setFoundRecipes(recipes);
@@ -141,9 +151,12 @@ export default function Pantry() {
     setSavedRecipes(newRecipes);
     try {
       await saveRecipes(newRecipes, originalSavedRecipes);
+      setAlertMessage("Saved recipes changed!");
+      setAlertType("success");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setAlertMessage(error.message);
+        setAlertType("error");
       }
     }
     setOriginalSavedRecipes(newRecipes);
@@ -181,10 +194,11 @@ export default function Pantry() {
     <>
       <NavigationBar theme="red" />
       <main data-theme="red">
-        {errorMessage && (
-          <ErrorMessage
-            message={errorMessage}
-            onClose={() => setErrorMessage(null)}
+        {alertMessage && (
+          <AlertMessage
+            message={alertMessage}
+            type={alertType}
+            onClose={() => setAlertMessage(null)}
           />
         )}
         {showFoundRecipes ? (
@@ -204,7 +218,11 @@ export default function Pantry() {
               <p>Loading ingredients</p>
             ) : (
               <div className={styles.pantryIngredients}>
-                <AutocompleteIngredientSearch onSave={handleIngredientSave} />
+                <AutocompleteIngredientSearch
+                  onSave={handleIngredientSave}
+                  setAlertMessage={setAlertMessage}
+                  setAlertType={setAlertType}
+                />
                 <div className={styles.ingredientsOutput}>
                   {savedIngredients.map((ingredient) => {
                     if (ingredient) {
