@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
+@font-face {
+  font-family: "Miama";
+  src: url("/fonts/miama.regular.woff2") format("woff2"),
+    url("/fonts/miama.regular.woff") format("woff"),
+    url("/fonts/miama.regular.otf") format("opentype"),
+    url("/fonts/miama.regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+}
+
+.alertBanner {
+  position: fixed;
+  bottom: var(--space-xs);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: var(--space-xs) var(--space-s);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.alertBanner p {
+  font-family: "Playfair Display";
+}
+
+.alertBanner button {
+  display: flex;
+  align-items: center;
+}
+
+.error,
+.error button svg {
+  color: red;
+}
+
+.warning,
+.warning button svg {
+  color: orange;
+}
+
+.success,
+.success button svg {
+  color: green;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.homeButton {
+  color: var(--color-text);
+  background: none;
+  border: none;
+  font-family: "Miama", sans-serif;
+  font-size: var(--font-xl-miama);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 2px;
+  transition: text-decoration-color 0.1s ease-in-out,
+    font-weight 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.homeButton:hover {
+  text-decoration-color: var(--color-text);
+  font-weight: 800;
+}
+
+.homeButton:active {
+  text-decoration-thickness: 4px;
+}
+
+.button {
+  padding: var(--space-3xs) var(--space-2xs);
+  color: var(--color-text);
+  font-size: var(--font-m);
+  font-family: "Playfair Display";
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid var(--color-text);
+  border-radius: 5px;
+  background-color: var(--color-lighter);
+}
+
+input {
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  border-radius: 5px;
+}
+
+.button:hover {
+  font-weight: 700;
+  background-color: var(--color-light);
+  border: 2px solid var(--color-text);
+}
+
+.button:active {
+  background-color: var(--color);
+  border: 2px solid var(--color-text);
+}
+
+.iconButton {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: var(--font-l);
+}
+
+.fIconButton {
+  width: var(--space-xl);
+  height: var(--space-xl);
+}
+
+html,
+body {
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-size: 16px;
+}
+#homePage {
+  height: 100%;
+  justify-content: space-evenly;
+}
+
+nav {
+  background-color: var(--color);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+main {
+  background-color: var(--color-lighter);
+  height: 100%;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: clamp(8rem, 7.3929rem + 2.4107vw, 11.25rem) var(--space-s)
+    var(--font-xl) var(--space-s);
+}
+
+h1 {
+  text-align: center;
+  font-size: var(--font-2xl);
+  color: var(--color-text);
+}
+h2 {
+  text-align: center;
+  font-size: var(--font-xl);
+  color: var(--color-text);
+}
+h3 {
+  text-align: center;
+  font-size: var(--font-l);
+  color: var(--color-text);
+}
+h4 {
+  text-align: center;
+  font-size: var(--font-m);
+  color: var(--color-text);
+}
+p {
+  font-size: var(--font-s);
+  color: var(--color-text);
+}
+:root {
+  /* utopia.fyi/space/calculator minWidth=320 16px & maxWidth=2560 25px */
+  /* Space 3xs: 4px → 6px */
+  --space-3xs: clamp(0.25rem, 0.2321rem + 0.0893vw, 0.375rem);
+  /* Space 2xs: 8px → 13px */
+  --space-2xs: clamp(0.5rem, 0.4554rem + 0.2232vw, 0.8125rem);
+  /* Space xs: 12px → 19px */
+  --space-xs: clamp(0.75rem, 0.6875rem + 0.3125vw, 1.1875rem);
+  /* Space s: 16px → 25px */
+  --space-s: clamp(1rem, 0.9196rem + 0.4018vw, 1.5625rem);
+  /* Space m: 24px → 38px */
+  --space-m: clamp(1.5rem, 1.375rem + 0.625vw, 2.375rem);
+  /* Space l: 32px → 50px */
+  --space-l: clamp(2rem, 1.8393rem + 0.8036vw, 3.125rem);
+  /* Space xl: 48px → 75px */
+  --space-xl: clamp(3rem, 2.7589rem + 1.2054vw, 4.6875rem);
+  /* Space 2xl: 64px → 100px */
+  --space-2xl: clamp(4rem, 3.6786rem + 1.6071vw, 6.25rem);
+  /* Space 3xl: 96px → 150px */
+  --space-3xl: clamp(6rem, 5.5179rem + 2.4107vw, 9.375rem);
+
+  /* utopia.fyi/type/calculator minWidth=320 16px & maxWidth=2560 25px */
+  /* Step -1: 15px → 20px */
+  --font-xs: clamp(0.9375rem, 0.8929rem + 0.2232vw, 1.25rem);
+  /* Step 0: 18px → 25px */
+  --font-s: clamp(1.125rem, 1.0625rem + 0.3125vw, 1.5625rem);
+  /* Step 1: 22.5px → 33.325px */
+  --font-m: clamp(1.4063rem, 1.3096rem + 0.4833vw, 2.0828rem);
+  /* Step 2: 28.125px → 44.4222px */
+  --font-l: clamp(1.7578rem, 1.6123rem + 0.7276vw, 2.7764rem);
+  /* Step 3: 35.1563px → 59.2148px */
+  --font-xl: clamp(2.1973rem, 1.9825rem + 1.074vw, 3.7009rem);
+  /* Step 4: 43.9453px → 78.9334px */
+  --font-2xl: clamp(2.7466rem, 2.4342rem + 1.562vw, 4.9333rem);
+  /* Step 5: 54.9316px → 105.2182px */
+  --font-3xl: clamp(3.4332rem, 2.9842rem + 2.2449vw, 6.5761rem);
+
+  /* adjusting Miama to match other fonts */
+  --font-s-miama: calc(var(--font-s) * 1.8);
+  --font-m-miama: calc(var(--font-m) * 1.8);
+  --font-l-miama: calc(var(--font-l) * 1.8);
+  --font-xl-miama: calc(var(--font-xl) * 1.8);
+  --font-2xl-miama: calc(var(--font-2xl) * 1.8);
+  --font-3xl-miama: calc(var(--font-3xl) * 1.8);
+
+  /* #F2A20C */
+  [data-theme="yellow"] {
+    --color-h: 39;
+    --color-s: 90%;
+    --color-l: 50%;
+
+    --color: hsl(var(--color-h), var(--color-s), var(--color-l));
+    --color-light: hsl(var(--color-h), var(--color-s), 65%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
+    --color-dark: hsl(var(--color-h), var(--color-s), 35%);
+    --color-darker: hsl(var(--color-h), var(--color-s), 25%);
+    --color-text: hsl(var(--color-h), var(--color-s), 10%);
+  }
+
+  /* #1ABCFE */
+  [data-theme="blue"] {
+    --color-h: 197;
+    --color-s: 99%;
+    --color-l: 55%;
+
+    --color: hsl(var(--color-h), var(--color-s), var(--color-l));
+    --color-light: hsl(var(--color-h), var(--color-s), 75%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
+    --color-dark: hsl(var(--color-h), var(--color-s), 35%);
+    --color-darker: hsl(var(--color-h), var(--color-s), 25%);
+    --color-text: hsl(var(--color-h), var(--color-s), 10%);
+  }
+
+  /* #FD9B8D */
+  [data-theme="red"] {
+    --color-h: 8;
+    --color-s: 97%;
+    --color-l: 77%;
+
+    --color: hsl(var(--color-h), var(--color-s), var(--color-l));
+    --color-light: hsl(var(--color-h), var(--color-s), 75%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
+    --color-dark: hsl(var(--color-h), var(--color-s), 35%);
+    --color-darker: hsl(var(--color-h), var(--color-s), 25%);
+    --color-text: hsl(var(--color-h), var(--color-s), 10%);
+  }
+
+  /* #EBFA7D */
+  [data-theme="green"] {
+    --color-h: 67;
+    --color-s: 93%;
+    --color-l: 74%;
+
+    --color: hsl(var(--color-h), var(--color-s), var(--color-l));
+    --color-light: hsl(var(--color-h), var(--color-s), 80%);
+    --color-lighter: hsl(var(--color-h), var(--color-s), 90%);
+    --color-dark: hsl(var(--color-h), var(--color-s), 35%);
+    --color-darker: hsl(var(--color-h), var(--color-s), 25%);
+    --color-text: hsl(var(--color-h), var(--color-s), 10%);
+  }
+}
