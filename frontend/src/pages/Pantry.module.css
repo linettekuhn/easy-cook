@@ -1,9 +1,9 @@
 .ingredientsOutput {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-column-gap: var(--space-l);
-  grid-row-gap: var(--space-l);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-column-gap: var(--space-m);
+  grid-row-gap: var(--space-m);
 }
 
 .pantryIngredients {
