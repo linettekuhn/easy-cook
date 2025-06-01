@@ -1,0 +1,35 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: white;
+  border: 2px solid var(--color-text);
+
+  z-index: 10;
+
+  width: clamp(10rem, 20vw, 15rem);
+  min-height: clamp(8rem, 15vh, 20rem);
+  padding: var(--space-xs);
+}
+.menuButton {
+  padding: var(--space-3xs);
+  background: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  margin: 0 var(--space-xs);
+}
+.menuButton:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.menuButton a {
+  font-size: var(--font-s);
+  text-decoration: none;
+}

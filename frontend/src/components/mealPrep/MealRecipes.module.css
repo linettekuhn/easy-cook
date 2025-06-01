@@ -1,0 +1,17 @@
+.mealRecipeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mealRecipeHeader h4 {
+  text-align: left;
+}
+
+.mealRecipeHeader h3 {
+  text-align: left;
+  text-decoration: underline;
+  font-family: miama, sans-serif;
+  font-size: var(--font-l-miama);
+}

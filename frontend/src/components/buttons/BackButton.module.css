@@ -1,0 +1,35 @@
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: none;
+  border: none;
+  font-size: var(--font-s);
+  color: var(--color-text);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.1s ease-in-out, font-weight 0.1s ease-in-out;
+}
+
+.backButton:hover {
+  border-color: var(--color-text);
+  cursor: pointer;
+  .text {
+    font-weight: 800;
+  }
+}
+
+.backButton:active {
+  border-bottom: 2px solid var(--color-text);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-m);
+  line-height: 1;
+}
+
+.text {
+  line-height: 1;
+}

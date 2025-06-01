@@ -1,0 +1,12 @@
+.infoWindow {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.infoWindow p {
+  font-size: var(--font-xs);
+}
+.contact,
+.openHours {
+  margin: var(--space-xs);
+}

@@ -1,0 +1,9 @@
+.dateSelectForm {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.selectedWeek {
+  font-style: italic;
+  margin-top: var(--space-2xs);
+}

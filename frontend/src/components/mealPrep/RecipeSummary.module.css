@@ -1,0 +1,17 @@
+.recipeSummary {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+.recipeTitle {
+  text-align: left;
+}
+
+.recipeAdd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

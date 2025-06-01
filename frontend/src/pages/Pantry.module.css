@@ -1,0 +1,21 @@
+.ingredientsOutput {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-column-gap: var(--space-m);
+  grid-row-gap: var(--space-m);
+}
+
+.pantryIngredients {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: var(--space-m);
+  gap: var(--space-s);
+}
+
+.pantryRecipeSearch {
+  display: flex;
+  flex-direction: column;
+}

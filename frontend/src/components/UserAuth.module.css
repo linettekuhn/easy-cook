@@ -1,0 +1,46 @@
+.userLogin {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-70%);
+
+  background-color: white;
+  border: 2px solid var(--color-text);
+
+  z-index: 10;
+
+  width: clamp(18rem, 80vw, 30rem); /* 18 rem = 288px & 30 rem = 480px */
+  min-height: clamp(8rem, 15vh, 20rem);
+  padding: var(--space-s);
+}
+
+.userLogin p {
+  text-align: center;
+  font-size: var(--font-m);
+  margin: var(--space-3xs);
+  width: 100%;
+}
+
+.userLogin input {
+  width: 100%;
+  padding: var(--space-3xs);
+  margin: var(--space-3xs);
+  font-size: var(--font-s);
+}
+
+.userLogin .buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin: var(--space-3xs);
+}
+
+.menuButton:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}

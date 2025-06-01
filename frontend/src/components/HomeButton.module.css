@@ -1,0 +1,42 @@
+.logoButton {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 2px;
+  transition: text-decoration-color 0.1s ease-in-out,
+    font-weight 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.logoButton:hover {
+  text-decoration-color: var(--color-text);
+}
+.logoButton:hover .easy,
+.logoButton:hover .cook {
+  font-weight: 800;
+}
+
+.logoButton:active {
+  text-decoration-thickness: 4px;
+}
+
+.easy {
+  color: var(--color-text);
+  text-align: center;
+  font-family: "Playfair Display";
+  font-size: var(--font-xl);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cook {
+  color: var(--color-text);
+  font-family: "Miama";
+  font-size: var(--font-xl-miama);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

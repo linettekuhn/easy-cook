@@ -1,0 +1,18 @@
+.searchResultsOutput {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchResult {
+  border: 1px solid var(--color-text);
+  border-radius: 5px;
+  background-color: white;
+  padding: var(--space-3xs);
+  font-size: var(--font-s);
+  cursor: pointer;
+}
+
+.searchResult:hover {
+  border: 1px solid var(--color-text);
+  background-color: rgba(0, 0, 0, 0.1);
+}

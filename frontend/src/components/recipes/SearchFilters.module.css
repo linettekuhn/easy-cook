@@ -1,0 +1,58 @@
+.filtersModal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.filtersContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-lighter);
+  border: 2px solid var(--color-text);
+  padding: var(--space-s) var(--space-3xs);
+  width: 95vw;
+  max-width: 600px;
+  gap: var(--space-xs);
+}
+
+#filtersForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-row-gap: var(--space-m);
+  width: 100%;
+}
+
+#filtersForm label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: var(--font-s);
+}
+
+#filtersForm input[type="checkbox"] {
+  width: var(--font-m);
+  height: var(--font-m);
+  accent-color: var(--color);
+  margin: var(--space-xs);
+}
+
+#filtersForm .buttons {
+  display: flex;
+  align-items: center;
+}
+
+.buttons button {
+  cursor: pointer;
+  margin: var(--space-3xs);
+}

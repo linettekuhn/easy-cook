@@ -1,0 +1,30 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2xs);
+}
+
+.menu {
+  position: relative;
+}
+
+.modal {
+  position: relative;
+}
+
+.modal svg,
+.menu svg {
+  font-size: var(--font-xl);
+  color: var(--color-text);
+  cursor: pointer;
+}

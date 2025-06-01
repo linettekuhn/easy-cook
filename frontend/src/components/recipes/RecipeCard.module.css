@@ -1,0 +1,108 @@
+.recipeCard {
+  position: relative;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  max-height: 550px;
+  padding: var(--space-s) var(--space-3xs);
+  border-radius: 10px;
+  border-top: 1px solid rgba(6, 18, 26, 0.17);
+  border-right: 1px solid rgba(6, 18, 26, 0.17);
+  background: url("/images/imageedit_8_8693021623.png") no-repeat;
+  background-size: cover;
+  background-position: top center;
+  box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.15);
+}
+
+.recipeCard p {
+  font-size: var(--font-xs);
+}
+
+.recipeContent {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  flex-grow: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.recipeContent button {
+  cursor: pointer;
+  font-style: italic;
+  background: none;
+  border: none;
+  font-size: var(--font-s);
+  color: var(--color-text);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.1s ease-in-out, font-weight 0.1s ease-in-out;
+}
+
+.recipeContent button:hover {
+  border-color: var(--color-text);
+  font-weight: 800;
+}
+
+.recipeTitle {
+  font-style: italic;
+  font-weight: 600;
+  margin: var(--space-2xs);
+}
+
+.recipeImage {
+  width: 100%;
+  padding-top: 70%;
+  position: relative;
+  overflow: hidden;
+  align-self: center;
+}
+
+.recipeImage img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.recipeIngredientsTitle,
+.recipeDirectionsTitle {
+  font-weight: 700;
+  padding-top: var(--space-3xs);
+}
+
+.recipeIngredientList,
+.recipeDirectionsList {
+  text-align: left;
+  overflow-y: auto;
+  flex-grow: 1;
+  min-height: 100px;
+  font-size: var(--font-xs);
+  padding-right: var(--space-2xs);
+  padding-left: var(--space-m);
+}
+
+.saveButton {
+  cursor: pointer;
+  color: rgb(229, 140, 155);
+  background: none;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-20%, -20%);
+  font-size: var(--font-xl);
+  transition: color 0.1s ease-in-out;
+}
+
+.saveButton:hover {
+  color: rgb(216, 42, 42);
+}
