@@ -175,7 +175,10 @@ export default function Groceries() {
               <h2>
                 <span className="bold">find</span> nearby stores
               </h2>
-              <FindNearbyStoresMap />
+              <FindNearbyStoresMap
+                setAlertMessage={setAlertMessage}
+                setAlertType={setAlertType}
+              />
             </div>
           </>
         )}
