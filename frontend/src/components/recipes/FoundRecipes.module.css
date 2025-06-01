@@ -1,5 +1,6 @@
 .recipeOutput,
 .savedRecipes {
+  margin-top: var(--space-xs);
   width: 80vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

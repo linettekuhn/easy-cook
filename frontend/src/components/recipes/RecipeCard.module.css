@@ -3,11 +3,12 @@
   color: var(--color-text);
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   max-width: 500px;
   max-height: 500px;
-  padding: var(--space-s) var(--space-xs) var(--space-xs) var(--space-s);
+  padding: var(--space-s) var(--space-3xs);
   border-radius: 10px;
   border-top: 1px solid rgba(6, 18, 26, 0.17);
   border-right: 1px solid rgba(6, 18, 26, 0.17);
@@ -15,6 +16,10 @@
   background-size: cover;
   background-position: top center;
   box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.15);
+}
+
+.recipeCard p {
+  font-size: var(--font-xs);
 }
 
 .recipeContent {
@@ -87,16 +92,17 @@
 
 .saveButton {
   cursor: pointer;
-  color: pink;
+  color: rgb(229, 140, 155);
   background: none;
   border: none;
   position: absolute;
-  top: var(--space-m);
-  left: var(--space-xs);
-  font-size: var(--font-m);
+  top: 0;
+  left: 0;
+  transform: translate(-20%, -20%);
+  font-size: var(--font-xl);
   transition: color 0.1s ease-in-out;
 }
 
 .saveButton:hover {
-  color: red;
+  color: rgb(216, 42, 42);
 }
