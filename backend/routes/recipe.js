@@ -1,5 +1,5 @@
 const express = require("express");
-const credentials = require("../api/spoonacular-credentials.json");
+const credentials = JSON.parse(process.env.SPOONACULAR_CREDENTIALS);
 const router = express.Router();
 const firebase = require("firebase-admin");
 const logger = require("../middleware/logger");

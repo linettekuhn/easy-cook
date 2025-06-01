@@ -12,7 +12,7 @@ const {
   FieldValue,
   Filter,
 } = require("firebase-admin/firestore");
-const credentials = require("./api/firebase-credentials.json");
+const credentials = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
 // initialize firebase
 initializeApp({
