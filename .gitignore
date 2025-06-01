@@ -135,8 +135,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 /.vscode
-package-lock.json
-package.json
 eslint.config.mjs
 frontend/tsconfig.json
 backend/api/spoonacular-credentials.json
