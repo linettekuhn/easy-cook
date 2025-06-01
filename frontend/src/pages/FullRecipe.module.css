@@ -1,24 +1,57 @@
 .recipeTitle {
   font-style: italic;
   font-weight: 600;
+  margin-top: var(--space-s);
+  padding: 0 var(--space-m);
+}
+
+.recipeInfo {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  padding: var(--space-l);
+  flex-wrap: wrap;
+}
+
+.recipeContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  width: 50%;
+  min-width: 300px;
 }
 
 .recipeImage {
-  margin-top: 20px;
-  margin-bottom: 10%;
-  height: 100px;
-  width: 250px;
-  object-fit: cover;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
   align-self: center;
+}
+.recipeImage img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .recipeIngredientsTitle,
-.recipeDirectionTitle {
+.recipeDirectionsTitle {
   font-weight: 700;
-  padding-top: 5%;
+  padding-top: var(--space-3xs);
 }
 
 .recipeIngredientList,
 .recipeDirectionsList {
   text-align: left;
+  padding: 0 var(--space-xl);
+  font-size: var(--font-s);
+}
+
+.nutritionWidgetContainer {
+  flex: 0 0 300px;
+  width: 300px;
+  margin: 0 var(--space-s) var(--font-s) var(--font-s);
 }

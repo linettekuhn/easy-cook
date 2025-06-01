@@ -216,6 +216,8 @@ p {
   --space-3xl: clamp(6rem, 5.5179rem + 2.4107vw, 9.375rem);
 
   /* utopia.fyi/type/calculator minWidth=320 16px & maxWidth=2560 25px */
+  /* Step -1: 15px → 20px */
+  --font-xs: clamp(0.9375rem, 0.8929rem + 0.2232vw, 1.25rem);
   /* Step 0: 18px → 25px */
   --font-s: clamp(1.125rem, 1.0625rem + 0.3125vw, 1.5625rem);
   /* Step 1: 22.5px → 33.325px */

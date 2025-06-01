@@ -40,8 +40,11 @@ export default function SearchFilters({
     onCancel();
   };
   return (
-    <div className={styles.filtersModal}>
-      <div className={styles.filtersContent}>
+    <div className={styles.filtersModal} onClick={onCancel}>
+      <div
+        className={styles.filtersContent}
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2>
           <span className="bold">filter</span> your search
         </h2>
@@ -61,15 +64,15 @@ export default function SearchFilters({
             </label>
           ))}
         </div>
+        <button type="button" className="button" onClick={handleClear}>
+          clear
+        </button>
         <div className={styles.buttons}>
           <button type="button" className="button" onClick={handleApply}>
             apply
           </button>
           <button type="button" className="button" onClick={handleCancel}>
             cancel
-          </button>
-          <button type="button" className="button" onClick={handleClear}>
-            clear
           </button>
         </div>
       </div>

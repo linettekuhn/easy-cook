@@ -19,8 +19,11 @@ export default function RecipeSelection({
     useState<Recipe[]>(savedRecipes);
   useEffect(() => setLocalSavedRecipes(savedRecipes), [savedRecipes]);
   return (
-    <div className={styles.recipesModal}>
-      <div className={styles.recipesContent}>
+    <div className={styles.recipesModal} onClick={onClose}>
+      <div
+        className={styles.recipesContent}
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2>
           <span className="bold">add</span> a recipe
         </h2>

@@ -79,7 +79,8 @@
   text-align: left;
   overflow-y: auto;
   flex-grow: 1;
-  min-height: 0;
+  min-height: 100px;
+  font-size: var(--font-xs);
   padding-right: var(--space-2xs);
   padding-left: var(--space-m);
 }

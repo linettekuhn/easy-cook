@@ -12,6 +12,7 @@ const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/recipes", element: <Recipes /> },
   { path: "/plan", element: <MealPrep /> },
+  { path: "/recipe", element: <FullRecipe /> },
   { path: "/recipe/:id", element: <FullRecipe /> },
   { path: "/groceries", element: <Groceries /> },
   { path: "/pantry", element: <Pantry /> },

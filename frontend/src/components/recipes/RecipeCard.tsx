@@ -64,7 +64,13 @@ export default function RecipeCard({
       ) : null}
       <h4 className={styles.recipeTitle}>
         <Link
-          to={`/recipe/${recipe.id === -1 ? recipe.sourceURL : recipe.id}`}
+          to={
+            recipe.id === -1
+              ? `/recipe?sourceURL=${encodeURIComponent(
+                  recipe.sourceURL ? recipe.sourceURL : ""
+                )}`
+              : `/recipe/${recipe.id}`
+          }
           target="_blank"
           rel="noopener noreferrer"
         >
