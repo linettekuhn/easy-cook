@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: start;
   padding: var(--space-s);
-  border: 3px solid black;
+  border: 3px solid var(--color-text);
+
   border-radius: 10px;
   background-color: white;
   max-width: 230px;

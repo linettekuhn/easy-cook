@@ -19,6 +19,7 @@ input[type="number"] {
 }
 
 .spinner button {
+  color: var(--color-text);
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -27,6 +28,7 @@ input[type="number"] {
   font-size: var(--font-l);
 }
 .spinner input {
+  color: var(--color-text);
   text-align: center;
   font-size: var(--font-m);
   font-style: normal;

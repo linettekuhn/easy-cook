@@ -20,7 +20,8 @@
   overflow-y: auto;
   padding: var(--space-xs);
   background-color: var(--color-lighter);
-  border: 2px solid black;
+  border: 2px solid var(--color-text);
+
   gap: var(--space-s);
 }
 

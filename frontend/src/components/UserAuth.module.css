@@ -10,7 +10,8 @@
   transform: translateX(-70%);
 
   background-color: white;
-  border: 2px solid black;
+  border: 2px solid var(--color-text);
+
   z-index: 10;
 
   width: clamp(18rem, 80vw, 30rem); /* 18 rem = 288px & 30 rem = 480px */

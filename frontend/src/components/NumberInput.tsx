@@ -26,7 +26,11 @@ export default function NumberInput({
   }, [localQuantity, setQuantity]);
   return (
     <div className={styles.spinner}>
-      <button type="button" title="Click to decrease amount">
+      <button
+        className="iconButton"
+        type="button"
+        title="Click to decrease amount"
+      >
         <CgRemoveR
           onClick={() => {
             const newQuantity = Math.max(1, localQuantity - (step ? step : 1));
@@ -44,7 +48,11 @@ export default function NumberInput({
         max={max ? max : 100}
         placeholder={placeholder ? placeholder : "10"}
       />
-      <button type="button" title="Click to increase amount">
+      <button
+        className="iconButton"
+        type="button"
+        title="Click to increase amount"
+      >
         <CgAddR
           onClick={() => {
             const newQuantity = Math.min(
