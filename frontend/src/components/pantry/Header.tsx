@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import BackButton from "../buttons/BackButton";
 
 export default function Header() {

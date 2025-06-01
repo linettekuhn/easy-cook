@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
 @font-face {
   font-family: "Miama";
-  src: url("../fonts/miama.regular.woff2") format("woff2"),
-    url("../fonts/miama.regular.woff") format("woff"),
-    url("../fonts/miama.regular.otf") format("opentype"),
-    url("../fonts/miama.regular.ttf") format("truetype");
+  src: url("/fonts/miama.regular.woff2") format("woff2"),
+    url("/fonts/miama.regular.woff") format("woff"),
+    url("/fonts/miama.regular.otf") format("opentype"),
+    url("/fonts/miama.regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

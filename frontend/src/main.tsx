@@ -8,15 +8,18 @@ import FullRecipe from "./pages/FullRecipe.tsx";
 import Groceries from "./pages/Groceries.tsx";
 import Pantry from "./pages/Pantry.tsx";
 
-const router = createBrowserRouter([
-  { path: "/", element: <App /> },
-  { path: "/recipes", element: <Recipes /> },
-  { path: "/plan", element: <MealPrep /> },
-  { path: "/recipe", element: <FullRecipe /> },
-  { path: "/recipe/:id", element: <FullRecipe /> },
-  { path: "/groceries", element: <Groceries /> },
-  { path: "/pantry", element: <Pantry /> },
-]);
+const router = createBrowserRouter(
+  [
+    { path: "/", element: <App /> },
+    { path: "/recipes", element: <Recipes /> },
+    { path: "/plan", element: <MealPrep /> },
+    { path: "/recipe", element: <FullRecipe /> },
+    { path: "/recipe/:id", element: <FullRecipe /> },
+    { path: "/groceries", element: <Groceries /> },
+    { path: "/pantry", element: <Pantry /> },
+  ],
+  { basename: import.meta.env.BASE_URL }
+);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
