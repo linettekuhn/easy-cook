@@ -52,9 +52,9 @@ export default function Pantry() {
 
   const handleIngredientsChange = async (newIngredients: IngredientData[]) => {
     setSavedIngredients(newIngredients);
-    setOriginalSavedIngredients(newIngredients);
     try {
       await saveIngredients(newIngredients, originalSavedIngredients);
+      setOriginalSavedIngredients(newIngredients);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setAlertMessage(error.message);

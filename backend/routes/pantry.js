@@ -37,7 +37,7 @@ router.post("/store", authenticateUser, async (req, res) => {
         .collection("users")
         .doc(req.user.uid)
         .collection("pantry");
-      const { ingredientsToUpdate, ingredientsToDelete } = req.body;
+      const { ingredientsToUpdate, ingredientIdsToDelete } = req.body;
       const batch = database.batch();
 
       // ingredients to update
@@ -50,8 +50,8 @@ router.post("/store", authenticateUser, async (req, res) => {
       }
 
       // ingredients to remove
-      if (Array.isArray(ingredientsToDelete)) {
-        ingredientsToDelete.forEach((docId) => {
+      if (Array.isArray(ingredientIdsToDelete)) {
+        ingredientIdsToDelete.forEach((docId) => {
           const doc = savedIngredientsRef.doc(docId);
           batch.delete(doc);
         });
