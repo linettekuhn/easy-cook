@@ -66,6 +66,7 @@ export default function buildRecipeObject(
     ingredients: parseIngredients,
     directions: parseDirections,
     nutrients: parseNutrients || undefined,
+    readyInMinutes: recipeData.readyInMinutes,
     servingSize: recipeData.nutrition?.weightPerServing || undefined,
     sourceURL: sourceURL,
   };

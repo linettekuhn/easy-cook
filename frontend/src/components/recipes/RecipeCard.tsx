@@ -77,6 +77,7 @@ export default function RecipeCard({
           {recipe.title}
         </Link>
       </h4>
+      <p className="italic">Ready in {recipe.readyInMinutes} minutes</p>
       {showPreview ? (
         <div className={styles.recipeContent}>
           <div className={styles.recipeImage}>

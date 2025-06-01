@@ -9,6 +9,7 @@ export type RecipeData = {
     weightPerServing: { amount: number; unit: string };
     nutrients: Nutrient[];
   };
+  readyInMinutes: number;
 };
 
 export type Recipe = {
@@ -20,6 +21,7 @@ export type Recipe = {
   directions: InstructionSet[];
   nutrients: Nutrient[];
   servingSize?: { amount: number; unit: string };
+  readyInMinutes: number;
   sourceURL?: string;
 };
 export type Nutrient = {
