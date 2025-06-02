@@ -37,9 +37,9 @@ export async function saveIngredients(
     .map(getDocId)
     .filter((id): id is string => !!id)
     .filter((oldId) => !newIds.has(oldId));
-  // TODO: change localhost
+
   await handleResponse(
-    await fetch("http://localhost:3000/api/pantry/store", {
+    await fetch("https://easy-cook-backend.onrender.com/api/pantry/store", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -56,7 +56,7 @@ export async function fetchSavedIngredients(): Promise<IngredientData[]> {
     throw new Error("User not signed in: Cannot fetch saved ingredients.");
   }
   const response = await handleResponse(
-    await fetch("http://localhost:3000/api/pantry/saved", {
+    await fetch("https://easy-cook-backend.onrender.com/api/pantry/saved", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -91,9 +91,8 @@ export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
     .map(getDocId)
     .filter((id): id is string => !!id)
     .filter((oldId) => !newIds.has(oldId));
-  // TODO: change localhost
   await handleResponse(
-    await fetch("http://localhost:3000/api/recipe/store", {
+    await fetch("https://easy-cook-backend.onrender.com/api/recipe/store", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -110,7 +109,7 @@ export async function fetchSavedRecipes(): Promise<Recipe[]> {
     throw new Error("User not signed in: Cannot fetch saved recipes.");
   }
   const response = await handleResponse(
-    await fetch("http://localhost:3000/api/recipe/saved", {
+    await fetch("https://easy-cook-backend.onrender.com/api/recipe/saved", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -131,16 +130,18 @@ export async function saveWeek(week: Day[]) {
   const id = `${sunday.getFullYear()}-${
     sunday.getMonth() + 1
   }-${sunday.getDate()}`;
-  // TODO: change localhost
   await handleResponse(
-    await fetch(`http://localhost:3000/api/planner/week/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${userID}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(week),
-    })
+    await fetch(
+      `https://easy-cook-backend.onrender.com/api/planner/week/${id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userID}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(week),
+      }
+    )
   );
 }
 
@@ -152,15 +153,17 @@ export async function fetchSavedWeek(sunday: Date): Promise<Day[]> {
   const id = `${sunday.getFullYear()}-${
     sunday.getMonth() + 1
   }-${sunday.getDate()}`;
-  // TODO: change localhost
   const response = await handleResponse(
-    await fetch(`http://localhost:3000/api/planner/week/${id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${userID}`,
-        "Content-Type": "application/json",
-      },
-    })
+    await fetch(
+      `https://easy-cook-backend.onrender.com/api/planner/week/${id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${userID}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
   );
 
   const weekJson = await response.json();

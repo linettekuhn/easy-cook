@@ -18,27 +18,26 @@ async function handleResponse(response: Response) {
 
 export async function fetchWebsiteRecipe(recipeURL: string) {
   const encodedURL = encodeURIComponent(recipeURL);
-  // TODO: change localhost
   const response = await handleResponse(
-    await fetch(`http://localhost:3000/api/recipe/from-url?url=${encodedURL}`)
+    await fetch(
+      `https://easy-cook-backend.onrender.com/api/recipe/from-url?url=${encodedURL}`
+    )
   );
   const data = await response.json();
   return data;
 }
 
 export async function fetchRecipeInfo(id: number) {
-  // TODO: change localhost
   const response = await handleResponse(
-    await fetch(`http://localhost:3000/api/recipe/${id}`)
+    await fetch(`https://easy-cook-backend.onrender.com/api/recipe/${id}`)
   );
   const data = await response.json();
   return data;
 }
 
 export async function fetchRecipeNutritionLabel(id: number) {
-  // TODO: change localhost
   const response = await handleResponse(
-    await fetch(`http://localhost:3000/api/recipe/label/${id}`)
+    await fetch(`https://easy-cook-backend.onrender.com/api/recipe/label/${id}`)
   );
   const data = await response.text();
   return data;
@@ -58,7 +57,9 @@ export async function fetchQueryRecipes(
     }
   });
   const response = await handleResponse(
-    await fetch(`http://localhost:3000/api/recipe/search?${params.toString()}`)
+    await fetch(
+      `https://easy-cook-backend.onrender.com/api/recipe/search?${params.toString()}`
+    )
   );
   const data = await response.json();
   return data;
@@ -69,7 +70,7 @@ export async function fetchAutocompleteIngredient(query: string) {
   params.append("query", query);
   const response = await handleResponse(
     await fetch(
-      `http://localhost:3000/api/pantry/search/autocomplete?${params.toString()}`
+      `https://easy-cook-backend.onrender.com/api/pantry/search/autocomplete?${params.toString()}`
     )
   );
   const data = await response.json();
@@ -84,7 +85,7 @@ export async function fetchPantryRecipes(ingredients: IngredientData[]) {
   params.append("ingredients", ingredientNames);
   const response = await handleResponse(
     await fetch(
-      `http://localhost:3000/api/pantry/search/recipes?${params.toString()}`
+      `https://easy-cook-backend.onrender.com/api/pantry/search/recipes?${params.toString()}`
     )
   );
   const data = await response.json();
