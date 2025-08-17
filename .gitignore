@@ -136,6 +136,6 @@ dist
 .pnp.*
 /.vscode
 eslint.config.mjs
-frontend/tsconfig.json
+# backend credentials ignore
 backend/api/spoonacular-credentials.json
 backend/api/firebase-credentials.json
