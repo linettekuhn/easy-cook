@@ -1,0 +1,15 @@
+.links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-l);
+  align-items: center;
+  width: 100%;
+}
+
+@media (min-width: 1350px) {
+  .links {
+    flex-direction: row;
+    width: 90%;
+  }
+}

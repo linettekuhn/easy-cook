@@ -110,7 +110,7 @@ body {
 }
 
 nav {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: var(--background-color);
   border-bottom: 2px solid var(--color-dark);
   display: flex;
   justify-content: space-evenly;
@@ -121,6 +121,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
+  height: var(--space-4xl);
   z-index: 1000;
   border-bottom-right-radius: 225px 10px;
   border-bottom-left-radius: 225px 10px;
@@ -135,8 +136,7 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: clamp(8rem, 7.3929rem + 2.4107vw, 11.25rem) var(--space-s)
-    var(--space-xl) var(--space-s);
+  padding: var(--space-4xl) var(--space-s) var(--space-xl) var(--space-s);
 }
 
 h1 {
@@ -211,7 +211,7 @@ button {
   --color-blue: hsl(203, 39%, 40%);
   --color-yellow: hsl(39, 91%, 50%);
   --color-red: hsl(16, 85%, 40%);
-  --color-green: hsl(101, 54%, 60%);
+  --color-green: hsl(101, 54%, 50%);
   --color-teal: hsl(193, 25%, 52%);
   --color-salmon: hsl(7, 68%, 70%);
 
@@ -261,7 +261,7 @@ button {
   [data-theme="green"] {
     --color-h: 101;
     --color-s: 54%;
-    --color-l: 60%;
+    --color-l: 50%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
     --color-light: hsl(var(--color-h), var(--color-s), 80%);

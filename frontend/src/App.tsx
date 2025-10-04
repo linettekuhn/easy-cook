@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
 import "./global.css";
 import NavigationBar from "./components/NavigationBar";
+import HomeCard from "./components/buttons/HomeCard";
+import styles from "./App.module.css";
 
 function App() {
   return (
@@ -10,18 +11,32 @@ function App() {
         <h1>
           <strong className="bold">simplify</strong> your cooking.
         </h1>
-        <Link className="homeButton" to={"/recipes"}>
-          Recipes
-        </Link>
-        <Link className="homeButton" to={"/plan"}>
-          Meal Plan
-        </Link>
-        <Link className="homeButton" to={"/groceries"}>
-          Groceries
-        </Link>
-        <Link className="homeButton" to={"/pantry"}>
-          Pantry
-        </Link>
+        <div className={styles.links}>
+          <HomeCard
+            title="Recipes"
+            link="/recipes"
+            filename="recipes.png"
+            theme="blue"
+          />
+          <HomeCard
+            title="Meal Plan"
+            link="/plan"
+            filename="prep.png"
+            theme="green"
+          />
+          <HomeCard
+            title="Pantry"
+            link="/pantry"
+            filename="pantry.png"
+            theme="yellow"
+          />
+          <HomeCard
+            title="Groceries"
+            link="/groceries"
+            filename="groceries.png"
+            theme="red"
+          />
+        </div>
       </main>
     </>
   );

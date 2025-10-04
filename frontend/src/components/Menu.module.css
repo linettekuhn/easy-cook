@@ -10,6 +10,10 @@
   font-size: var(--space-xl);
 }
 
+.menuButton:hover {
+  cursor: pointer;
+}
+
 /* Links */
 .links {
   position: fixed;
