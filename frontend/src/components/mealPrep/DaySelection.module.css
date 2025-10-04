@@ -9,7 +9,7 @@
 }
 .day {
   display: block;
-  font-size: var(--font-l);
+  font-size: var(--space-l);
 }
 
 .days {

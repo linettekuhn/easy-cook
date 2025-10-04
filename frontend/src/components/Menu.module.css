@@ -1,35 +1,112 @@
-.menu {
+/* Menu Button */
+.menuButton {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 0;
+  line-height: 0;
+}
+
+.menuButton svg {
+  font-size: var(--space-xl);
+}
+
+/* Links */
+.links {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 10;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--background-color);
+  overflow: hidden;
 
+  opacity: 0;
+  transform: translateY(-1000px);
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.links.open {
+  opacity: 1;
+  transform: translateY(0px);
+  pointer-events: auto;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  font-size: var(--space-l);
+  text-decoration: none;
+  padding-bottom: var(--space-3xs);
+  position: relative;
+  color: var(--color-text);
+  font-family: "Unbounded";
+  transition: transform 0.2s ease;
+}
+
+.links p {
+  margin: 0;
+}
+
+.link svg {
+  fill: currentColor;
+  font-size: var(--space-xl);
+  transition: transform 0.2s ease;
+}
+
+.link:hover {
+  transform: scale(1.1);
+}
+
+.link:visited {
+  color: black;
+}
+
+.link::after {
   position: absolute;
-  top: 0;
+  content: "";
+  display: block;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-
-  background-color: white;
-  border: 2px solid var(--color-text);
-
-  z-index: 10;
-
-  width: clamp(10rem, 20vw, 15rem);
-  min-height: clamp(8rem, 15vh, 20rem);
-  padding: var(--space-xs);
+  width: 0;
+  height: 2px;
+  margin: 0 auto;
+  transition: width 0.2s ease;
+  border-bottom-right-radius: 225px 10px;
+  border-bottom-left-radius: 225px 10px;
 }
-.menuButton {
-  padding: var(--space-3xs);
-  background: none;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  margin: 0 var(--space-xs);
+
+.link:hover::after {
+  width: 100%;
 }
-.menuButton:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+
+.recipes::after {
+  background-color: var(--color-blue);
+  transform: translateX(-50%) rotate(1deg);
 }
-.menuButton a {
-  font-size: var(--font-s);
-  text-decoration: none;
+.pantry::after {
+  background-color: var(--color-yellow);
+  transform: translateX(-50%) rotate(-1deg);
+}
+.mealPlan::after {
+  background-color: var(--color-green);
+  transform: translateX(-50%) rotate(1deg);
+}
+.groceries::after {
+  background-color: var(--color-red);
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+@media (min-width: 700) {
+  .links {
+    width: auto;
+    gap: var(--space-l);
+  }
 }

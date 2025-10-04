@@ -1,0 +1,40 @@
+.menu {
+  height: var(--space-m);
+  transition: transform 0.5s ease;
+}
+
+.menu:hover {
+  transform-origin: center;
+  transform: scale(1.1);
+}
+
+.menu path {
+  stroke: var(--color-text);
+  transition: opacity 0.2s ease, transform 0.3s ease;
+  transform-origin: 13.5px 14px;
+}
+
+.menu.closed .topBar {
+  transform: rotateZ(0) translateY(0);
+}
+
+.menu.closed .bottomBar {
+  transform: rotateZ(0) translateY(0);
+}
+
+.menu.closed .centerBar {
+  opacity: 1;
+}
+
+.menu.open .topBar {
+  transform: rotateZ(-45deg) translateY(14px) scaleX(1.41);
+}
+
+.menu.open .bottomBar {
+  transform: rotateZ(45deg) translateY(-14px) scaleX(1.41);
+}
+
+.menu.open .centerBar {
+  transform: rotateZ(-45deg);
+  opacity: 0;
+}

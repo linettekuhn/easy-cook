@@ -15,7 +15,7 @@
 .recipe input {
   width: 100%;
   padding: var(--space-3xs);
-  font-size: var(--font-s);
+  font-size: var(--space-s);
   font-style: italic;
   color: var(--color-text);
   border: 2px solid var(--color-text);

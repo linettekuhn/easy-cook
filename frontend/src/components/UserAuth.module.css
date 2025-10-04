@@ -21,7 +21,7 @@
 
 .userLogin p {
   text-align: center;
-  font-size: var(--font-m);
+  font-size: var(--space-m);
   margin: var(--space-3xs);
   width: 100%;
 }
@@ -30,7 +30,7 @@
   width: 100%;
   padding: var(--space-3xs);
   margin: var(--space-3xs);
-  font-size: var(--font-s);
+  font-size: var(--space-s);
 }
 
 .userLogin .buttons {

@@ -30,9 +30,8 @@ export default function NavigationBar({ theme }: NavigationBarProps) {
             <CgProfile onClick={() => setIsLoginOpen(!isLoginOpen)} />
             {isLoginOpen && <UserAuth />}
           </div>
-          <div className={styles.menu} title="Click to see menu">
-            <CgMenu onClick={() => setMenuOpen(!isMenuOpen)} />
-            {isMenuOpen && <Menu />}
+          <div title="Click to see menu">
+            <Menu />
           </div>
         </div>
       </nav>

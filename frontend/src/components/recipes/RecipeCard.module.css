@@ -19,7 +19,7 @@
 }
 
 .recipeCard p {
-  font-size: var(--font-xs);
+  font-size: var(--space-xs);
 }
 
 .recipeContent {
@@ -38,7 +38,7 @@
   font-style: italic;
   background: none;
   border: none;
-  font-size: var(--font-s);
+  font-size: var(--space-s);
   color: var(--color-text);
   border-bottom: 1px solid transparent;
   transition: border-color 0.1s ease-in-out, font-weight 0.1s ease-in-out;
@@ -85,7 +85,7 @@
   overflow-y: auto;
   flex-grow: 1;
   min-height: 100px;
-  font-size: var(--font-xs);
+  font-size: var(--space-xs);
   padding-right: var(--space-2xs);
   padding-left: var(--space-m);
 }
@@ -99,7 +99,7 @@
   top: 0;
   left: 0;
   transform: translate(-20%, -20%);
-  font-size: var(--font-xl);
+  font-size: var(--space-xl);
   transition: color 0.1s ease-in-out;
 }
 

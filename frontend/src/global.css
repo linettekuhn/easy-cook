@@ -1,20 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Homemade+Apple&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap");
-@font-face {
-  font-family: "Miama";
-  src: url("/fonts/miama.regular.woff2") format("woff2"),
-    url("/fonts/miama.regular.woff") format("woff"),
-    url("/fonts/miama.regular.otf") format("opentype"),
-    url("/fonts/miama.regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Old Standard TT", serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
 
@@ -34,7 +24,7 @@
 }
 
 .alertBanner p {
-  font-family: "Playfair Display";
+  font-family: "Montserrat", sans-serif;
 }
 
 .alertBanner button {
@@ -65,35 +55,10 @@
   font-style: italic;
 }
 
-.homeButton {
-  color: var(--color-text);
-  background: none;
-  border: none;
-  font-family: "Miama", sans-serif;
-  font-size: var(--font-xl-miama);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 10px;
-  text-decoration-thickness: 2px;
-  transition: text-decoration-color 0.1s ease-in-out,
-    font-weight 0.1s ease-in-out;
-  cursor: pointer;
-}
-
-.homeButton:hover {
-  text-decoration-color: var(--color-text);
-  font-weight: 800;
-}
-
-.homeButton:active {
-  text-decoration-thickness: 4px;
-}
-
 .button {
   padding: var(--space-3xs) var(--space-2xs);
   color: var(--color-text);
-  font-size: var(--font-m);
-  font-family: "Playfair Display";
+  font-family: "Montserrat";
   text-transform: uppercase;
   border: none;
   cursor: pointer;
@@ -124,7 +89,7 @@ input {
   cursor: pointer;
   background: none;
   border: none;
-  font-size: var(--font-l);
+  font-size: var(--space-l);
 }
 
 .fIconButton {
@@ -146,7 +111,7 @@ body {
 
 nav {
   background-color: rgba(0, 0, 0, 0);
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid var(--color-dark);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -157,10 +122,12 @@ nav {
   left: 0;
   width: 100%;
   z-index: 1000;
+  border-bottom-right-radius: 225px 10px;
+  border-bottom-left-radius: 225px 10px;
 }
 
 main {
-  background-color: var(--color-lighter);
+  background-color: var(--background-color);
   height: 100%;
   min-height: 100vh;
   width: 100vw;
@@ -169,82 +136,89 @@ main {
   justify-content: flex-start;
   align-items: center;
   padding: clamp(8rem, 7.3929rem + 2.4107vw, 11.25rem) var(--space-s)
-    var(--font-xl) var(--space-s);
+    var(--space-xl) var(--space-s);
 }
 
 h1 {
   text-align: center;
-  font-size: var(--font-2xl);
+  font-size: var(--space-3xl);
   color: var(--color-text);
 }
 h2 {
   text-align: center;
-  font-size: var(--font-xl);
+  font-size: var(--space-2xl);
   color: var(--color-text);
 }
 h3 {
   text-align: center;
-  font-size: var(--font-l);
+  font-size: var(--space-xl);
   color: var(--color-text);
 }
 h4 {
   text-align: center;
-  font-size: var(--font-m);
+  font-size: var(--space-l);
   color: var(--color-text);
 }
-p {
-  font-size: var(--font-s);
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Unbounded";
+}
+
+p,
+a,
+li,
+input,
+label,
+button {
+  font-size: var(--space-default);
   color: var(--color-text);
 }
 :root {
   /* utopia.fyi/space/calculator minWidth=320 16px & maxWidth=2560 25px */
-  /* Space 3xs: 4px → 6px */
-  --space-3xs: clamp(0.25rem, 0.2321rem + 0.0893vw, 0.375rem);
-  /* Space 2xs: 8px → 13px */
-  --space-2xs: clamp(0.5rem, 0.4554rem + 0.2232vw, 0.8125rem);
-  /* Space xs: 12px → 19px */
-  --space-xs: clamp(0.75rem, 0.6875rem + 0.3125vw, 1.1875rem);
-  /* Space s: 16px → 25px */
-  --space-s: clamp(1rem, 0.9196rem + 0.4018vw, 1.5625rem);
-  /* Space m: 24px → 38px */
-  --space-m: clamp(1.5rem, 1.375rem + 0.625vw, 2.375rem);
-  /* Space l: 32px → 50px */
-  --space-l: clamp(2rem, 1.8393rem + 0.8036vw, 3.125rem);
-  /* Space xl: 48px → 75px */
-  --space-xl: clamp(3rem, 2.7589rem + 1.2054vw, 4.6875rem);
-  /* Space 2xl: 64px → 100px */
-  --space-2xl: clamp(4rem, 3.6786rem + 1.6071vw, 6.25rem);
-  /* Space 3xl: 96px → 150px */
-  --space-3xl: clamp(6rem, 5.5179rem + 2.4107vw, 9.375rem);
+  /* Space 3xs: 3px → 5px */
+  --space-3xs: clamp(0.1875rem, 0.1696rem + 0.0893vw, 0.3125rem);
+  /* Space 2xs: 6px → 10px */
+  --space-2xs: clamp(0.375rem, 0.3393rem + 0.1786vw, 0.625rem);
+  /* Space xs: 9px → 15px */
+  --space-xs: clamp(0.5625rem, 0.5089rem + 0.2679vw, 0.9375rem);
+  /* Space s: 12px → 20px */
+  --space-s: clamp(0.75rem, 0.6786rem + 0.3571vw, 1.25rem);
+  /* Font size: 16px → 24px */
+  --space-default: clamp(1rem, 0.9286rem + 0.3571vw, 1.5rem);
+  /* Space m: 18px → 30px */
+  --space-m: clamp(1.125rem, 1.0179rem + 0.5357vw, 1.875rem);
+  /* Space l: 20px → 34px */
+  --space-l: clamp(1.25rem, 1.125rem + 0.625vw, 2.125rem);
+  /* Space xl: 24px → 40px */
+  --space-xl: clamp(1.5rem, 1.3571rem + 0.7143vw, 2.5rem);
+  /* Space 2xl: 32px → 54px */
+  --space-2xl: clamp(2rem, 1.8036rem + 0.9821vw, 3.375rem);
+  /* Space 3xl: 40px → 66px */
+  --space-3xl: clamp(2.5rem, 2.2679rem + 1.1607vw, 4.125rem);
+  /* Space 4xl: 48px → 80px */
+  --space-4xl: clamp(3rem, 2.7143rem + 1.4286vw, 5rem);
+  /* Space 5xl: 60px → 100px */
+  --space-5xl: clamp(3.75rem, 3.3929rem + 1.7857vw, 6.25rem);
+  /* Space 6xl: 72px → 120px */
+  --space-6xl: clamp(4.5rem, 4.0714rem + 2.1429vw, 7.5rem);
 
-  /* utopia.fyi/type/calculator minWidth=320 16px & maxWidth=2560 25px */
-  /* Step -1: 15px → 20px */
-  --font-xs: clamp(0.9375rem, 0.8929rem + 0.2232vw, 1.25rem);
-  /* Step 0: 18px → 25px */
-  --font-s: clamp(1.125rem, 1.0625rem + 0.3125vw, 1.5625rem);
-  /* Step 1: 22.5px → 33.325px */
-  --font-m: clamp(1.4063rem, 1.3096rem + 0.4833vw, 2.0828rem);
-  /* Step 2: 28.125px → 44.4222px */
-  --font-l: clamp(1.7578rem, 1.6123rem + 0.7276vw, 2.7764rem);
-  /* Step 3: 35.1563px → 59.2148px */
-  --font-xl: clamp(2.1973rem, 1.9825rem + 1.074vw, 3.7009rem);
-  /* Step 4: 43.9453px → 78.9334px */
-  --font-2xl: clamp(2.7466rem, 2.4342rem + 1.562vw, 4.9333rem);
-  /* Step 5: 54.9316px → 105.2182px */
-  --font-3xl: clamp(3.4332rem, 2.9842rem + 2.2449vw, 6.5761rem);
-
-  /* adjusting Miama to match other fonts */
-  --font-s-miama: calc(var(--font-s) * 1.8);
-  --font-m-miama: calc(var(--font-m) * 1.8);
-  --font-l-miama: calc(var(--font-l) * 1.8);
-  --font-xl-miama: calc(var(--font-xl) * 1.8);
-  --font-2xl-miama: calc(var(--font-2xl) * 1.8);
-  --font-3xl-miama: calc(var(--font-3xl) * 1.8);
+  --background-color: rgb(236, 229, 210);
+  --color-blue: hsl(203, 39%, 40%);
+  --color-yellow: hsl(39, 91%, 50%);
+  --color-red: hsl(16, 85%, 40%);
+  --color-green: hsl(101, 54%, 60%);
+  --color-teal: hsl(193, 25%, 52%);
+  --color-salmon: hsl(7, 68%, 70%);
 
   /* #F2A20C */
   [data-theme="yellow"] {
     --color-h: 39;
-    --color-s: 90%;
+    --color-s: 91%;
     --color-l: 50%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
@@ -257,9 +231,9 @@ p {
 
   /* #1ABCFE */
   [data-theme="blue"] {
-    --color-h: 197;
-    --color-s: 99%;
-    --color-l: 55%;
+    --color-h: 203;
+    --color-s: 39%;
+    --color-l: 40%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
     --color-light: hsl(var(--color-h), var(--color-s), 75%);
@@ -271,9 +245,9 @@ p {
 
   /* #FD9B8D */
   [data-theme="red"] {
-    --color-h: 8;
-    --color-s: 97%;
-    --color-l: 77%;
+    --color-h: 16;
+    --color-s: 85%;
+    --color-l: 40%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
     --color-light: hsl(var(--color-h), var(--color-s), 75%);
@@ -285,9 +259,9 @@ p {
 
   /* #EBFA7D */
   [data-theme="green"] {
-    --color-h: 67;
-    --color-s: 93%;
-    --color-l: 74%;
+    --color-h: 101;
+    --color-s: 54%;
+    --color-l: 60%;
 
     --color: hsl(var(--color-h), var(--color-s), var(--color-l));
     --color-light: hsl(var(--color-h), var(--color-s), 80%);

@@ -13,16 +13,17 @@
   content: "";
   width: 0;
   height: 2px;
-  border-radius: 1rem;
-  background-color: var(--color);
+  background-color: var(--color-salmon);
   margin: 0 auto;
   transition: width 0.2s ease;
-  transform: translateY(-1rem);
+  transform: translateY(-1rem) rotate(-2deg);
+  border-bottom-right-radius: 225px 10px;
+  border-bottom-left-radius: 225px 10px;
 }
 
 .logoButton:hover::after {
   width: 100%;
-  transform: translateY(-1rem);
+  transform: translateY(-1rem) rotate(-2deg);
 }
 
 .logoButton:hover {
@@ -37,7 +38,7 @@
   color: var(--color-text);
   text-align: center;
   font-family: "East Sea Dokdo", sans-serif;
-  font-size: var(--font-xl);
+  font-size: var(--space-xl);
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -46,7 +47,7 @@
 .cook {
   color: var(--color-text);
   font-family: "Homemade Apple";
-  font-size: var(--font-l);
+  font-size: var(--space-l);
   font-style: normal;
   font-weight: 400;
   line-height: normal;

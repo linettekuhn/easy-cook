@@ -8,7 +8,7 @@
   border-radius: 5px;
   background-color: white;
   padding: var(--space-3xs);
-  font-size: var(--font-s);
+  font-size: var(--space-s);
   cursor: pointer;
 }
 

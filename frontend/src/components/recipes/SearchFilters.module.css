@@ -37,12 +37,12 @@
   justify-content: center;
   color: var(--color-text);
   cursor: pointer;
-  font-size: var(--font-s);
+  font-size: var(--space-s);
 }
 
 #filtersForm input[type="checkbox"] {
-  width: var(--font-m);
-  height: var(--font-m);
+  width: var(--space-m);
+  height: var(--space-m);
   accent-color: var(--color);
   margin: var(--space-xs);
 }

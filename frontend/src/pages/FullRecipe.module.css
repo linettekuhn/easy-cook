@@ -47,11 +47,11 @@
 .recipeDirectionsList {
   text-align: left;
   padding: 0 var(--space-xl);
-  font-size: var(--font-s);
+  font-size: var(--space-s);
 }
 
 .nutritionWidgetContainer {
   flex: 0 0 300px;
   width: 300px;
-  margin: 0 var(--space-s) var(--font-s) var(--font-s);
+  margin: 0 var(--space-s) var(--space-s) var(--space-s);
 }

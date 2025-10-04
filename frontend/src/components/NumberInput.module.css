@@ -25,12 +25,12 @@ input[type="number"] {
   cursor: pointer;
   background: none;
   border: none;
-  font-size: var(--font-l);
+  font-size: var(--space-l);
 }
 .spinner input {
   color: var(--color-text);
   text-align: center;
-  font-size: var(--font-m);
+  font-size: var(--space-m);
   font-style: normal;
   width: 4ch;
 }

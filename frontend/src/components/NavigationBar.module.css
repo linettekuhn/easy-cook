@@ -24,7 +24,7 @@
 
 .modal svg,
 .menu svg {
-  font-size: var(--font-xl);
+  font-size: var(--space-xl);
   color: var(--color-text);
   cursor: pointer;
 }

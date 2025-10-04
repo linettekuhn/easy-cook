@@ -13,5 +13,5 @@
   text-align: left;
   text-decoration: underline;
   font-family: miama, sans-serif;
-  font-size: var(--font-l-miama);
+  font-size: var(--space-l-miama);
 }
