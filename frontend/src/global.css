@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Homemade+Apple&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap");
 @font-face {
   font-family: "Miama";
   src: url("/fonts/miama.regular.woff2") format("woff2"),
@@ -145,12 +145,13 @@ body {
 }
 
 nav {
-  background-color: var(--color);
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom: 1px solid black;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   gap: var(--space-2xs);
-  padding: var(--space-3xs);
+  padding: var(--space-4xs);
   position: fixed;
   top: 0;
   left: 0;

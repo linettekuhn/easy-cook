@@ -1,31 +1,42 @@
 .logoButton {
   background: none;
   border: none;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 10px;
-  text-decoration-thickness: 2px;
-  transition: text-decoration-color 0.1s ease-in-out,
-    font-weight 0.1s ease-in-out;
+  text-decoration: none;
   cursor: pointer;
+  display: inline-block;
+  line-height: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.logoButton::after {
+  display: block;
+  content: "";
+  width: 0;
+  height: 2px;
+  border-radius: 1rem;
+  background-color: var(--color);
+  margin: 0 auto;
+  transition: width 0.2s ease;
+  transform: translateY(-1rem);
+}
+
+.logoButton:hover::after {
+  width: 100%;
+  transform: translateY(-1rem);
 }
 
 .logoButton:hover {
-  text-decoration-color: var(--color-text);
-}
-.logoButton:hover .easy,
-.logoButton:hover .cook {
-  font-weight: 800;
+  transform: scale(1.1);
 }
 
 .logoButton:active {
-  text-decoration-thickness: 4px;
+  transform: scale(1.2);
 }
 
 .easy {
   color: var(--color-text);
   text-align: center;
-  font-family: "Playfair Display";
+  font-family: "East Sea Dokdo", sans-serif;
   font-size: var(--font-xl);
   font-style: normal;
   font-weight: 400;
@@ -34,8 +45,8 @@
 
 .cook {
   color: var(--color-text);
-  font-family: "Miama";
-  font-size: var(--font-xl-miama);
+  font-family: "Homemade Apple";
+  font-size: var(--font-l);
   font-style: normal;
   font-weight: 400;
   line-height: normal;
