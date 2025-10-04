@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { CgMenu, CgProfile } from "react-icons/cg";
 import styles from "./NavigationBar.module.css";
 import "../global.css";
 import Menu from "./Menu";
@@ -24,15 +23,12 @@ export default function NavigationBar({ theme }: NavigationBarProps) {
         <div className={styles.backdrop} onClick={closeAll}></div>
       )}
       <nav data-theme={theme}>
+        <div title="Click to see profile">
+          <UserAuth />
+        </div>
         <HomeButton />
-        <div className={styles.buttons}>
-          <div className={styles.modal} title="Click to see profile">
-            <CgProfile onClick={() => setIsLoginOpen(!isLoginOpen)} />
-            {isLoginOpen && <UserAuth />}
-          </div>
-          <div title="Click to see menu">
-            <Menu />
-          </div>
+        <div title="Click to see menu">
+          <Menu />
         </div>
       </nav>
     </>

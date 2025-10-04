@@ -1,0 +1,26 @@
+.profile {
+  height: var(--space-xl);
+  width: auto;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.profile path {
+  fill: var(--color-text);
+}
+.circle {
+  stroke: var(--color-text);
+}
+.profile:hover {
+  transform: scale(1.1);
+}
+.profile .person {
+  opacity: 1;
+}
+.profile .close {
+  opacity: 0;
+}
+.profile.open .person {
+  opacity: 0;
+}
+.profile.open .close {
+  opacity: 1;
+}

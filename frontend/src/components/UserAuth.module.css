@@ -1,22 +1,47 @@
+/* Menu Button */
+.profileButton {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 0;
+  line-height: 0;
+}
+
+.profileButton svg {
+  font-size: var(--space-xl);
+}
+
+.profileButton:hover {
+  cursor: pointer;
+}
+
 .userLogin {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+  gap: var(--space-xs);
 
-  position: absolute;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   top: 0;
-  left: 50%;
-  transform: translateX(-70%);
-
-  background-color: white;
-  border: 2px solid var(--color-text);
-
+  left: 0;
   z-index: 10;
 
-  width: clamp(18rem, 80vw, 30rem); /* 18 rem = 288px & 30 rem = 480px */
-  min-height: clamp(8rem, 15vh, 20rem);
-  padding: var(--space-s);
+  background-color: var(--background-color);
+
+  opacity: 0;
+  transform: translateY(-1000px);
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease;
+  pointer-events: none;
+
+  padding: 0 var(--space-l);
+}
+
+.userLogin.open {
+  opacity: 1;
+  transform: translateY(0px);
+  pointer-events: auto;
 }
 
 .userLogin p {
@@ -24,13 +49,16 @@
   font-size: var(--space-m);
   margin: var(--space-3xs);
   width: 100%;
+  font-family: "Unbounded";
 }
 
 .userLogin input {
   width: 100%;
-  padding: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-xs);
   margin: var(--space-3xs);
   font-size: var(--space-s);
+  font-style: italic;
+  border: 1px solid var(--color-teal);
 }
 
 .userLogin .buttons {
@@ -41,6 +69,6 @@
   margin: var(--space-3xs);
 }
 
-.menuButton:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+.userLogin svg {
+  font-size: var(--space-2xl);
 }
