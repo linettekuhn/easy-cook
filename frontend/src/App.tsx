@@ -17,24 +17,28 @@ function App() {
             link="/recipes"
             filename="recipes.png"
             theme="blue"
+            message="Discover your next favorite dish"
           />
           <HomeCard
             title="Meal Plan"
             link="/plan"
             filename="prep.png"
             theme="green"
+            message="Stay organized and eat better all week"
           />
           <HomeCard
             title="Pantry"
             link="/pantry"
             filename="pantry.png"
             theme="yellow"
+            message="Keep track of what’s in your kitchen"
           />
           <HomeCard
             title="Groceries"
             link="/groceries"
             filename="groceries.png"
             theme="red"
+            message="Turn your list into a shopping trip"
           />
         </div>
       </main>
