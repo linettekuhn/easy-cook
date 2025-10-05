@@ -23,18 +23,31 @@ export default function Menu() {
 
       {createPortal(
         <div className={`${styles.links} ${menuOpen ? styles.open : ""}`}>
-          <Link className={`${styles.link} ${styles.recipes}`} to={"/recipes"}>
+          <Link
+            data-theme="blue"
+            className={`${styles.link} ${styles.recipes}`}
+            to={"/recipes"}
+          >
             <GiChefToque /> recipes
           </Link>
-          <Link className={`${styles.link} ${styles.pantry}`} to={"/pantry"}>
-            <GiOpenedFoodCan />
-            pantry
-          </Link>
-          <Link className={`${styles.link} ${styles.mealPlan}`} to={"/plan"}>
+          <Link
+            data-theme="green"
+            className={`${styles.link} ${styles.mealPlan}`}
+            to={"/plan"}
+          >
             <GiCurvyKnife />
             meal plan
           </Link>
           <Link
+            data-theme="yellow"
+            className={`${styles.link} ${styles.pantry}`}
+            to={"/pantry"}
+          >
+            <GiOpenedFoodCan />
+            pantry
+          </Link>
+          <Link
+            data-theme="red"
             className={`${styles.link} ${styles.groceries}`}
             to={"/groceries"}
           >

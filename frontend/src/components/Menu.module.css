@@ -49,7 +49,7 @@
   text-decoration: none;
   padding-bottom: var(--space-3xs);
   position: relative;
-  color: var(--color-text);
+  color: var(--color-darker);
   font-family: "Unbounded";
   transition: transform 0.2s ease;
 }
@@ -69,7 +69,7 @@
 }
 
 .link:visited {
-  color: black;
+  color: var(--color-darker);
 }
 
 .link::after {
@@ -85,6 +85,7 @@
   transition: width 0.2s ease;
   border-bottom-right-radius: 225px 10px;
   border-bottom-left-radius: 225px 10px;
+  background-color: var(--color);
 }
 
 .link:hover::after {
@@ -92,19 +93,15 @@
 }
 
 .recipes::after {
-  background-color: var(--color-blue);
   transform: translateX(-50%) rotate(1deg);
 }
 .pantry::after {
-  background-color: var(--color-yellow);
   transform: translateX(-50%) rotate(-1deg);
 }
 .mealPlan::after {
-  background-color: var(--color-green);
   transform: translateX(-50%) rotate(1deg);
 }
 .groceries::after {
-  background-color: var(--color-red);
   transform: translateX(-50%) rotate(-1deg);
 }
 
