@@ -192,8 +192,8 @@ export default function Pantry() {
 
   return (
     <>
-      <NavigationBar theme="red" />
-      <main data-theme="red">
+      <NavigationBar theme="yellow" />
+      <main data-theme="yellow">
         {alertMessage && (
           <AlertMessage
             message={alertMessage}

@@ -4,7 +4,6 @@
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  line-height: 0.5rem;
   transition: transform 0.2s ease;
 }
 
@@ -16,14 +15,14 @@
   background-color: var(--color-salmon);
   margin: 0 auto;
   transition: width 0.2s ease;
-  transform: translateY(-1rem) rotate(-2deg);
+  transform: translateY(-0.7rem) rotate(-2deg);
   border-bottom-right-radius: 225px 10px;
   border-bottom-left-radius: 225px 10px;
 }
 
 .logoButton:hover::after {
   width: 100%;
-  transform: translateY(-1rem) rotate(-2deg);
+  transform: translateY(-0.7rem) rotate(-2deg);
 }
 
 .logoButton:hover {
@@ -34,21 +33,7 @@
   transform: scale(1.2);
 }
 
-.easy {
-  color: var(--color-text);
-  text-align: center;
-  font-family: "East Sea Dokdo", sans-serif;
-  font-size: var(--space-xl);
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
-.cook {
-  color: var(--color-text);
-  font-family: "Homemade Apple";
-  font-size: var(--space-l);
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+.logo {
+  height: var(--space-2xl);
+  width: auto;
 }

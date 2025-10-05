@@ -49,9 +49,9 @@
   text-decoration: none;
   padding-bottom: var(--space-3xs);
   position: relative;
-  color: var(--color-darker);
+  color: var(--color-text-default);
   font-family: "Unbounded";
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .links p {
@@ -66,10 +66,15 @@
 
 .link:hover {
   transform: scale(1.1);
+  color: var(--color-darker);
 }
 
-.link:visited {
-  color: var(--color-darker);
+.link:nth-child(odd):hover svg {
+  transform: rotate(5deg);
+}
+
+.link:nth-child(even):hover svg {
+  transform: rotate(-5deg);
 }
 
 .link::after {
@@ -92,16 +97,10 @@
   width: 100%;
 }
 
-.recipes::after {
+.link:nth-child(odd)::after {
   transform: translateX(-50%) rotate(1deg);
 }
-.pantry::after {
-  transform: translateX(-50%) rotate(-1deg);
-}
-.mealPlan::after {
-  transform: translateX(-50%) rotate(1deg);
-}
-.groceries::after {
+.link:nth-child(even)::after {
   transform: translateX(-50%) rotate(-1deg);
 }
 

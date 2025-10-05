@@ -209,6 +209,7 @@ button {
   --space-6xl: clamp(4.5rem, 4.0714rem + 2.1429vw, 7.5rem);
 
   --background-color: rgb(236, 229, 210);
+  --color-text-default: rgb(49, 32, 2);
   --color-blue: hsl(203, 39%, 40%);
   --color-yellow: hsl(39, 91%, 50%);
   --color-red: hsl(16, 85%, 40%);
