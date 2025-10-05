@@ -13,8 +13,10 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@types/flubber": "^0.4.0",
     "@vis.gl/react-google-maps": "1.5.5",
     "firebase": "11.10.0",
+    "flubber": "^0.4.2",
     "motion": "^12.23.22",
     "react": "19.1.1",
     "react-dom": "19.1.1",

@@ -12,15 +12,3 @@
 .profile:hover {
   transform: scale(1.1);
 }
-.profile .person {
-  opacity: 1;
-}
-.profile .close {
-  opacity: 0;
-}
-.profile.open .person {
-  opacity: 0;
-}
-.profile.open .close {
-  opacity: 1;
-}
