@@ -12,6 +12,7 @@ import AlertMessage from "./AlertMessage";
 import { FirebaseError } from "firebase/app";
 import { createPortal } from "react-dom";
 import ProfileIcon from "./buttons/ProfileIcon";
+import DefaultButton from "./buttons/DefaultButton";
 
 const firebaseErrorMap: Record<string, string> = {
   "auth/invalid-email": "Please enter a valid email address.",
@@ -24,7 +25,7 @@ const firebaseErrorMap: Record<string, string> = {
   "auth/too-many-requests": "Too many attempts. Try again later.",
 };
 
-export default function UserAuth() {
+export default function UserAuth({ theme }: { theme: string }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -110,21 +111,22 @@ export default function UserAuth() {
       {createPortal(
         isLoggedIn ? (
           <div
+            data-theme={theme}
             className={`${styles.userLogin} ${modalOpen ? styles.open : ""}`}
           >
             <CgSmileMouthOpen />
             <p>you're logged in!</p>
-            <button
-              className="button"
+            <DefaultButton
               type="submit"
               value="register"
               onClick={handleLogOutButton}
             >
               log out
-            </button>
+            </DefaultButton>
           </div>
         ) : (
           <form
+            data-theme={theme}
             className={`${styles.userLogin} ${modalOpen ? styles.open : ""}`}
             action="userLogin"
           >
@@ -170,22 +172,20 @@ export default function UserAuth() {
               />
             )}
             <div className={styles.buttons}>
-              <button
-                className="button"
+              <DefaultButton
                 type="submit"
                 value="register"
                 onClick={handleRegisterButton}
               >
                 register
-              </button>
-              <button
-                className="button"
+              </DefaultButton>
+              <DefaultButton
                 type="submit"
                 value="log in"
                 onClick={handleLogInButton}
               >
                 log in
-              </button>
+              </DefaultButton>
             </div>
           </form>
         ),

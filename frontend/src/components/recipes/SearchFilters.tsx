@@ -1,6 +1,7 @@
 import { Filter, Filters } from "../../types.ts";
 import { useState, useEffect } from "react";
 import styles from "./SearchFilters.module.css";
+import DefaultButton from "../buttons/DefaultButton.tsx";
 
 export default function SearchFilters({
   filters,
@@ -64,16 +65,16 @@ export default function SearchFilters({
             </label>
           ))}
         </div>
-        <button type="button" className="button" onClick={handleClear}>
+        <DefaultButton type="button" onClick={handleClear}>
           clear
-        </button>
+        </DefaultButton>
         <div className={styles.buttons}>
-          <button type="button" className="button" onClick={handleApply}>
+          <DefaultButton type="button" onClick={handleApply}>
             apply
-          </button>
-          <button type="button" className="button" onClick={handleCancel}>
+          </DefaultButton>
+          <DefaultButton type="button" onClick={handleCancel}>
             cancel
-          </button>
+          </DefaultButton>
         </div>
       </div>
     </div>

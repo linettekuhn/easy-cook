@@ -55,34 +55,11 @@
   font-style: italic;
 }
 
-.button {
-  padding: var(--space-3xs) var(--space-2xs);
-  color: var(--color-text);
-  font-family: "Montserrat";
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid var(--color-text);
-  border-radius: 5px;
-  background-color: var(--color-lighter);
-}
-
 input {
   color: var(--color-text);
-  border: 2px solid var(--color-text);
-  border-radius: 5px;
-}
-
-.button:hover {
-  font-weight: 700;
-  background-color: var(--color-light);
-  border: 2px solid var(--color-text);
-}
-
-.button:active {
-  background-color: var(--color);
-  border: 2px solid var(--color-text);
+  border: 5px solid var(--color-text);
+  border-radius: var(--space-s);
+  font-size: var(--space-default);
 }
 
 .iconButton {

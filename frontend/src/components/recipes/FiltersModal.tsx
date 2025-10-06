@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SearchFilters from "./SearchFilters";
 import { Filter } from "../../types";
+import DefaultButton from "../buttons/DefaultButton";
 
 type FilterModalProps = {
   filters: Filter[];
@@ -18,9 +19,9 @@ export default function FiltersModal({
 
   return (
     <>
-      <button className="button" type="button" onClick={() => setHidden(false)}>
+      <DefaultButton type="button" onClick={() => setHidden(false)}>
         filters
-      </button>
+      </DefaultButton>
       {!hidden ? (
         <SearchFilters
           filters={localFilters}

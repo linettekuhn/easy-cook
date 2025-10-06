@@ -58,7 +58,9 @@
   margin: var(--space-3xs);
   font-size: var(--space-s);
   font-style: italic;
-  border: 1px solid var(--color-teal);
+  border: 2px solid var(--color-dark);
+  font-size: var(--space-default);
+  max-width: 40ch;
 }
 
 .userLogin .buttons {
@@ -71,4 +73,10 @@
 
 .userLogin svg {
   font-size: var(--space-2xl);
+}
+
+@media (min-width: 600px) {
+  .userLogin input {
+    width: 50%;
+  }
 }

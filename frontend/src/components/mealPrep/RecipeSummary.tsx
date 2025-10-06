@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { CgCloseR } from "react-icons/cg";
 import RecipeCard from "../recipes/RecipeCard";
 import NumberInput from "../NumberInput";
+import DefaultButton from "../buttons/DefaultButton";
 
 type RecipeSummaryProps = {
   recipe: Recipe;
@@ -109,9 +110,9 @@ export default function RecipeSummary({
             step={0.1}
             placeholder="1"
           />
-          <button className="button" onClick={handleAddToMealClick}>
+          <DefaultButton onClick={handleAddToMealClick}>
             Add to meal
-          </button>
+          </DefaultButton>
         </div>
       ) : null}
     </>

@@ -24,7 +24,7 @@ export default function NavigationBar({ theme }: NavigationBarProps) {
       )}
       <nav data-theme={theme}>
         <div title="Click to see profile">
-          <UserAuth />
+          <UserAuth theme={theme} />
         </div>
         <HomeButton />
         <div title="Click to see menu">

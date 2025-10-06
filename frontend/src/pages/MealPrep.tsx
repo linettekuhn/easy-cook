@@ -8,6 +8,7 @@ import { buildEmptyWeek, getPreviousSunday } from "../util/plannerHelper";
 import NavigationBar from "../components/NavigationBar";
 import styles from "./MealPrep.module.css";
 import AlertMessage from "../components/AlertMessage";
+import DefaultButton from "../components/buttons/DefaultButton";
 
 export default function MealPrep() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -112,9 +113,7 @@ export default function MealPrep() {
               setWeek={handleWeekChange}
               unsavedChanges={unsavedChanges}
             />
-            <button className="button" onClick={handleSaveWeek}>
-              Save Week
-            </button>
+            <DefaultButton onClick={handleSaveWeek}>Save Week</DefaultButton>
             <DaySelection
               week={localWeek}
               onWeekUpdated={handleLocalWeekUpdate}

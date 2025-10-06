@@ -9,6 +9,7 @@ import {
 import parseRecipeData from "../../util/parseRecipeData";
 import styles from "./RecipeLookupForm.module.css";
 import NumberInput from "../NumberInput";
+import DefaultButton from "../buttons/DefaultButton";
 
 const defaultFilters: Filter[] = [
   { label: "quick", value: "maxReadyTime=30", isChecked: false },
@@ -110,9 +111,9 @@ export default function RecipeLookupForm({
           }}
           placeholder="enter a recipe's website..."
         />
-        <button className="button" type="button" onClick={handleWebsiteSubmit}>
+        <DefaultButton type="button" onClick={handleWebsiteSubmit}>
           submit
-        </button>
+        </DefaultButton>
       </form>
       <form action="" className={styles.recipe} id="query">
         <h4>or search for one:</h4>
@@ -132,9 +133,9 @@ export default function RecipeLookupForm({
           <h4>how many recipes?</h4>
           <NumberInput setQuantity={setQuantity} quantity={quantity} />
         </div>
-        <button className="button" type="button" onClick={handleQuerySubmit}>
+        <DefaultButton type="button" onClick={handleQuerySubmit}>
           search
-        </button>
+        </DefaultButton>
       </form>
     </div>
   );

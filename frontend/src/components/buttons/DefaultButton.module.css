@@ -1,0 +1,11 @@
+.button {
+  padding: var(--space-2xs) var(--space-2xs);
+  color: var(--color-text);
+  font-family: "Montserrat";
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--space-s);
+  border: 1px solid var(--color-dark);
+  background-color: var(--color-lighter);
+  font-weight: 500;
+}

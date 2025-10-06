@@ -16,6 +16,7 @@ import parseRecipeData from "../util/parseRecipeData";
 import BackButton from "../components/buttons/BackButton";
 import FoundRecipes from "../components/recipes/FoundRecipes";
 import AlertMessage from "../components/AlertMessage";
+import DefaultButton from "../components/buttons/DefaultButton";
 
 export default function Pantry() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -243,9 +244,9 @@ export default function Pantry() {
                 <span className="bold">find</span> recipes
               </h3>
               <h4 className="italic">with ingredients you have</h4>
-              <button className="button" type="button" onClick={handleSearch}>
+              <DefaultButton type="button" onClick={handleSearch}>
                 search
-              </button>
+              </DefaultButton>
             </div>
           </>
         )}
