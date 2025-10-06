@@ -12,17 +12,6 @@
   gap: var(--space-2xs);
 }
 
-.recipe input {
-  width: 100%;
-  padding: var(--space-3xs);
-  font-size: var(--space-s);
-  font-style: italic;
-  color: var(--color-text);
-  border: 2px solid var(--color-text);
-  border-radius: 5px;
-  gap: var(--space-3xs);
-}
-
 .recipeQuantity {
   display: flex;
   gap: var(--space-xs);

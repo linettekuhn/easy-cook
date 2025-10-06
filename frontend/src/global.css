@@ -57,9 +57,22 @@
 
 input {
   color: var(--color-text);
-  border: 5px solid var(--color-text);
+  border: 2px solid var(--color);
   border-radius: var(--space-s);
   font-size: var(--space-default);
+  padding: var(--space-3xs) var(--space-xs);
+  background-color: hsl(var(--color-h), var(--color-s), 95%);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px hsl(var(--color-h), var(--color-s), 95%) inset !important;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-text) !important;
 }
 
 .iconButton {
