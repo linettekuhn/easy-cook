@@ -8,4 +8,5 @@
   border: 1px solid var(--color-dark);
   background-color: var(--color-lighter);
   font-weight: 500;
+  font-size: var(--space-s);
 }
