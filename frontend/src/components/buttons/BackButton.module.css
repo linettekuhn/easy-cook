@@ -1,35 +1,50 @@
+.wrapper {
+  transition: transform 0.2s ease-out;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
 .backButton {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-3xs);
   background: none;
   border: none;
   font-size: var(--space-s);
   color: var(--color-text);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.1s ease-in-out, font-weight 0.1s ease-in-out;
-}
-
-.backButton:hover {
-  border-color: var(--color-text);
-  cursor: pointer;
-  .text {
-    font-weight: 800;
-  }
-}
-
-.backButton:active {
-  border-bottom: 2px solid var(--color-text);
 }
 
 .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  vertical-align: middle;
   font-size: var(--space-m);
-  line-height: 1;
+  height: 100%;
 }
 
 .text {
-  line-height: 1;
+  height: 100%;
+}
+
+.wrapper::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-text);
+  margin: 0 auto;
+  transition: width 0.2s ease;
+  transform: rotate(1deg);
+  border-bottom-right-radius: 225px 10px;
+  border-bottom-left-radius: 225px 10px;
+}
+
+.wrapper:hover::after {
+  width: 100%;
+  transform: rotate(1deg);
+}
+
+.backButton:hover {
+  cursor: pointer;
 }
