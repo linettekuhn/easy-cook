@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { CgRemoveR } from "react-icons/cg";
-import { CgAddR } from "react-icons/cg";
+import { useEffect, useRef, useState } from "react";
 import styles from "./NumberInput.module.css";
+import { motion, spring, useMotionValue, useTransform } from "motion/react";
+import DefaultButton from "./buttons/DefaultButton";
+import { animate } from "motion";
 
 type NumberInputProps = {
   quantity: number;
@@ -15,54 +16,83 @@ type NumberInputProps = {
 export default function NumberInput({
   quantity,
   setQuantity,
-  min,
-  max,
-  step,
-  placeholder,
+  min = 1,
+  max = 100,
+  step = 1,
+  placeholder = "10",
 }: NumberInputProps) {
   const [localQuantity, setLocalQuantity] = useState(quantity);
+  const count = useMotionValue(quantity);
+  const displayCount = useTransform(count, (latest) => Math.round(latest));
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // sync quantity with local quantity
   useEffect(() => {
     setQuantity(localQuantity);
   }, [localQuantity, setQuantity]);
+
+  // sync motion value count to local quantity and animate changes
+  useEffect(() => {
+    const animation = animate(count, localQuantity, { duration: 0.25 });
+    // stop animation if another click happens
+    return () => animation.stop();
+  }, [localQuantity, count]);
+
+  const handleChange = (delta: number) => {
+    setLocalQuantity((prev) => {
+      let newQuantity = prev + delta;
+
+      newQuantity = Math.max(min, Math.min(max, newQuantity));
+
+      return Number(newQuantity.toFixed(0));
+    });
+  };
+
+  const startCount = (delta: number) => {
+    handleChange(delta);
+
+    intervalRef.current = setInterval(() => {
+      handleChange(delta);
+    }, 110);
+  };
+
+  const stopCount = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
   return (
     <div className={styles.spinner}>
-      <button
-        className="iconButton"
+      <DefaultButton
         type="button"
         title="Click to decrease amount"
+        className={styles.control}
+        onMouseDown={() => startCount(-step)}
+        onMouseUp={stopCount}
+        onMouseLeave={stopCount}
       >
-        <CgRemoveR
-          onClick={() => {
-            const newQuantity = Math.max(1, localQuantity - (step ? step : 1));
-            setLocalQuantity(Number(newQuantity.toFixed(2)));
-          }}
-        />
-      </button>
+        –
+      </DefaultButton>
+      <motion.div className={styles.display}>{displayCount}</motion.div>
       <input
         type="number"
         value={localQuantity}
-        onChange={(e) => {
-          setLocalQuantity(Number(e.target.value));
-        }}
-        min={min ? min : 1}
-        max={max ? max : 100}
-        placeholder={placeholder ? placeholder : "10"}
+        min={min}
+        max={max}
+        placeholder={placeholder}
+        style={{ display: "none" }}
       />
-      <button
-        className="iconButton"
+      <DefaultButton
         type="button"
         title="Click to increase amount"
+        className={styles.control}
+        onMouseDown={() => startCount(step)}
+        onMouseUp={stopCount}
+        onMouseLeave={stopCount}
       >
-        <CgAddR
-          onClick={() => {
-            const newQuantity = Math.min(
-              100,
-              localQuantity + (step ? step : 1)
-            );
-            setLocalQuantity(Number(newQuantity.toFixed(2)));
-          }}
-        />
-      </button>
+        +
+      </DefaultButton>
     </div>
   );
 }

@@ -18,19 +18,23 @@ input[type="number"] {
   color: var(--color-text);
 }
 
-.spinner button {
-  color: var(--color-text);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: var(--space-l);
-}
-.spinner input {
+.display {
   color: var(--color-text);
   text-align: center;
   font-size: var(--space-m);
   font-style: normal;
   width: 4ch;
+  border: 2px solid var(--color);
+  border-radius: var(--space-s);
+  padding: var(--space-3xs) var(--space-xs);
+  background-color: hsl(var(--color-h), var(--color-s), 95%);
+}
+
+.control {
+  color: var(--color-text);
+  border: 2px solid var(--color);
+  border-radius: var(--space-s);
+  font-size: var(--space-default);
+  padding: var(--space-3xs) var(--space-xs);
+  font-weight: 700;
 }
