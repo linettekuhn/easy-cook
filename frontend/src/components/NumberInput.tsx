@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./NumberInput.module.css";
-import { motion, spring, useMotionValue, useTransform } from "motion/react";
+import { motion, useMotionValue, useTransform } from "motion/react";
 import DefaultButton from "./buttons/DefaultButton";
 import { animate } from "motion";
 
