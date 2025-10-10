@@ -6,8 +6,8 @@ type DivProps = HTMLMotionProps<"div"> & {
 
 export default function FadeInStaggerChild({ children, ...props }: DivProps) {
   const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
   return (
     <motion.div className="wrapper" variants={variants} {...props}>

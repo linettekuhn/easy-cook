@@ -8,6 +8,7 @@ type ButtonProps = HTMLMotionProps<"button"> & {
 export default function DefaultButton({ children, ...props }: ButtonProps) {
   return (
     <motion.button
+      style={{ backgroundColor: "var(--color-lighter)" }}
       whileHover={{
         scale: 1.2,
         backgroundColor: "var(--color-light)",

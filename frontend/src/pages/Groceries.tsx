@@ -167,9 +167,8 @@ export default function Groceries() {
               {ingredients.map((ingredient) => {
                 if (ingredient) {
                   return (
-                    <FadeInStaggerChild>
+                    <FadeInStaggerChild key={ingredient.id}>
                       <IngredientCard
-                        key={ingredient.id}
                         ingredient={ingredient}
                         onRemove={handleIngredientRemove}
                         onChange={handleIngredientChange}

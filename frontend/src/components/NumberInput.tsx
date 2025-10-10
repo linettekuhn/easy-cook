@@ -19,7 +19,6 @@ export default function NumberInput({
   min = 1,
   max = 100,
   step = 1,
-  placeholder = "10",
 }: NumberInputProps) {
   const [localQuantity, setLocalQuantity] = useState(quantity);
   const count = useMotionValue(quantity);
@@ -51,9 +50,20 @@ export default function NumberInput({
   const startCount = (delta: number) => {
     handleChange(delta);
 
-    intervalRef.current = setInterval(() => {
+    let interval = 220; // initial interval
+    const minInterval = 40; // fastest speed
+    const acceleration = 0.9;
+
+    const stepCount = () => {
       handleChange(delta);
-    }, 110);
+
+      interval = Math.max(minInterval, interval * acceleration);
+
+      // recursive calls to set timeout to a faster interval over time
+      intervalRef.current = setTimeout(stepCount, interval);
+    };
+
+    intervalRef.current = setTimeout(stepCount, interval);
   };
 
   const stopCount = () => {
@@ -75,14 +85,6 @@ export default function NumberInput({
         –
       </DefaultButton>
       <motion.div className={styles.display}>{displayCount}</motion.div>
-      <input
-        type="number"
-        value={localQuantity}
-        min={min}
-        max={max}
-        placeholder={placeholder}
-        style={{ display: "none" }}
-      />
       <DefaultButton
         type="button"
         title="Click to increase amount"
