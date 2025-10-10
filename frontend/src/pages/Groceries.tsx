@@ -5,9 +5,12 @@ import { buildEmptyWeek, getPreviousSunday } from "../util/plannerHelper";
 import Header from "../components/groceries/Header";
 import IngredientCard from "../components/groceries/IngredientCard";
 import styles from "./Groceries.module.css";
-import FindNearbyStoresMap from "../components/groceries/FindNearbyStoresMap";
+//import FindNearbyStoresMap from "../components/groceries/FindNearbyStoresMap";
 import NavigationBar from "../components/NavigationBar";
 import AlertMessage from "../components/AlertMessage";
+import FadeInStaggerParent from "../components/animations/FadeInStaggerParent";
+import FadeInStaggerChild from "../components/animations/FadeInStaggerChild";
+import DefaultButton from "../components/buttons/DefaultButton";
 
 export default function Groceries() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -138,8 +141,10 @@ export default function Groceries() {
   return (
     <>
       <NavigationBar theme="red" />
-      <main data-theme="red">
-        <Header />
+      <FadeInStaggerParent data-theme="red">
+        <FadeInStaggerChild>
+          <Header />
+        </FadeInStaggerChild>
         {alertMessage && (
           <AlertMessage
             message={alertMessage}
@@ -148,41 +153,46 @@ export default function Groceries() {
           />
         )}
         {loading ? (
-          <p>Loading current week...</p>
+          <FadeInStaggerChild>
+            <p>Loading current week...</p>
+          </FadeInStaggerChild>
         ) : (
           <>
-            <button
-              className={`${styles.donwloadButton} button`}
-              onClick={handleSaveToTextFile}
-            >
-              DOWNLOAD AS .TXT
-            </button>
+            <FadeInStaggerChild>
+              <DefaultButton onClick={handleSaveToTextFile}>
+                DOWNLOAD AS .TXT
+              </DefaultButton>
+            </FadeInStaggerChild>
             <div className={styles.ingredientOutput}>
               {ingredients.map((ingredient) => {
                 if (ingredient) {
                   return (
-                    <IngredientCard
-                      key={ingredient.id}
-                      ingredient={ingredient}
-                      onRemove={handleIngredientRemove}
-                      onChange={handleIngredientChange}
-                    />
+                    <FadeInStaggerChild>
+                      <IngredientCard
+                        key={ingredient.id}
+                        ingredient={ingredient}
+                        onRemove={handleIngredientRemove}
+                        onChange={handleIngredientChange}
+                      />
+                    </FadeInStaggerChild>
                   );
                 }
               })}
             </div>
-            <div className={styles.nearbyStores}>
-              <h2>
-                <span className="bold">find</span> nearby stores
-              </h2>
+            {/* TODO:FIX MAP!!!!!!!!!!!!! <div className={styles.nearbyStores}>
+              <FadeInStaggerChild>
+                <h2>
+                  <span className="bold">find</span> nearby stores
+                </h2>
+              </FadeInStaggerChild>
               <FindNearbyStoresMap
                 setAlertMessage={setAlertMessage}
                 setAlertType={setAlertType}
               />
-            </div>
+            </div> */}
           </>
         )}
-      </main>
+      </FadeInStaggerParent>
     </>
   );
 }

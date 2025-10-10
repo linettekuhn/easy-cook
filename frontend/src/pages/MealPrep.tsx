@@ -9,6 +9,8 @@ import NavigationBar from "../components/NavigationBar";
 import styles from "./MealPrep.module.css";
 import AlertMessage from "../components/AlertMessage";
 import DefaultButton from "../components/buttons/DefaultButton";
+import FadeInStaggerParent from "../components/animations/FadeInStaggerParent";
+import FadeInStaggerChild from "../components/animations/FadeInStaggerChild";
 
 export default function MealPrep() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -95,8 +97,10 @@ export default function MealPrep() {
   return (
     <>
       <NavigationBar theme="green" />
-      <main data-theme="green">
-        <Header />
+      <FadeInStaggerParent data-theme="green">
+        <FadeInStaggerChild>
+          <Header />
+        </FadeInStaggerChild>
         {alertMessage && (
           <AlertMessage
             message={alertMessage}
@@ -105,24 +109,32 @@ export default function MealPrep() {
           />
         )}
         {loading ? (
-          <p>Loading your week...</p>
+          <FadeInStaggerChild>
+            <p>Loading your week...</p>
+          </FadeInStaggerChild>
         ) : (
           <div className={styles.planner}>
-            <WeekSelection
-              week={week}
-              setWeek={handleWeekChange}
-              unsavedChanges={unsavedChanges}
-            />
-            <DefaultButton onClick={handleSaveWeek}>Save Week</DefaultButton>
-            <DaySelection
-              week={localWeek}
-              onWeekUpdated={handleLocalWeekUpdate}
-              setAlertMessage={setAlertMessage}
-              setAlertType={setAlertType}
-            />
+            <FadeInStaggerChild>
+              <WeekSelection
+                week={week}
+                setWeek={handleWeekChange}
+                unsavedChanges={unsavedChanges}
+              />
+            </FadeInStaggerChild>
+            <FadeInStaggerChild>
+              <DefaultButton onClick={handleSaveWeek}>Save Week</DefaultButton>
+            </FadeInStaggerChild>
+            <FadeInStaggerChild>
+              <DaySelection
+                week={localWeek}
+                onWeekUpdated={handleLocalWeekUpdate}
+                setAlertMessage={setAlertMessage}
+                setAlertType={setAlertType}
+              />
+            </FadeInStaggerChild>
           </div>
         )}
-      </main>
+      </FadeInStaggerParent>
     </>
   );
 }

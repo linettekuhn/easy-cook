@@ -7,6 +7,7 @@ import MealPrep from "./pages/MealPrep.tsx";
 import FullRecipe from "./pages/FullRecipe.tsx";
 import Groceries from "./pages/Groceries.tsx";
 import Pantry from "./pages/Pantry.tsx";
+import "./global.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

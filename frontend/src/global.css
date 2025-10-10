@@ -87,6 +87,17 @@ input:-webkit-autofill {
   height: var(--space-xl);
 }
 
+.wrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+}
+
 html,
 body {
   min-height: 100%;
@@ -126,7 +137,8 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: var(--space-4xl) var(--space-s) var(--space-xl) var(--space-s);
+  padding: calc(var(--space-4xl) + var(--space-s)) var(--space-s)
+    var(--space-xl) var(--space-s);
 }
 
 h1 {

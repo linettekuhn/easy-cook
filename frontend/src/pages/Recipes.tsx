@@ -8,6 +8,8 @@ import NavigationBar from "../components/NavigationBar";
 import FoundRecipes from "../components/recipes/FoundRecipes";
 import BackButton from "../components/buttons/BackButton";
 import AlertMessage from "../components/AlertMessage";
+import FadeInStaggerChild from "../components/animations/FadeInStaggerChild";
+import FadeInStaggerParent from "../components/animations/FadeInStaggerParent";
 
 export default function Recipes() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -91,7 +93,7 @@ export default function Recipes() {
   return (
     <>
       <NavigationBar theme="blue" />
-      <main data-theme="blue">
+      <FadeInStaggerParent data-theme="blue">
         {alertMessage && (
           <AlertMessage
             message={alertMessage}
@@ -102,29 +104,37 @@ export default function Recipes() {
         {showFoundRecipes ? (
           <>
             <BackButton onClick={handleBack} text="BACK TO RECIPES" />
-            <FoundRecipes
-              recipes={foundRecipes}
-              savedRecipes={savedRecipes}
-              onSave={handleRecipeSave}
-              onRemove={handleRecipeRemove}
-            />
+            <FadeInStaggerChild>
+              <FoundRecipes
+                recipes={foundRecipes}
+                savedRecipes={savedRecipes}
+                onSave={handleRecipeSave}
+                onRemove={handleRecipeRemove}
+              />
+            </FadeInStaggerChild>
           </>
         ) : (
           <>
-            <Header />
-            <RecipeLookupForm
-              onFoundRecipes={handleFoundRecipes}
-              setAlertMessage={setAlertMessage}
-              setAlertType={setAlertType}
-            />
-            <SavedRecipes
-              recipes={savedRecipes}
-              onSave={handleRecipeSave}
-              onRemove={handleRecipeRemove}
-            />
+            <FadeInStaggerChild>
+              <Header />
+            </FadeInStaggerChild>
+            <FadeInStaggerChild>
+              <RecipeLookupForm
+                onFoundRecipes={handleFoundRecipes}
+                setAlertMessage={setAlertMessage}
+                setAlertType={setAlertType}
+              />
+            </FadeInStaggerChild>
+            <FadeInStaggerChild>
+              <SavedRecipes
+                recipes={savedRecipes}
+                onSave={handleRecipeSave}
+                onRemove={handleRecipeRemove}
+              />
+            </FadeInStaggerChild>
           </>
         )}
-      </main>
+      </FadeInStaggerParent>
     </>
   );
 }
