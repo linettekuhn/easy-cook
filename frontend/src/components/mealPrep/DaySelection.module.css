@@ -5,7 +5,7 @@
   align-items: center;
   gap: var(--space-2xs);
   color: var(--color-text);
-  width: 100%;
+  width: 90vw;
 }
 .day {
   display: block;
@@ -15,7 +15,6 @@
 .days {
   display: flex;
   width: 100%;
-  max-width: 1000px;
   justify-content: center;
 }
 
@@ -39,4 +38,10 @@
 .days .button.active {
   border: 2px solid var(--color-text);
   background-color: var(--color);
+}
+
+@media (min-width: 700px) {
+  .daySelection {
+    width: 600px;
+  }
 }
