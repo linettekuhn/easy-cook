@@ -9,7 +9,7 @@ function Header() {
   return (
     <>
       <BackButton onClick={handleBack} text="BACK TO HOME" />
-      <h1>
+      <h1 className="header">
         <span className="bold">plan</span> your week
       </h1>
     </>

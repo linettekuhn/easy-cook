@@ -9,8 +9,8 @@ export default function Header() {
   return (
     <>
       <BackButton onClick={handleBack} text="BACK TO HOME" />
-      <h1>
-        your <span className="bold">pantry</span>
+      <h1 className="header">
+        <span className="bold">organize</span> your pantry
       </h1>
     </>
   );

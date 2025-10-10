@@ -10,7 +10,7 @@ function App() {
       <NavigationBar theme="yellow" />
       <FadeInStaggerParent data-theme="yellow" id="homePage">
         <FadeInStaggerChild>
-          <h1>
+          <h1 className="header">
             <strong className="bold">simplify</strong> your cooking.
           </h1>
         </FadeInStaggerChild>

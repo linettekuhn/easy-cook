@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <>
       <BackButton onClick={handleBack} text="BACK TO HOME" />
-      <h1>
+      <h1 className="header">
         <span className="bold">find</span> recipes
       </h1>
     </>

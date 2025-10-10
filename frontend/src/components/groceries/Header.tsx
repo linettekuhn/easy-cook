@@ -9,8 +9,8 @@ function Header() {
   return (
     <>
       <BackButton onClick={handleBack} text="BACK TO HOME" />
-      <h1>
-        <span className="bold">what</span> you'll need
+      <h1 className="header">
+        <span className="bold">shop</span> smart
       </h1>
     </>
   );

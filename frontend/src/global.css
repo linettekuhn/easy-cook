@@ -55,6 +55,32 @@
   font-style: italic;
 }
 
+.header > .bold {
+  display: inline-block;
+}
+
+.header > .bold::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 3px;
+  background-color: var(--color-dark);
+  transition: width 0.2s ease;
+  transform: rotate(-1deg);
+  border-bottom-right-radius: 225px 10px;
+  border-bottom-left-radius: 225px 10px;
+  animation: drawLine 0.7s ease forwards;
+}
+
+@keyframes drawLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 input {
   color: var(--color-text);
   border: 2px solid var(--color);
