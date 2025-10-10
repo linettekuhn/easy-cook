@@ -1,15 +1,22 @@
 .links {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
   gap: var(--space-l);
   align-items: center;
   width: 100%;
 }
 
-@media (min-width: 1350px) {
+@media (min-width: 700px) and (max-width: 1104px) {
   .links {
-    flex-direction: row;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: stretch;
+  }
+}
+
+@media (min-width: 1105px) {
+  .links {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 90%;
   }
 }
