@@ -72,6 +72,13 @@
   animation: drawLine 0.7s ease forwards;
 }
 
+.selectedDate {
+  font-family: "East Sea Dokdo";
+  font-size: var(--space-5xl);
+  line-height: 0.7;
+  letter-spacing: -2px;
+}
+
 @keyframes drawLine {
   from {
     width: 0;

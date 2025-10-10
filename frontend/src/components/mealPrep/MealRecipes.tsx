@@ -59,7 +59,7 @@ export default function MealRecipes({
   };
 
   return (
-    <>
+    <div className={styles.mealRecipes}>
       <div className={styles.mealRecipeHeader}>
         <MealHeader mealType={mealType} calories={calories} />
         <RecipesModal
@@ -76,6 +76,6 @@ export default function MealRecipes({
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }

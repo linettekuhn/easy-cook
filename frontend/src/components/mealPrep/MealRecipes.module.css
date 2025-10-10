@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  line-height: 1;
 }
 
 .mealRecipeHeader h4 {
@@ -10,8 +11,15 @@
 }
 
 .mealRecipeHeader h3 {
+  font-family: "Homemade Apple";
   text-align: left;
-  text-decoration: underline;
-  font-family: miama, sans-serif;
-  font-size: var(--space-l-miama);
+  font-weight: 500;
+}
+
+.mealRecipes {
+  padding-top: var(--space-m);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--space-xs);
 }

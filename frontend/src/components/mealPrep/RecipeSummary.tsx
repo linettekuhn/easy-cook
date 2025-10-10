@@ -91,7 +91,10 @@ export default function RecipeSummary({
               target="_blank"
               rel="noopener noreferrer"
             >
-              {recipe.title} — {getServing()} {getCalories()}
+              {recipe.title}
+              {["", getServing(), getCalories()]
+                .filter((part) => part !== "")
+                .join(" — ")}
             </Link>
           </h4>
         </div>
