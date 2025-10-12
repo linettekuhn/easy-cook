@@ -1,14 +1,18 @@
 import { IoIosArrowRoundBack } from "react-icons/io";
 import styles from "./BackButton.module.css";
 import { easeOut, motion } from "motion/react";
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 
-type BackButtonProps = {
+type BackButtonProps = HTMLAttributes<HTMLDivElement> & {
   onClick: () => void;
   text: string;
 };
 
-export default function BackButton({ onClick, text }: BackButtonProps) {
+export default function BackButton({
+  onClick,
+  text,
+  ...props
+}: BackButtonProps) {
   const [hovered, setHovered] = useState(false);
 
   const handleClick = () => {
@@ -33,8 +37,11 @@ export default function BackButton({ onClick, text }: BackButtonProps) {
     idle: { scale: 1, letterSpacing: "0px" },
     hover: { scale: 1.1, letterSpacing: "1px" },
   };
+
+  const { className, ...rest } = props;
+
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${className || ""}`} {...rest}>
       <motion.button
         className={styles.backButton}
         variants={buttonVariants}

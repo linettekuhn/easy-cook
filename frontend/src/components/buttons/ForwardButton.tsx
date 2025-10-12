@@ -1,14 +1,18 @@
 import { IoIosArrowRoundForward } from "react-icons/io";
 import styles from "./ForwardButton.module.css";
 import { easeOut, motion } from "motion/react";
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 
-type ForwardButtonProps = {
+type ForwardButtonProps = HTMLAttributes<HTMLDivElement> & {
   onClick: () => void;
   text: string;
 };
 
-export default function ForwardButton({ onClick, text }: ForwardButtonProps) {
+export default function ForwardButton({
+  onClick,
+  text,
+  ...props
+}: ForwardButtonProps) {
   const [hovered, setHovered] = useState(false);
 
   const handleClick = () => {
@@ -33,8 +37,11 @@ export default function ForwardButton({ onClick, text }: ForwardButtonProps) {
     idle: { scale: 1, letterSpacing: "0px" },
     hover: { scale: 1.1, letterSpacing: "1px" },
   };
+
+  const { className, ...rest } = props;
+
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${className || ""}`} {...rest}>
       <motion.button
         className={styles.moreButton}
         variants={buttonVariants}

@@ -89,7 +89,9 @@ export default function RecipeCard({
           {recipe.title}
         </motion.a>
       </h4>
-      <p className="italic">Ready in {recipe.readyInMinutes} minutes</p>
+      <p className={`italic ${styles.readyTime}`}>
+        Ready in {recipe.readyInMinutes} minutes
+      </p>
       {caloriesNutrient ? (
         <p className={styles.calories}>
           Total calories: {Math.round(caloriesNutrient.amount)}{" "}
@@ -117,10 +119,6 @@ export default function RecipeCard({
               alt="strip of tape"
             />
           </div>
-          <MoreButton
-            text="SEE INSTRUCTIONS"
-            onClick={() => setShowPreview(!showPreview)}
-          />
         </div>
       ) : (
         <div className={styles.recipeContent}>
@@ -165,11 +163,20 @@ export default function RecipeCard({
               </ol>
             );
           })}
-          <BackButton
-            text="SEE LESS"
-            onClick={() => setShowPreview(!showPreview)}
-          />
         </div>
+      )}
+      {showPreview ? (
+        <MoreButton
+          className={styles.previewBtn}
+          text="SEE INSTRUCTIONS"
+          onClick={() => setShowPreview(!showPreview)}
+        />
+      ) : (
+        <BackButton
+          className={styles.previewBtn}
+          text="SEE LESS"
+          onClick={() => setShowPreview(!showPreview)}
+        />
       )}
     </div>
   );

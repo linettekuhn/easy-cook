@@ -1,50 +1,44 @@
 .recipeCard {
   position: relative;
   color: var(--color-text);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  grid-template-rows: repeat(22, var(--space-l));
+  align-content: start;
+  align-items: end;
+  justify-items: center;
   width: 100%;
+  height: calc(22 * var(--space-l));
   max-width: 500px;
-  max-height: 550px;
-  padding: var(--space-m) var(--space-m);
   border-radius: 10px;
   border-top: 1px solid rgba(6, 18, 26, 0.17);
   border-right: 1px solid rgba(6, 18, 26, 0.17);
-  background: url("/images/lined_paper.png") no-repeat;
-  background-size: cover;
-  background-position: top center;
   box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.15);
+  background-color: rgb(242, 237, 232);
+  background-image: repeating-linear-gradient(
+    transparent 0 calc(var(--space-l) - 1px),
+    var(--color-light) calc(var(--space-l) - 1px) var(--space-l)
+  );
+  padding: 0 var(--space-l);
+}
+
+.recipeCard > * {
+  line-height: var(--space-l);
+  z-index: 1;
 }
 
 .recipeCard p {
   font-size: var(--space-s);
-  margin-bottom: var(--space-2xs);
 }
 
 .recipeContent {
+  grid-row: 6/18;
   width: 90%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: var(--space-m);
-  min-height: 0;
-}
-
-.recipeContent button {
-  cursor: pointer;
-  font-style: italic;
-  background: none;
-  border: none;
-  font-size: var(--space-s);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.1s ease-in-out, font-weight 0.1s ease-in-out;
-}
-
-.recipeContent button:hover {
-  border-color: var(--color-text);
-  font-weight: 800;
+  height: calc(11 * var(--space-l));
 }
 
 .recipeTitle {
@@ -52,7 +46,20 @@
   transform-origin: center;
   font-style: italic;
   font-weight: 600;
-  margin-bottom: var(--space-xs);
+  grid-row: 3/4;
+}
+
+.readyTime {
+  grid-row: 4/5;
+}
+
+.calories {
+  grid-row: 5/6;
+}
+
+.previewBtn {
+  grid-row: 20/22;
+  cursor: pointer;
 }
 
 .recipeTitle a {
@@ -147,6 +154,7 @@
   transform: translate(-10%, -10%);
   font-size: var(--space-2xl);
   transition: color 0.1s ease-in-out;
+  z-index: 1;
 }
 
 .saveButton:hover {
