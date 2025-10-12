@@ -25,7 +25,7 @@ export default function buildRecipeObject(
           image: ingredient.image,
           measures: {
             us: {
-              amount: quantity.amount,
+              amount: Number(quantity.amount.toFixed(2)),
               unitShort: quantity.unitShort,
             },
           },

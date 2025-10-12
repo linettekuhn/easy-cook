@@ -5,7 +5,7 @@
   padding: 0;
 }
 
-.backButton {
+.moreButton {
   display: flex;
   align-items: center;
   gap: var(--space-3xs);
@@ -45,6 +45,6 @@
   transform: rotate(1deg);
 }
 
-.backButton:hover {
+.moreButton:hover {
   cursor: pointer;
 }

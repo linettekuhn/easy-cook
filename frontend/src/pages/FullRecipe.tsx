@@ -143,7 +143,9 @@ export default function FullRecipe() {
                 </li>
               ))}
             </ul>
-            <h3 className={styles.recipeDirectionsTitle}>Directions:</h3>
+            {recipe.directions.length > 0 && (
+              <h4 className={styles.recipeDirectionsTitle}>Directions:</h4>
+            )}
             {recipe.directions.map((set, setIndex) => {
               const multipleSets = recipe.directions.length > 1;
               return multipleSets ? (

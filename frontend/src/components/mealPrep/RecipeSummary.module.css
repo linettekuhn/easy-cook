@@ -13,11 +13,12 @@
 }
 
 .recipeTitle {
-  text-align: left;
+  text-align: center;
 }
 
 .recipeAdd {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--space-xs);
 }

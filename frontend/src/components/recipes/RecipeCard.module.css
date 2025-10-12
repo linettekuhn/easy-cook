@@ -3,12 +3,12 @@
   color: var(--color-text);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   max-width: 500px;
   max-height: 550px;
-  padding: var(--space-s) var(--space-3xs);
+  padding: var(--space-m) var(--space-m);
   border-radius: 10px;
   border-top: 1px solid rgba(6, 18, 26, 0.17);
   border-right: 1px solid rgba(6, 18, 26, 0.17);
@@ -19,7 +19,8 @@
 }
 
 .recipeCard p {
-  font-size: var(--space-xs);
+  font-size: var(--space-s);
+  margin-bottom: var(--space-2xs);
 }
 
 .recipeContent {
@@ -27,10 +28,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2xs);
-  flex-grow: 1;
+  gap: var(--space-m);
   min-height: 0;
-  overflow: hidden;
 }
 
 .recipeContent button {
@@ -39,7 +38,6 @@
   background: none;
   border: none;
   font-size: var(--space-s);
-  color: var(--color-text);
   border-bottom: 1px solid transparent;
   transition: border-color 0.1s ease-in-out, font-weight 0.1s ease-in-out;
 }
@@ -50,20 +48,67 @@
 }
 
 .recipeTitle {
+  overflow: visible;
+  transform-origin: center;
   font-style: italic;
   font-weight: 600;
-  margin: var(--space-2xs);
+  margin-bottom: var(--space-xs);
+}
+
+.recipeTitle a {
+  width: 100%;
+  display: inline-block;
+  font-size: var(--space-l);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--space-3xs);
+  transition: text-decoration-color 0.3s ease-out;
+}
+
+.recipeTitle a:hover {
+  text-decoration-color: var(--color-dark);
+  color: var(--color-dark);
+  cursor: pointer;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: calc(var(--space-2xl) * 5);
+  position: relative;
+  overflow: visible;
 }
 
 .recipeImage {
   width: 100%;
-  padding-top: 70%;
+  height: 100%;
   position: relative;
   overflow: hidden;
   align-self: center;
 }
 
-.recipeImage img {
+.bottomTape,
+.topTape {
+  z-index: 5;
+  position: absolute;
+  width: 100%;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+}
+
+.topTape {
+  left: -40%;
+  top: 0;
+  transform: rotate(-30deg) translateY(-50%) scale(0.3);
+}
+.bottomTape {
+  right: -40%;
+  bottom: 0;
+  transform: rotate(-30deg) translateY(50%) scale(0.3);
+}
+
+.image {
   position: absolute;
   top: 0;
   left: 0;
@@ -88,6 +133,7 @@
   font-size: var(--space-xs);
   padding-right: var(--space-2xs);
   padding-left: var(--space-m);
+  width: 100%;
 }
 
 .saveButton {
@@ -98,8 +144,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(-20%, -20%);
-  font-size: var(--space-xl);
+  transform: translate(-10%, -10%);
+  font-size: var(--space-2xl);
   transition: color 0.1s ease-in-out;
 }
 

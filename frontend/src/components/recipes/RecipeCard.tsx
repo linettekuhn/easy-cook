@@ -2,7 +2,10 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Recipe } from "../../types";
 import styles from "./RecipeCard.module.css";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
+import MoreButton from "../buttons/ForwardButton";
+import BackButton from "../buttons/BackButton";
 
 type RecipeCardProps = {
   recipe: Recipe;
@@ -41,55 +44,83 @@ export default function RecipeCard({
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.recipeCard}>
       {onSave || onRemove ? (
         localIsSaved ? (
-          <button
+          <motion.button
+            initial={{ x: "-10%", y: "-10%" }}
+            whileHover={{ scale: 1.1, rotate: -15 }}
+            whileTap={{ scale: 0.9 }}
             className={styles.saveButton}
             onClick={handleRemoveClick}
             title="Click to remove from saved recipes"
           >
             <FaHeart />
-          </button>
+          </motion.button>
         ) : (
-          <button
+          <motion.button
+            whileHover={{ rotate: -30 }}
             className={styles.saveButton}
             onClick={handleSaveClick}
             title="Click to add to saved recipes"
           >
             <FaRegHeart />
-          </button>
+          </motion.button>
         )
       ) : null}
       <h4 className={styles.recipeTitle}>
-        <Link
-          to={
-            recipe.id === -1
-              ? `/recipe?sourceURL=${encodeURIComponent(
-                  recipe.sourceURL ? recipe.sourceURL : ""
-                )}`
-              : `/recipe/${recipe.id}`
+        <motion.a
+          whileHover={{ scale: 1.1 }}
+          onClick={() =>
+            navigate(
+              recipe.id === -1
+                ? `/recipe?sourceURL=${encodeURIComponent(
+                    recipe.sourceURL ? recipe.sourceURL : ""
+                  )}`
+                : `/recipe/${recipe.id}`
+            )
           }
           target="_blank"
           rel="noopener noreferrer"
         >
           {recipe.title}
-        </Link>
+        </motion.a>
       </h4>
       <p className="italic">Ready in {recipe.readyInMinutes} minutes</p>
+      {caloriesNutrient ? (
+        <p className={styles.calories}>
+          Total calories: {Math.round(caloriesNutrient.amount)}{" "}
+          {caloriesNutrient.unit}
+        </p>
+      ) : null}
       {showPreview ? (
         <div className={styles.recipeContent}>
-          <div className={styles.recipeImage}>
-            <img src={recipe.img_src} alt={recipe.img_alt} />
+          <div className={styles.imageWrapper}>
+            <img
+              className={styles.topTape}
+              src="easy-cook/images/scotch-tape.png"
+              alt="strip of tape"
+            />
+            <div className={styles.recipeImage}>
+              <img
+                className={styles.image}
+                src={recipe.img_src}
+                alt={recipe.img_alt}
+              />
+            </div>
+            <img
+              className={styles.bottomTape}
+              src="easy-cook/images/scotch-tape.png"
+              alt="strip of tape"
+            />
           </div>
-          {caloriesNutrient ? (
-            <p className={styles.calories}>
-              Total calories: {Math.round(caloriesNutrient.amount)}{" "}
-              {caloriesNutrient.unit}
-            </p>
-          ) : null}
-          <button onClick={() => setShowPreview(!showPreview)}>see more</button>
+          <MoreButton
+            text="SEE INSTRUCTIONS"
+            onClick={() => setShowPreview(!showPreview)}
+          />
         </div>
       ) : (
         <div className={styles.recipeContent}>
@@ -105,7 +136,9 @@ export default function RecipeCard({
               </li>
             ))}
           </ul>
-          <h4 className={styles.recipeDirectionsTitle}>Directions:</h4>
+          {recipe.directions.length > 0 && (
+            <h4 className={styles.recipeDirectionsTitle}>Directions:</h4>
+          )}
           {recipe.directions.map((set, setIndex) => {
             const multipleSets = recipe.directions.length > 1;
             return multipleSets ? (
@@ -132,7 +165,10 @@ export default function RecipeCard({
               </ol>
             );
           })}
-          <button onClick={() => setShowPreview(!showPreview)}>see less</button>
+          <BackButton
+            text="SEE LESS"
+            onClick={() => setShowPreview(!showPreview)}
+          />
         </div>
       )}
     </div>
