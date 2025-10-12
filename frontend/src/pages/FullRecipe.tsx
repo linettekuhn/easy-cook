@@ -132,7 +132,7 @@ export default function FullRecipe() {
               className={styles.recipeImage}
             />
             <h3 className={styles.recipeIngredientsTitle}>Ingredients:</h3>
-            <ul className={styles.recipeIngredientList}>
+            <ul className={styles.recipeIngredientsList}>
               {recipe.ingredients.map((ingredient) => (
                 <li
                   data-ingredient-id={ingredient.id}

@@ -43,7 +43,7 @@
   padding-top: var(--space-3xs);
 }
 
-.recipeIngredientList,
+.recipeIngredientsList,
 .recipeDirectionsList {
   text-align: left;
   padding: 0 var(--space-xl);

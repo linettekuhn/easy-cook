@@ -48,58 +48,68 @@ export default function RecipeCard({
 
   return (
     <div className={styles.recipeCard}>
-      {onSave || onRemove ? (
-        localIsSaved ? (
-          <motion.button
-            initial={{ x: "-10%", y: "-10%" }}
-            whileHover={{ scale: 1.1, rotate: -15 }}
-            whileTap={{ scale: 0.9 }}
-            className={styles.saveButton}
-            onClick={handleRemoveClick}
-            title="Click to remove from saved recipes"
-          >
-            <FaHeart />
-          </motion.button>
-        ) : (
-          <motion.button
-            whileHover={{ rotate: -30 }}
-            className={styles.saveButton}
-            onClick={handleSaveClick}
-            title="Click to add to saved recipes"
-          >
-            <FaRegHeart />
-          </motion.button>
-        )
-      ) : null}
-      <h4 className={styles.recipeTitle}>
-        <motion.a
-          whileHover={{ scale: 1.1 }}
-          onClick={() =>
-            navigate(
-              recipe.id === -1
-                ? `/recipe?sourceURL=${encodeURIComponent(
-                    recipe.sourceURL ? recipe.sourceURL : ""
-                  )}`
-                : `/recipe/${recipe.id}`
+      <motion.div
+        className={styles.cardInner}
+        animate={{ rotateY: showPreview ? 0 : 180 }}
+        transition={{ duration: 0.2 }}
+      >
+        <div className={`${styles.cardFace} ${styles.front}`}>
+          {onSave || onRemove ? (
+            localIsSaved ? (
+              <motion.button
+                initial={{ x: "-15%", y: "-15%" }}
+                whileHover={{ scale: 1.1, rotate: -15 }}
+                whileTap={{ scale: 0.9 }}
+                className={styles.saveButton}
+                onClick={handleRemoveClick}
+                title="Click to remove from saved recipes"
+              >
+                <FaHeart />
+              </motion.button>
+            ) : (
+              <motion.button
+                initial={{ x: "-15%", y: "-15%" }}
+                whileHover={{ scale: 1.1, rotate: -15 }}
+                whileTap={{ scale: 0.9 }}
+                className={styles.saveButton}
+                onClick={handleSaveClick}
+                title="Click to add to saved recipes"
+              >
+                <FaRegHeart />
+              </motion.button>
             )
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {recipe.title}
-        </motion.a>
-      </h4>
-      <p className={`italic ${styles.readyTime}`}>
-        Ready in {recipe.readyInMinutes} minutes
-      </p>
-      {caloriesNutrient ? (
-        <p className={styles.calories}>
-          Total calories: {Math.round(caloriesNutrient.amount)}{" "}
-          {caloriesNutrient.unit}
-        </p>
-      ) : null}
-      {showPreview ? (
-        <div className={styles.recipeContent}>
+          ) : null}
+
+          <h4 className={styles.recipeTitle}>
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              onClick={() =>
+                navigate(
+                  recipe.id === -1
+                    ? `/recipe?sourceURL=${encodeURIComponent(
+                        recipe.sourceURL ? recipe.sourceURL : ""
+                      )}`
+                    : `/recipe/${recipe.id}`
+                )
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {recipe.title}
+            </motion.a>
+          </h4>
+
+          <p className={`italic ${styles.readyTime}`}>
+            Ready in {recipe.readyInMinutes} minutes
+          </p>
+
+          {caloriesNutrient ? (
+            <p className={styles.calories}>
+              Total calories: {Math.round(caloriesNutrient.amount)}{" "}
+              {caloriesNutrient.unit}
+            </p>
+          ) : null}
+
           <div className={styles.imageWrapper}>
             <img
               className={styles.topTape}
@@ -119,11 +129,42 @@ export default function RecipeCard({
               alt="strip of tape"
             />
           </div>
+
+          <MoreButton
+            className={styles.previewBtn}
+            text="SEE INSTRUCTIONS"
+            onClick={() => setShowPreview(!showPreview)}
+          />
         </div>
-      ) : (
-        <div className={styles.recipeContent}>
+        <div className={`${styles.cardFace} ${styles.back}`}>
+          {onSave || onRemove ? (
+            localIsSaved ? (
+              <motion.button
+                initial={{ x: "15%", y: "-15%" }}
+                whileHover={{ scale: 1.1, rotate: 15 }}
+                whileTap={{ scale: 0.9 }}
+                className={styles.saveButton}
+                onClick={handleRemoveClick}
+                title="Click to remove from saved recipes"
+              >
+                <FaHeart />
+              </motion.button>
+            ) : (
+              <motion.button
+                initial={{ x: "15%", y: "-15%" }}
+                whileHover={{ scale: 1.1, rotate: 15 }}
+                whileTap={{ scale: 0.9 }}
+                className={styles.saveButton}
+                onClick={handleSaveClick}
+                title="Click to add to saved recipes"
+              >
+                <FaRegHeart />
+              </motion.button>
+            )
+          ) : null}
+
           <h4 className={styles.recipeIngredientsTitle}>Ingredients:</h4>
-          <ul className={styles.recipeIngredientList}>
+          <ul className={styles.recipeIngredientsList}>
             {recipe.ingredients.map((ingredient) => (
               <li
                 data-ingredient-id={ingredient.id}
@@ -134,6 +175,7 @@ export default function RecipeCard({
               </li>
             ))}
           </ul>
+
           {recipe.directions.length > 0 && (
             <h4 className={styles.recipeDirectionsTitle}>Directions:</h4>
           )}
@@ -163,21 +205,13 @@ export default function RecipeCard({
               </ol>
             );
           })}
+          <BackButton
+            className={styles.previewBtn}
+            text="SEE LESS"
+            onClick={() => setShowPreview(!showPreview)}
+          />
         </div>
-      )}
-      {showPreview ? (
-        <MoreButton
-          className={styles.previewBtn}
-          text="SEE INSTRUCTIONS"
-          onClick={() => setShowPreview(!showPreview)}
-        />
-      ) : (
-        <BackButton
-          className={styles.previewBtn}
-          text="SEE LESS"
-          onClick={() => setShowPreview(!showPreview)}
-        />
-      )}
+      </motion.div>
     </div>
   );
 }
