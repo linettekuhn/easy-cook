@@ -22,7 +22,9 @@ export default function HomeCard({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div
+    <motion.div
+      initial={{ scale: 1 }}
+      whileHover={{ scale: 1.03 }}
       data-theme={theme}
       className={styles.cardWrapper}
       onClick={() => navigate(link)}
@@ -46,6 +48,6 @@ export default function HomeCard({
         </div>
       </motion.div>
       <div className={styles.title}>{title}</div>
-    </div>
+    </motion.div>
   );
 }
