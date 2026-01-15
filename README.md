@@ -7,9 +7,10 @@ It helps users quickly find recipes, plan meals, manage pantry ingredients, and 
 
 ## Demo and Visuals
 
+[👉 **Click here to see live demo**](https://linettekuhn.github.io/easy-cook/)
+
 ![EasyCook GIF Preview](docs/assets/easy_cook.gif)  
 ![EasyCook Meal Plan Page Preview](docs/assets/easycook-meal-planner.png)  
-[👉 **Click here to see live demo**](https://linettekuhn.github.io/easy-cook/)
 
 ---
 
