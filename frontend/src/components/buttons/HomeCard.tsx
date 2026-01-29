@@ -39,7 +39,7 @@ export default function HomeCard({
         <div className={`${styles.cardFace} ${styles.front}`}>
           <img
             className={styles.image}
-            src={`/easy-cook/images/${filename}`}
+            src={`/images/${filename}`}
             alt={title}
           />
         </div>

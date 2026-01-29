@@ -113,7 +113,7 @@ export default function RecipeCard({
           <div className={styles.imageWrapper}>
             <img
               className={styles.topTape}
-              src="/easy-cook/images/scotch-tape.png"
+              src="/images/scotch-tape.png"
               alt="strip of tape"
             />
             <div className={styles.recipeImage}>
@@ -125,7 +125,7 @@ export default function RecipeCard({
             </div>
             <img
               className={styles.bottomTape}
-              src="/easy-cook/images/scotch-tape.png"
+              src="/images/scotch-tape.png"
               alt="strip of tape"
             />
           </div>
