@@ -39,7 +39,7 @@ export async function saveIngredients(
     .filter((oldId) => !newIds.has(oldId));
 
   await handleResponse(
-    await fetch("https://easy-cook-backend.onrender.com/api/pantry/store", {
+    await fetch("https://api.easy-cook.linettekuhn.com/api/pantry/store", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -56,7 +56,7 @@ export async function fetchSavedIngredients(): Promise<IngredientData[]> {
     throw new Error("User not signed in: Cannot fetch saved ingredients.");
   }
   const response = await handleResponse(
-    await fetch("https://easy-cook-backend.onrender.com/api/pantry/saved", {
+    await fetch("https://api.easy-cook.linettekuhn.com/api/pantry/saved", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -92,7 +92,7 @@ export async function saveRecipes(newRecipes: Recipe[], oldRecipes: Recipe[]) {
     .filter((id): id is string => !!id)
     .filter((oldId) => !newIds.has(oldId));
   await handleResponse(
-    await fetch("https://easy-cook-backend.onrender.com/api/recipe/store", {
+    await fetch("https://api.easy-cook.linettekuhn.com/api/recipe/store", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -109,7 +109,7 @@ export async function fetchSavedRecipes(): Promise<Recipe[]> {
     throw new Error("User not signed in: Cannot fetch saved recipes.");
   }
   const response = await handleResponse(
-    await fetch("https://easy-cook-backend.onrender.com/api/recipe/saved", {
+    await fetch("https://api.easy-cook.linettekuhn.com/api/recipe/saved", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -132,7 +132,7 @@ export async function saveWeek(week: Day[]) {
   }-${sunday.getDate()}`;
   await handleResponse(
     await fetch(
-      `https://easy-cook-backend.onrender.com/api/planner/week/${id}`,
+      `https://api.easy-cook.linettekuhn.com/api/planner/week/${id}`,
       {
         method: "POST",
         headers: {
@@ -155,7 +155,7 @@ export async function fetchSavedWeek(sunday: Date): Promise<Day[]> {
   }-${sunday.getDate()}`;
   const response = await handleResponse(
     await fetch(
-      `https://easy-cook-backend.onrender.com/api/planner/week/${id}`,
+      `https://api.easy-cook.linettekuhn.com/api/planner/week/${id}`,
       {
         method: "GET",
         headers: {

@@ -139,3 +139,6 @@ eslint.config.mjs
 # backend credentials ignore
 backend/api/spoonacular-credentials.json
 backend/api/firebase-credentials.json
+
+# deploy script for vps
+/deploy.sh
