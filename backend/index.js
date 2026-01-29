@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -41,4 +42,8 @@ console.log("pantry router started");
 
 app.listen(3000, () => {
   console.log("app listening on 3000");
+});
+
+app.get("/", (req, res) => {
+  res.send("EasyCook backend is running!");
 });
