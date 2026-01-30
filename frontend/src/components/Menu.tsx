@@ -39,7 +39,7 @@ export default function Menu() {
             groceries
           </Link>
         </div>,
-        document.body
+        document.getElementById("modals")!
       )}
     </>
   );

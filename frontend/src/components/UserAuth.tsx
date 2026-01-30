@@ -189,7 +189,7 @@ export default function UserAuth({ theme }: { theme: string }) {
             </div>
           </form>
         ),
-        document.body
+        document.getElementById("modals")!
       )}
     </>
   );

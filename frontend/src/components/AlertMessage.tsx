@@ -94,6 +94,6 @@ export default function AlertMessage({
         </SlideDiv>
       )}
     </AnimatePresence>,
-    document.body
+    document.getElementById("modals")!
   );
 }
