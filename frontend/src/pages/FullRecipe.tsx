@@ -7,7 +7,6 @@ import {
 } from "../api/spoonacular";
 import { Recipe } from "../types";
 import styles from "./FullRecipe.module.css";
-import NavigationBar from "../components/NavigationBar";
 import AlertMessage from "../components/AlertMessage";
 import buildRecipeObject from "../util/parseRecipeData";
 import BackButton from "../components/buttons/BackButton";
@@ -90,7 +89,6 @@ export default function FullRecipe() {
   if (loading || !recipe) {
     return (
       <>
-        <NavigationBar theme="blue" />
         <main data-theme="blue">
           <BackButton onClick={handleBack} text="BACK TO HOME" />
           {alertMessage && (
@@ -106,87 +104,84 @@ export default function FullRecipe() {
   }
 
   return (
-    <>
-      <NavigationBar theme="blue" />
-      <main data-theme="blue">
-        <BackButton onClick={handleBack} text="BACK TO HOME" />
-        {alertMessage && (
-          <AlertMessage
-            message={alertMessage}
-            type={alertType}
-            onClose={() => setAlertMessage(null)}
+    <main data-theme="blue">
+      <BackButton onClick={handleBack} text="BACK TO HOME" />
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type={alertType}
+          onClose={() => setAlertMessage(null)}
+        />
+      )}
+      <h1 className={styles.recipeTitle}>{recipe.title}</h1>
+      <div className={styles.recipeInfo}>
+        {nutritionLabel && (
+          <div
+            className={styles.nutritionWidgetContainer}
+            dangerouslySetInnerHTML={{ __html: nutritionLabel }}
           />
         )}
-        <h1 className={styles.recipeTitle}>{recipe.title}</h1>
-        <div className={styles.recipeInfo}>
-          {nutritionLabel && (
-            <div
-              className={styles.nutritionWidgetContainer}
-              dangerouslySetInnerHTML={{ __html: nutritionLabel }}
-            />
+        <div className={styles.recipeContent}>
+          <img
+            src={recipe.img_src}
+            alt={recipe.img_alt}
+            className={styles.recipeImage}
+          />
+          <h3 className={styles.recipeIngredientsTitle}>Ingredients:</h3>
+          <ul className={styles.recipeIngredientsList}>
+            {recipe.ingredients.map((ingredient) => (
+              <li
+                data-ingredient-id={ingredient.id}
+                key={`${ingredient.id}-${ingredient.name}`}
+              >
+                {ingredient.measures.us.amount}{" "}
+                {ingredient.measures.us.unitShort} {ingredient.name}
+              </li>
+            ))}
+          </ul>
+          {recipe.directions.length > 0 && (
+            <h4 className={styles.recipeDirectionsTitle}>Directions:</h4>
           )}
-          <div className={styles.recipeContent}>
-            <img
-              src={recipe.img_src}
-              alt={recipe.img_alt}
-              className={styles.recipeImage}
-            />
-            <h3 className={styles.recipeIngredientsTitle}>Ingredients:</h3>
-            <ul className={styles.recipeIngredientsList}>
-              {recipe.ingredients.map((ingredient) => (
-                <li
-                  data-ingredient-id={ingredient.id}
-                  key={`${ingredient.id}-${ingredient.name}`}
-                >
-                  {ingredient.measures.us.amount}{" "}
-                  {ingredient.measures.us.unitShort} {ingredient.name}
-                </li>
-              ))}
-            </ul>
-            {recipe.directions.length > 0 && (
-              <h4 className={styles.recipeDirectionsTitle}>Directions:</h4>
-            )}
-            {recipe.directions.map((set, setIndex) => {
-              const multipleSets = recipe.directions.length > 1;
-              return multipleSets ? (
-                <div
-                  className={styles.recipeDirectionsList}
-                  key={set.name || setIndex}
-                >
-                  <p>{set.name}</p>
-                  <ol>
-                    {set.steps.map((step) => (
-                      <li key={`${set.name || setIndex}-${step.number}`}>
-                        {step.step}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              ) : (
-                <ol className={styles.recipeDirectionsList} key={-1}>
+          {recipe.directions.map((set, setIndex) => {
+            const multipleSets = recipe.directions.length > 1;
+            return multipleSets ? (
+              <div
+                className={styles.recipeDirectionsList}
+                key={set.name || setIndex}
+              >
+                <p>{set.name}</p>
+                <ol>
                   {set.steps.map((step) => (
                     <li key={`${set.name || setIndex}-${step.number}`}>
                       {step.step}
                     </li>
                   ))}
                 </ol>
-              );
-            })}
-            {recipe.sourceURL && (
-              <p>
-                Source:{" "}
-                <a
-                  href={recipe.sourceURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {recipe.sourceURL}
-                </a>
-              </p>
-            )}
-          </div>
+              </div>
+            ) : (
+              <ol className={styles.recipeDirectionsList} key={-1}>
+                {set.steps.map((step) => (
+                  <li key={`${set.name || setIndex}-${step.number}`}>
+                    {step.step}
+                  </li>
+                ))}
+              </ol>
+            );
+          })}
+          {recipe.sourceURL && (
+            <p>
+              Source:{" "}
+              <a
+                href={recipe.sourceURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {recipe.sourceURL}
+              </a>
+            </p>
+          )}
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }

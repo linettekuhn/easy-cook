@@ -10,7 +10,6 @@ import {
   saveIngredients,
   saveRecipes,
 } from "../api/firestore";
-import NavigationBar from "../components/NavigationBar";
 import { fetchPantryRecipes, fetchRecipeInfo } from "../api/spoonacular";
 import parseRecipeData from "../util/parseRecipeData";
 import BackButton from "../components/buttons/BackButton";
@@ -194,83 +193,80 @@ export default function Pantry() {
   };
 
   return (
-    <>
-      <NavigationBar theme="yellow" />
-      <FadeInStaggerParent data-theme="yellow">
-        {alertMessage && (
-          <AlertMessage
-            message={alertMessage}
-            type={alertType}
-            onClose={() => setAlertMessage(null)}
-          />
-        )}
-        {showFoundRecipes ? (
-          <>
+    <FadeInStaggerParent data-theme="yellow">
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type={alertType}
+          onClose={() => setAlertMessage(null)}
+        />
+      )}
+      {showFoundRecipes ? (
+        <>
+          <FadeInStaggerChild>
+            <BackButton onClick={handleBack} text="BACK TO PANTRY" />
+          </FadeInStaggerChild>
+          <FadeInStaggerChild>
+            <FoundRecipes
+              recipes={foundRecipes}
+              savedRecipes={savedRecipes}
+              onSave={handleRecipeSave}
+              onRemove={handleRecipeRemove}
+            />
+          </FadeInStaggerChild>
+        </>
+      ) : (
+        <>
+          <FadeInStaggerChild>
+            <Header />
+          </FadeInStaggerChild>
+          {loading ? (
             <FadeInStaggerChild>
-              <BackButton onClick={handleBack} text="BACK TO PANTRY" />
+              <p>Loading ingredients...</p>
             </FadeInStaggerChild>
-            <FadeInStaggerChild>
-              <FoundRecipes
-                recipes={foundRecipes}
-                savedRecipes={savedRecipes}
-                onSave={handleRecipeSave}
-                onRemove={handleRecipeRemove}
-              />
-            </FadeInStaggerChild>
-          </>
-        ) : (
-          <>
-            <FadeInStaggerChild>
-              <Header />
-            </FadeInStaggerChild>
-            {loading ? (
+          ) : (
+            <div className={styles.pantryIngredients}>
               <FadeInStaggerChild>
-                <p>Loading ingredients...</p>
+                <AutocompleteIngredientSearch
+                  onSave={handleIngredientSave}
+                  setAlertMessage={setAlertMessage}
+                  setAlertType={setAlertType}
+                />
               </FadeInStaggerChild>
-            ) : (
-              <div className={styles.pantryIngredients}>
-                <FadeInStaggerChild>
-                  <AutocompleteIngredientSearch
-                    onSave={handleIngredientSave}
-                    setAlertMessage={setAlertMessage}
-                    setAlertType={setAlertType}
-                  />
-                </FadeInStaggerChild>
-                <div className={styles.ingredientsOutput}>
-                  {savedIngredients.map((ingredient) => {
-                    if (ingredient) {
-                      return (
-                        <FadeInStaggerChild>
-                          <IngredientCard
-                            key={ingredient.id}
-                            ingredient={ingredient}
-                            onRemove={handleIngredientRemove}
-                          />
-                        </FadeInStaggerChild>
-                      );
-                    }
-                  })}
-                </div>
+              <div className={styles.ingredientsOutput}>
+                {savedIngredients.map((ingredient) => {
+                  if (ingredient) {
+                    return (
+                      <FadeInStaggerChild>
+                        <IngredientCard
+                          key={ingredient.id}
+                          ingredient={ingredient}
+                          onRemove={handleIngredientRemove}
+                        />
+                      </FadeInStaggerChild>
+                    );
+                  }
+                })}
               </div>
-            )}
-            <div className={styles.pantryRecipeSearch}>
-              <FadeInStaggerChild>
-                <h3>
-                  <span className="bold">find</span> recipes
-                </h3>
-              </FadeInStaggerChild>
-              <FadeInStaggerChild>
-                <h4 className="italic">with ingredients you have</h4>
-              </FadeInStaggerChild>
-              <FadeInStaggerChild>
-                <DefaultButton type="button" onClick={handleSearch}>
-                  search
-                </DefaultButton>
-              </FadeInStaggerChild>
             </div>
-          </>
-        )}
-      </FadeInStaggerParent>
-    </>
+          )}
+          <div className={styles.pantryRecipeSearch}>
+            <FadeInStaggerChild>
+              <h3>
+                <span className="bold">find</span> recipes
+              </h3>
+            </FadeInStaggerChild>
+            <FadeInStaggerChild>
+              <h4 className="italic">with ingredients you have</h4>
+            </FadeInStaggerChild>
+            <FadeInStaggerChild>
+              <DefaultButton type="button" onClick={handleSearch}>
+                search
+              </DefaultButton>
+            </FadeInStaggerChild>
+          </div>
+        </>
+      )}
+    </FadeInStaggerParent>
   );
 }

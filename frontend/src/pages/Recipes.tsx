@@ -4,7 +4,6 @@ import RecipeLookupForm from "../components/recipes/RecipeLookupForm";
 import SavedRecipes from "../components/recipes/SavedRecipes";
 import { Recipe } from "../types";
 import { fetchSavedRecipes, saveRecipes } from "../api/firestore";
-import NavigationBar from "../components/NavigationBar";
 import FoundRecipes from "../components/recipes/FoundRecipes";
 import BackButton from "../components/buttons/BackButton";
 import AlertMessage from "../components/AlertMessage";
@@ -91,50 +90,47 @@ export default function Recipes() {
     setFoundRecipes([]);
   };
   return (
-    <>
-      <NavigationBar theme="blue" />
-      <FadeInStaggerParent data-theme="blue">
-        {alertMessage && (
-          <AlertMessage
-            message={alertMessage}
-            type={alertType}
-            onClose={() => setAlertMessage(null)}
-          />
-        )}
-        {showFoundRecipes ? (
-          <>
-            <BackButton onClick={handleBack} text="BACK TO RECIPES" />
-            <FadeInStaggerChild>
-              <FoundRecipes
-                recipes={foundRecipes}
-                savedRecipes={savedRecipes}
-                onSave={handleRecipeSave}
-                onRemove={handleRecipeRemove}
-              />
-            </FadeInStaggerChild>
-          </>
-        ) : (
-          <>
-            <FadeInStaggerChild>
-              <Header />
-            </FadeInStaggerChild>
-            <FadeInStaggerChild>
-              <RecipeLookupForm
-                onFoundRecipes={handleFoundRecipes}
-                setAlertMessage={setAlertMessage}
-                setAlertType={setAlertType}
-              />
-            </FadeInStaggerChild>
-            <FadeInStaggerChild>
-              <SavedRecipes
-                recipes={savedRecipes}
-                onSave={handleRecipeSave}
-                onRemove={handleRecipeRemove}
-              />
-            </FadeInStaggerChild>
-          </>
-        )}
-      </FadeInStaggerParent>
-    </>
+    <FadeInStaggerParent data-theme="blue">
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type={alertType}
+          onClose={() => setAlertMessage(null)}
+        />
+      )}
+      {showFoundRecipes ? (
+        <>
+          <BackButton onClick={handleBack} text="BACK TO RECIPES" />
+          <FadeInStaggerChild>
+            <FoundRecipes
+              recipes={foundRecipes}
+              savedRecipes={savedRecipes}
+              onSave={handleRecipeSave}
+              onRemove={handleRecipeRemove}
+            />
+          </FadeInStaggerChild>
+        </>
+      ) : (
+        <>
+          <FadeInStaggerChild>
+            <Header />
+          </FadeInStaggerChild>
+          <FadeInStaggerChild>
+            <RecipeLookupForm
+              onFoundRecipes={handleFoundRecipes}
+              setAlertMessage={setAlertMessage}
+              setAlertType={setAlertType}
+            />
+          </FadeInStaggerChild>
+          <FadeInStaggerChild>
+            <SavedRecipes
+              recipes={savedRecipes}
+              onSave={handleRecipeSave}
+              onRemove={handleRecipeRemove}
+            />
+          </FadeInStaggerChild>
+        </>
+      )}
+    </FadeInStaggerParent>
   );
 }

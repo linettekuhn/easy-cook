@@ -6,7 +6,6 @@ import Header from "../components/groceries/Header";
 import IngredientCard from "../components/groceries/IngredientCard";
 import styles from "./Groceries.module.css";
 //import FindNearbyStoresMap from "../components/groceries/FindNearbyStoresMap";
-import NavigationBar from "../components/NavigationBar";
 import AlertMessage from "../components/AlertMessage";
 import FadeInStaggerParent from "../components/animations/FadeInStaggerParent";
 import FadeInStaggerChild from "../components/animations/FadeInStaggerChild";
@@ -139,46 +138,44 @@ export default function Groceries() {
   };
 
   return (
-    <>
-      <NavigationBar theme="red" />
-      <FadeInStaggerParent data-theme="red">
+    <FadeInStaggerParent data-theme="red">
+      <FadeInStaggerChild>
+        <Header />
+      </FadeInStaggerChild>
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type={alertType}
+          onClose={() => setAlertMessage(null)}
+        />
+      )}
+      {loading ? (
         <FadeInStaggerChild>
-          <Header />
+          <p>Loading current week...</p>
         </FadeInStaggerChild>
-        {alertMessage && (
-          <AlertMessage
-            message={alertMessage}
-            type={alertType}
-            onClose={() => setAlertMessage(null)}
-          />
-        )}
-        {loading ? (
+      ) : (
+        <>
           <FadeInStaggerChild>
-            <p>Loading current week...</p>
+            <DefaultButton onClick={handleSaveToTextFile}>
+              DOWNLOAD AS .TXT
+            </DefaultButton>
           </FadeInStaggerChild>
-        ) : (
-          <>
-            <FadeInStaggerChild>
-              <DefaultButton onClick={handleSaveToTextFile}>
-                DOWNLOAD AS .TXT
-              </DefaultButton>
-            </FadeInStaggerChild>
-            <div className={styles.ingredientOutput}>
-              {ingredients.map((ingredient) => {
-                if (ingredient) {
-                  return (
-                    <FadeInStaggerChild key={ingredient.id}>
-                      <IngredientCard
-                        ingredient={ingredient}
-                        onRemove={handleIngredientRemove}
-                        onChange={handleIngredientChange}
-                      />
-                    </FadeInStaggerChild>
-                  );
-                }
-              })}
-            </div>
-            {/* TODO:FIX MAP!!!!!!!!!!!!! <div className={styles.nearbyStores}>
+          <div className={styles.ingredientOutput}>
+            {ingredients.map((ingredient) => {
+              if (ingredient) {
+                return (
+                  <FadeInStaggerChild key={ingredient.id}>
+                    <IngredientCard
+                      ingredient={ingredient}
+                      onRemove={handleIngredientRemove}
+                      onChange={handleIngredientChange}
+                    />
+                  </FadeInStaggerChild>
+                );
+              }
+            })}
+          </div>
+          {/* TODO:FIX MAP!!!!!!!!!!!!! <div className={styles.nearbyStores}>
               <FadeInStaggerChild>
                 <h2>
                   <span className="bold">find</span> nearby stores
@@ -189,9 +186,8 @@ export default function Groceries() {
                 setAlertType={setAlertType}
               />
             </div> */}
-          </>
-        )}
-      </FadeInStaggerParent>
-    </>
+        </>
+      )}
+    </FadeInStaggerParent>
   );
 }

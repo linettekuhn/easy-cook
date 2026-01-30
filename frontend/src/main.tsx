@@ -8,18 +8,75 @@ import FullRecipe from "./pages/FullRecipe.tsx";
 import Groceries from "./pages/Groceries.tsx";
 import Pantry from "./pages/Pantry.tsx";
 import "./global.css";
+import NavigationBar from "./components/NavigationBar.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <HashRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/plan" element={<MealPrep />} />
-        <Route path="/recipe" element={<FullRecipe />} />
-        <Route path="/recipe/:id" element={<FullRecipe />} />
-        <Route path="/groceries" element={<Groceries />} />
-        <Route path="/pantry" element={<Pantry />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <NavigationBar theme="yellow" />
+              <App />
+            </>
+          }
+        />
+        <Route
+          path="/recipes"
+          element={
+            <>
+              <NavigationBar theme="blue" />
+              <Recipes />
+            </>
+          }
+        />
+        <Route
+          path="/plan"
+          element={
+            <>
+              <NavigationBar theme="green" />
+              <MealPrep />
+            </>
+          }
+        />
+        <Route
+          path="/recipe"
+          element={
+            <>
+              <NavigationBar theme="blue" />
+              <FullRecipe />
+            </>
+          }
+        />
+        <Route
+          path="/recipe/:id"
+          element={
+            <>
+              <NavigationBar theme="blue" />
+              <FullRecipe />
+            </>
+          }
+        />
+        <Route
+          path="/groceries"
+          element={
+            <>
+              <NavigationBar theme="red" />
+              <Groceries />
+            </>
+          }
+        />
+        <Route
+          path="/pantry"
+          element={
+            <>
+              <NavigationBar theme="yellow" />
+              <Pantry />
+            </>
+          }
+        />
       </Routes>
     </HashRouter>
   </StrictMode>

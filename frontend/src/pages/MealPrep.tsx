@@ -5,7 +5,6 @@ import WeekSelection from "../components/mealPrep/WeekSelection";
 import { Day } from "../types";
 import { fetchSavedWeek, saveWeek } from "../api/firestore";
 import { buildEmptyWeek, getPreviousSunday } from "../util/plannerHelper";
-import NavigationBar from "../components/NavigationBar";
 import styles from "./MealPrep.module.css";
 import AlertMessage from "../components/AlertMessage";
 import DefaultButton from "../components/buttons/DefaultButton";
@@ -95,46 +94,43 @@ export default function MealPrep() {
   }, [week]);
 
   return (
-    <>
-      <NavigationBar theme="green" />
-      <FadeInStaggerParent data-theme="green">
+    <FadeInStaggerParent data-theme="green">
+      <FadeInStaggerChild>
+        <Header />
+      </FadeInStaggerChild>
+      {alertMessage && (
+        <AlertMessage
+          message={alertMessage}
+          type={alertType}
+          onClose={() => setAlertMessage(null)}
+        />
+      )}
+      {loading ? (
         <FadeInStaggerChild>
-          <Header />
+          <p>Loading your week...</p>
         </FadeInStaggerChild>
-        {alertMessage && (
-          <AlertMessage
-            message={alertMessage}
-            type={alertType}
-            onClose={() => setAlertMessage(null)}
-          />
-        )}
-        {loading ? (
+      ) : (
+        <div className={styles.planner}>
           <FadeInStaggerChild>
-            <p>Loading your week...</p>
+            <WeekSelection
+              week={week}
+              setWeek={handleWeekChange}
+              unsavedChanges={unsavedChanges}
+            />
           </FadeInStaggerChild>
-        ) : (
-          <div className={styles.planner}>
-            <FadeInStaggerChild>
-              <WeekSelection
-                week={week}
-                setWeek={handleWeekChange}
-                unsavedChanges={unsavedChanges}
-              />
-            </FadeInStaggerChild>
-            <FadeInStaggerChild>
-              <DefaultButton onClick={handleSaveWeek}>Save Week</DefaultButton>
-            </FadeInStaggerChild>
-            <FadeInStaggerChild>
-              <DaySelection
-                week={localWeek}
-                onWeekUpdated={handleLocalWeekUpdate}
-                setAlertMessage={setAlertMessage}
-                setAlertType={setAlertType}
-              />
-            </FadeInStaggerChild>
-          </div>
-        )}
-      </FadeInStaggerParent>
-    </>
+          <FadeInStaggerChild>
+            <DefaultButton onClick={handleSaveWeek}>Save Week</DefaultButton>
+          </FadeInStaggerChild>
+          <FadeInStaggerChild>
+            <DaySelection
+              week={localWeek}
+              onWeekUpdated={handleLocalWeekUpdate}
+              setAlertMessage={setAlertMessage}
+              setAlertType={setAlertType}
+            />
+          </FadeInStaggerChild>
+        </div>
+      )}
+    </FadeInStaggerParent>
   );
 }
