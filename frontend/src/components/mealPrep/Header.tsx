@@ -4,7 +4,7 @@ import BackButton from "../buttons/BackButton";
 function Header() {
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/");
+    window.location.href = "#/";
   };
   return (
     <>

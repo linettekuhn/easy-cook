@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   isUserLoggedIn,
   logInUser,
@@ -40,7 +39,6 @@ export default function UserAuth({ theme }: { theme: string }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(isUserLoggedIn());
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoggedIn(isUserLoggedIn());
@@ -58,7 +56,7 @@ export default function UserAuth({ theme }: { theme: string }) {
       setIsLoggedIn(true);
       setAlertMessage("User logged in!");
       setAlertType("success");
-      navigate("/");
+      window.location.href = "#/";
     } catch (error: unknown) {
       const err = error as FirebaseError;
       const message =
@@ -78,7 +76,7 @@ export default function UserAuth({ theme }: { theme: string }) {
       await registerUser(email, password);
       setAlertMessage("User registered!");
       setAlertType("success");
-      navigate("/");
+      window.location.href = "#/";
     } catch (error: unknown) {
       const err = error as FirebaseError;
       const message =
@@ -94,7 +92,7 @@ export default function UserAuth({ theme }: { theme: string }) {
       setIsLoggedIn(false);
       setAlertMessage("User logged out!");
       setAlertType("success");
-      navigate("/");
+      window.location.href = "#/";
     } catch (error: unknown) {
       const err = error as FirebaseError;
       const message =
