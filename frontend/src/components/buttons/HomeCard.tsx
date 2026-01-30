@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import styles from "./HomeCard.module.css";
 import { useState } from "react";
@@ -18,7 +17,6 @@ export default function HomeCard({
   theme,
   message,
 }: Props) {
-  const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -27,7 +25,7 @@ export default function HomeCard({
       whileHover={{ scale: 1.03 }}
       data-theme={theme}
       className={styles.cardWrapper}
-      onClick={() => navigate(link)}
+      onClick={() => (window.location.href = `#${link}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

@@ -2,7 +2,6 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Recipe } from "../../types";
 import styles from "./RecipeCard.module.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import MoreButton from "../buttons/ForwardButton";
 import BackButton from "../buttons/BackButton";
@@ -44,7 +43,13 @@ export default function RecipeCard({
     }
   };
 
-  const navigate = useNavigate();
+  const getRecipeUrl = () => {
+    return recipe.id === -1
+      ? `#/recipe?sourceURL=${encodeURIComponent(
+          recipe.sourceURL ? recipe.sourceURL : ""
+        )}`
+      : `#/recipe/${recipe.id}`;
+  };
 
   return (
     <div className={styles.recipeCard}>
@@ -83,15 +88,7 @@ export default function RecipeCard({
           <h4 className={styles.recipeTitle}>
             <motion.a
               whileHover={{ scale: 1.1 }}
-              onClick={() =>
-                navigate(
-                  recipe.id === -1
-                    ? `/recipe?sourceURL=${encodeURIComponent(
-                        recipe.sourceURL ? recipe.sourceURL : ""
-                      )}`
-                    : `/recipe/${recipe.id}`
-                )
-              }
+              onClick={() => (window.location.href = getRecipeUrl())}
               target="_blank"
               rel="noopener noreferrer"
             >
