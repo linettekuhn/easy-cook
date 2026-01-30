@@ -1,9 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import "../../global.css";
 import BackButton from "../buttons/BackButton";
 
 export default function Header() {
-  const navigate = useNavigate();
   const handleBack = () => {
     window.location.href = "#/";
   };

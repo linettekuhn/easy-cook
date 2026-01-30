@@ -20,7 +20,6 @@ export default function FullRecipe() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [nutritionLabel, setNutritionLabel] = useState<string | null>(null);
-  const navigate = useNavigate();
   const handleBack = () => {
     window.location.href = "#/";
   };
